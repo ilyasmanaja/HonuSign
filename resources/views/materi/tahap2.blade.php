@@ -14,7 +14,7 @@
         <!-- Pertanyaan -->
         <div class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-8 rounded-[3rem] w-full text-center shadow-lg mb-8">
             <h2 class="text-2xl font-black text-slate-800 dark:text-white uppercase">
-                "Hewan yang memiliki sayap adalah?"
+                "Siapakah tokoh yang menggunakan pakaian teluk belanga?"
             </h2>
         </div>
 
