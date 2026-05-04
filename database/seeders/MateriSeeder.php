@@ -19,18 +19,6 @@ class MateriSeeder extends Seeder
                 'kategori' => 'kalimat',
                 'deskripsi' => 'Gabungan gerakan salam (halo) dan menanyakan kondisi (apa kabar).'
             ],
-            [
-                'judul' => 'Senang Bertemu Kamu',
-                'slug' => 'senang-bertemu-kamu',
-                'kategori' => 'kalimat',
-                'deskripsi' => 'Ekspresi ramah saat bertemu teman baru.'
-            ],
-            [
-                'judul' => 'Ayo Belajar Bersama',
-                'slug' => 'ayo-belajar-bersama',
-                'kategori' => 'kalimat',
-                'deskripsi' => 'Kalimat ajakan untuk meningkatkan semangat belajar.'
-            ],
         ];
 
         foreach ($kalimat as $k) {

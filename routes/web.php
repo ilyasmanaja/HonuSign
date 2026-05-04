@@ -21,18 +21,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // --- FITUR MATERI (STUDY) ---
 
-    // 3. Halaman Pilihan (Transit): Membaca, Quiz, Puzzle
+    // 3. Halaman Game: Klik Karakter ke Sekolah
     Route::get('materi', function () {
         return view('materi.study-page');
     })->name('materi.index');
 
-    // 4. Halaman Membaca (Menampilkan Daftar Kalimat)
-    Route::get('materi/membaca', function () {
-        // Kita ambil data materi yang kategorinya 'kalimat' saja
-        $semuaMateri = \App\Models\Materi::where('kategori', 'kalimat')->get();
-        return view('materi.membaca', compact('semuaMateri'));
-    })->name('materi.membaca');
-    
+    // 4. Halaman Pembelajaran Linear (Step-by-Step)
+    Route::get('materi/belajar/{step}', function ($step) {
+        // Ambil materi berdasarkan kategori 'kalimat'
+        $materi = \App\Models\Materi::where('kategori', 'kalimat')
+            ->orderBy('id')
+            ->skip(0) // Untuk sementara kita ambil materi pertama terus sebagai contoh
+            ->first();
+
+        if (!$materi)
+            return redirect()->route('dashboard');
+
+        // Cek step berapa, lalu arahkan ke file masing-masing
+        if ($step == 1) {
+            return view('materi.tahap1', compact('materi', 'step'));
+        } elseif ($step == 2) {
+            return view('materi.tahap2', compact('materi', 'step'));
+        }
+
+        return "Tahap $step sedang dalam pembangunan!";
+    })->name('materi.belajar');
+
     // Halaman Detail Membaca (Video Player)
     Route::get('materi/membaca/{materi:slug}', function (\App\Models\Materi $materi) {
         return view('materi.show', compact('materi'));

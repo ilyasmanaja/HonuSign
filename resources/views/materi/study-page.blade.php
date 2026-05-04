@@ -1,34 +1,36 @@
 <x-student-layout>
-    <div class="py-12 w-full flex flex-col items-center justify-center">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-black text-teal-500 uppercase tracking-tight">Mode Belajar</h1>
-            <p class="text-teal-400 font-bold mt-2 text-lg">Pilih menu belajar kamu</p>
+    <div class="max-w-4xl w-full px-6 py-12 flex flex-col items-center justify-center min-h-[60vh]">
+        <h1 class="text-3xl font-black text-slate-800 dark:text-white uppercase mb-12 text-center tracking-tighter">
+            Tekan samsul untuk berangkat ke Sekolah! 🏃‍♂️
+        </h1>
+
+        <div
+            class="relative w-full h-25 bg-slate-100 dark:bg-slate-800 rounded-[3rem] border-8 border-white dark:border-slate-700 shadow-inner overflow-hidden flex items-end px-12">
+            <div id="character" class="text-7xl cursor-pointer select-none transition-all duration-100 relative z-10"
+                onclick="moveAhead()">
+                👦
+            </div>
+            <div class="absolute right-8 text-7xl">🏫</div>
         </div>
 
-        <div class="max-w-6xl w-full px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="{{ route('materi.membaca') }}" class="group bg-white border-4 border-yellow-400 p-8 rounded-4xl active:shadow-none active:translate-y-2 transition-all text-center">
-                <span class="text-6xl block mb-4 group-hover:scale-110 transition-transform">📖</span>
-                <span class="text-xl font-black text-slate-700 uppercase">Membaca</span>
-            </a>
-
-            <a href="{{ route('materi.quiz') }}" class="group bg-white border-4 border-pink-500 p-8 rounded-4xl active:shadow-none active:translate-y-2 transition-all text-center">
-                <span class="text-6xl block mb-4 group-hover:scale-110 transition-transform">📝</span>
-                <span class="text-xl font-black text-slate-700 uppercase">Quiz</span>
-            </a>
-
-            <a href="{{ route('materi.puzzle') }}" class="group bg-white border-4 border-orange-500 p-8 rounded-4xl active:shadow-none active:translate-y-2 transition-all text-center">
-                <span class="text-6xl block mb-4 group-hover:scale-110 transition-transform">🧩</span>
-                <span class="text-xl font-black text-slate-700 uppercase">Puzzle</span>
-            </a>
-
-            <button class="bg-slate-800 border-4 border-dashed border-slate-700 p-8 rounded-4xl opacity-50 cursor-not-allowed text-center">
-                <span class="text-6xl block mb-4">🎬</span>
-                <span class="text-xl font-black text-slate-500 uppercase tracking-tighter">Video</span>
-            </button>
-        </div>
-
-        <a href="{{ route('dashboard') }}" class="mt-16 text-slate-500 hover:text-white font-bold transition-colors uppercase text-sm tracking-widest">
-            ← Kembali ke Dashboard
-        </a>
+        <p class="mt-8 text-slate-500 font-bold uppercase tracking-widest">
+            Progress: <span id="progressText">0</span>%
+        </p>
     </div>
+
+    <script>
+        let progress = 0;
+        function moveAhead() {
+            const char = document.getElementById('character');
+            const text = document.getElementById('progressText');
+            progress += 10; // 10 kali klik untuk sampai
+
+            char.style.left = progress + '%';
+            text.innerText = progress;
+
+            if (progress >= 90) {
+                window.location.href = "{{ route('materi.belajar', ['step' => 1]) }}";
+            }
+        }
+    </script>
 </x-student-layout>
