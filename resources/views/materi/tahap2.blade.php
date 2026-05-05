@@ -74,8 +74,8 @@
                         <div onclick="swapPiece({{ $index }})" id="piece-{{ $index }}" data-correct="{{ $pos }}"
                             class="puzzle-piece cursor-pointer border border-white/20 transition-all duration-200"
                             style="background-image: url('{{ asset('images/asset/' . $quiz->jawaban_benar) }}'); 
-                                                            background-size: 300% 300%; 
-                                                            background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
+                                                                                                            background-size: 300% 300%; 
+                                                                                                            background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
                         </div>
                     @endforeach
                 </div>
@@ -147,6 +147,41 @@
         const correctAnswer = "{{ $quiz->jawaban_benar }}";
         let currentInput = "";
 
+        // Fungsi untuk mengirim nilai ke database via AJAX
+        function saveProgress(tahap, score) {
+            fetch('{{ route('materi.save_progress') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json', // <--- SANGAT PENTING: Minta balasan berupa JSON
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    materi_id: {{ $materi->id }},
+                    tahap: tahap,
+                    score: score
+                })
+            })
+                .then(async response => {
+                    // Kalau statusnya bukan 200 OK, tangkap pesan errornya!
+                    if (!response.ok) {
+                        const err = await response.json();
+                        console.error("Laravel Error Detail:", err);
+                        alert("Waduh, gagal simpan nilai! Error: " + (err.message || "Cek Console Inspect Element"));
+                        throw new Error("Gagal menyimpan");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("System:", data.message);
+                    // (Opsional) Kamu bisa memunculkan alert kecil kalau mau pastikan sukses
+                    // alert("Sukses tersimpan ke database!");
+                })
+                .catch(error => {
+                    console.error('Error fetch:', error);
+                });
+        }
+
         function pickLetter(letter, element) {
             const slotContainer = document.getElementById('answer-slots');
 
@@ -158,23 +193,45 @@
             currentInput += letter;
             element.classList.add('opacity-0', 'pointer-events-none');
 
-            if (currentInput.length === correctAnswer.length) {
-                if (currentInput === correctAnswer) {
-                    alert("Yeeay! Jawaban Kamu BENAR! 🎉");
-                    document.getElementById('next-btn').classList.remove('hidden');
-                } else {
-                    alert("Waduh, urutannya masih salah. Coba lagi yuk!");
-                    resetGame();
-                }
+            if (currentInput === correctAnswer) {
+                alert("Yeeay! Jawaban Kamu BENAR! 🎉");
+                saveProgress(2, 100); // <--- TAMBAHKAN INI
+                document.getElementById('next-btn').classList.remove('hidden');
             }
         }
 
         function resetGame() {
-            currentInput = "";
-            const slots = document.getElementById('answer-slots');
-            if (slots) slots.innerHTML = "";
-            const options = document.querySelectorAll('#options div');
-            options.forEach(opt => opt.classList.remove('opacity-0', 'pointer-events-none'));
+            // 1. Logika Ulangi untuk SUSUN HURUF
+            const answerSlots = document.getElementById('answer-slots');
+            if (answerSlots) {
+                currentInput = "";
+                answerSlots.innerHTML = "";
+                const options = document.querySelectorAll('#options div');
+                options.forEach(opt => opt.classList.remove('opacity-0', 'pointer-events-none'));
+            }
+
+            // 2. Logika Ulangi untuk SUSUN KALIMAT
+            const sentenceSlots = document.getElementById('sentence-slots');
+            if (sentenceSlots) {
+                currentSentence = [];
+                sentenceSlots.innerHTML = "";
+                const wordOptions = document.querySelectorAll('#word-options button');
+                wordOptions.forEach(opt => opt.classList.remove('opacity-0', 'pointer-events-none'));
+            }
+
+            // 3. Logika Ulangi untuk PUZZLE
+            const puzzleGrid = document.getElementById('puzzle-grid');
+            if (puzzleGrid) {
+                // Cara paling aman dan instan untuk puzzle adalah me-reload halamannya
+                // agar kodingan PHP (shuffle) bekerja lagi untuk mengacak ulang posisinya
+                window.location.reload();
+            }
+
+            // Sembunyikan kembali tombol lanjut jika sedang mencoba lagi
+            const nextBtn = document.getElementById('next-btn');
+            if (nextBtn && !nextBtn.classList.contains('hidden')) {
+                nextBtn.classList.add('hidden');
+            }
         }
 
         let firstPiece = null;
@@ -220,6 +277,7 @@
 
             if (isCorrect) {
                 alert("Gokil! Puzzlenya jadi utuh lagi! 🧩✨");
+                saveProgress(2, 100); // <--- TAMBAHKAN INI
                 document.getElementById('next-btn').classList.remove('hidden');
             }
         }
@@ -243,27 +301,12 @@
 
             // Cek jika jumlah kata sudah sama
             const totalWords = correctSentence.split(' ').length;
-            if (currentSentence.length === totalWords) {
-                if (currentSentence.join(' ') === correctSentence) {
-                    alert("Luar Biasa! Kalimatnya sudah benar! 🌟");
-                    document.getElementById('next-btn').classList.remove('hidden');
-                } else {
-                    alert("Hmm, sepertinya urutan katanya masih kurang tepat. Coba lagi!");
-                    resetSentence();
-                }
+            if (currentSentence.join(' ') === correctSentence) {
+                alert("Luar Biasa! Kalimatnya sudah benar! 🌟");
+                saveProgress(2, 100); // <--- TAMBAHKAN INI
+                document.getElementById('next-btn').classList.remove('hidden');
             }
         }
 
-        function resetSentence() {
-            currentSentence = [];
-            const slots = document.getElementById('sentence-slots');
-            if (slots) slots.innerHTML = "";
-
-            const options = document.querySelectorAll('#word-options button');
-            options.forEach(opt => opt.classList.remove('opacity-0', 'pointer-events-none'));
-
-            // Panggil resetGame yang lama juga jika perlu untuk membersihkan state global
-            if (typeof resetGame === "function") resetGame();
-        }
     </script>
 </x-student-layout>

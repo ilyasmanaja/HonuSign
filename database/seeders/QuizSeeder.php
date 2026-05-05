@@ -33,5 +33,17 @@ class QuizSeeder extends Seeder
             'jawaban_benar' => 'Aku pergi ke Sekolah untuk belajar',
             'pilihan_data' => json_encode(['pergi', 'belajar', 'Aku', 'Sekolah', 'ke', 'untuk']), // Kata yang diacak
         ]);
+
+        $soal_kamera = [
+            ['tipe' => 'isyarat_kamera', 'pertanyaan' => 'Peragakan abjad ini di depan kamera!', 'jawaban_benar' => 'A'],
+            ['tipe' => 'isyarat_kamera', 'pertanyaan' => 'Peragakan abjad ini di depan kamera!', 'jawaban_benar' => 'B'],
+            ['tipe' => 'isyarat_kamera', 'pertanyaan' => 'Peragakan abjad ini di depan kamera!', 'jawaban_benar' => 'C'],
+            ['tipe' => 'isyarat_kamera', 'pertanyaan' => 'Peragakan abjad ini di depan kamera!', 'jawaban_benar' => 'D'],
+            ['tipe' => 'isyarat_kamera', 'pertanyaan' => 'Peragakan abjad ini di depan kamera!', 'jawaban_benar' => 'E'],
+        ];
+
+        foreach ($soal_kamera as $soal) {
+            \App\Models\Quiz::create($soal);
+        }
     }
 }

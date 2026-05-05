@@ -13,11 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // 1. Membuat akun test agar kamu bisa login
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Siswa HonuSign',
+            'email' => 'siswa@example.com',
+            // Default password dari factory Laravel biasanya adalah 'password'
+        ]);
+
+        // 2. Memanggil seeder materi dan kuis yang sudah kita buat
+        // Urutannya penting: Materi dulu, baru Quiz (jika quiz butuh relasi ke materi nantinya)
+        $this->call([
+            MateriSeeder::class,
+            QuizSeeder::class,
         ]);
     }
 }

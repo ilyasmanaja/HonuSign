@@ -19,7 +19,8 @@
         <!-- Container Gambar -->
         <div
             class="w-full aspect-video bg-black rounded-[3rem] border-8 border-slate-800 overflow-hidden shadow-2xl mb-8">
-            <img src="{{ asset('images/asset/' . $materi->gambar) }}" alt="Thumbnail {{ $materi->judul }}"
+            <!-- Ganti gambar menjadi video_peragaan -->
+            <img src="{{ asset('images/asset/' . $materi->video_peragaan) }}" alt="Thumbnail {{ $materi->judul }}"
                 class="w-full h-full object-contain">
         </div>
 
@@ -34,10 +35,33 @@
             </p>
         </div>
 
-        <!-- Tombol Lanjut -->
-        <a href="{{ route('materi.belajar', ['step' => 2]) }}"
-            class="bg-blue-600 hover:bg-blue-500 text-white p-8 px-12 rounded-[2.5rem] font-black uppercase shadow-[0_10px_0_0_#1d4ed8] active:shadow-none active:translate-y-2 transition-all text-center">
-            Selesai Membaca, Lanjut ke Tahap 2! 🚀
+        <a href="{{ route('materi.belajar', ['step' => 2]) }}" onclick="tandaiSelesai(event, this.href, 1)"
+            class="bg-blue-600 hover:bg-blue-500 text-white p-6 px-12 rounded-[2.5rem] font-black uppercase shadow-[0_10px_0_0_#1d4ed8] active:shadow-none active:translate-y-2 transition-all text-center text-lg mt-8">
+            Selesai Membaca, Lanjut Tahap Kedua! 🚀
         </a>
     </div>
+
+    <script>
+        function tandaiSelesai(event, nextUrl, tahapKe) {
+            event.preventDefault(); // Tahan dulu, jangan langsung pindah halaman
+
+            fetch('{{ route('materi.save_progress') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    materi_id: {{ $materi->id }},
+                    tahap: tahapKe,
+                    score: 0 // Karena ini cuma bacaan, skor 0 tidak masalah
+                })
+            }).then(() => {
+                window.location.href = nextUrl; // Kalau sukses simpan, baru pindah halaman
+            }).catch(() => {
+                window.location.href = nextUrl; // Kalau internet nge-lag, tetap izinkan pindah halaman
+            });
+        }
+    </script>
 </x-student-layout>
