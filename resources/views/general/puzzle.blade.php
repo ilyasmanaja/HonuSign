@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>HonuSign - Riau Discovery Puzzle</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .puzzle-piece {
+            touch-action: none;
+            -webkit-user-drag: none;
+            transition: transform 0.2s ease;
+            cursor: grab;
+            position: absolute;
+        }
+
+        .puzzle-piece:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+
+        .puzzle-piece.dragging {
+            transition: none !important;
+            z-index: 999;
+            filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.6));
+        }
+
+        .puzzle-piece.locked {
+            z-index: 5;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1));
+            animation: pulse-glow 1.5s ease-out forwards;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                filter: drop-shadow(0 0 30px rgba(255, 255, 255, 1));
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+
+            100% {
+                filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        #guide-svg {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 998;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-animate {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .tray-slot {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.3); /* Gelap seperti lubang kayu */
+            border-radius: 1rem;
+            box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.5), 0 2px 0 rgba(255, 255, 255, 0.2);
+            flex-shrink: 0; /* Penting agar tidak mengecil saat di scroll horizontal */
+        }
+
+        @media (min-width: 768px) {
+            .tray-slot {
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+        .spin-slow {
+            animation: spin 15s linear infinite;
+        }
+
+        /* Custom Scrollbar untuk Rak Kayu */
+        #pieces-tray::-webkit-scrollbar {
+            height: 14px;
+        }
+
+        #pieces-tray::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        #pieces-tray::-webkit-scrollbar-thumb {
+            background: #92400e;
+            border-radius: 10px;
+            border: 2px solid #b45309;
+        }
+
+        #pieces-tray::-webkit-scrollbar-thumb:hover {
+            background: #78350f;
+        }
+    </style>
+</head>
+
+<body
+    class="m-0 p-0 overflow-hidden bg-gradient-to-b from-sky-300 to-sky-400 font-sans h-screen w-screen flex flex-col selection:bg-transparent">
+
+    <a href="{{ route('general.index') }}"
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-orange-500 text-white px-5 py-3 md:px-8 md:py-4 rounded-full font-black text-lg md:text-2xl shadow-[0_6px_0_#c2410c] hover:translate-y-[2px] hover:shadow-[0_4px_0_#c2410c] active:translate-y-[6px] active:shadow-none transition-all uppercase tracking-widest border-4 border-white">
+        ⬅ KEMBALI
+    </a>
+    <!-- Alat Debugging On-Screen (DINONAKTIFKAN KARENA SUDAH SELESAI KALIBRASI) -->
+    <!--
+    <div
+        class="absolute top-4 right-4 md:top-6 md:right-6 z-[110] bg-black/60 text-green-300 font-mono text-sm md:text-xl px-4 py-2 rounded-xl border-2 border-green-400 shadow-md">
+        X: <span id="debug-x">00.0</span> | Y: <span id="debug-y">00.0</span>
+    </div>
+    -->
+
+    <!-- Garis Penunjuk (Hint) -->
+    <svg id="guide-svg">
+        <line id="guide-line" x1="0" y1="0" x2="0" y2="0" stroke="yellow" stroke-width="6" stroke-dasharray="15,15"
+            opacity="0" />
+        <circle id="guide-target" cx="0" cy="0" r="20" fill="yellow" opacity="0" class="drop-shadow-lg" />
+        <circle id="guide-target-inner" cx="0" cy="0" r="8" fill="red" opacity="0" />
+    </svg>
+
+    <!-- Area Peta Utama (Perbaikan Responsive) -->
+    <div id="game-board" class="relative w-full h-[75vh] flex items-center justify-center z-10 px-4">
+        <!-- Penggunaan kalkulasi matematika memastikan mapContainer 100% PAS di layar apapun TANPA melampaui batas atas/bawah/samping, dan tetap mempertahankan aspect ratio 16:9! -->
+        <div id="map-container" class="relative pointer-events-none drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)] mx-auto"
+            style="width: min(95vw, calc(75vh * 16 / 9)); height: min(75vh, calc(95vw * 9 / 16));">
+            <img src="{{ asset('images/general/map/peta_kosong_riau.png') }}" id="base-img"
+                class="absolute inset-0 w-full h-full transition-opacity duration-1000" alt="Peta Kosong">
+            <img src="{{ asset('images/general/map/peta_penuh_riau.png') }}" id="full-img"
+                class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000" alt="Peta Penuh">
+        </div>
+    </div>
+
+    <!-- Instruksi Awal Bermain -->
+    <div id="start-instruction" class="absolute bottom-[28vh] left-1/2 transform -translate-x-1/2 z-[100] bg-white text-orange-600 font-black px-6 py-3 rounded-full shadow-[0_6px_0_#ea580c] text-lg md:text-2xl animate-bounce border-4 border-orange-500 flex items-center gap-2 pointer-events-none whitespace-nowrap">
+        👇 Tarik kepingan dari kotak kayu ini!
+    </div>
+
+    <!-- Kotak Penyimpanan Kayu Mengambang (Floating Box) -->
+    <div id="pieces-tray"
+        class="absolute bottom-4 left-4 right-4 h-[22vh] bg-[#b45309] border-4 md:border-8 border-[#92400e] flex items-center justify-start flex-nowrap overflow-x-auto overflow-y-hidden z-20 shadow-[0_15px_30px_rgba(0,0,0,0.5)] rounded-2xl md:rounded-[2rem] py-4 gap-4 md:gap-6 scroll-smooth">
+        <!-- Slot akan digenerate -->
+    </div>
+
+    <div id="win-modal"
+        class="hidden fixed inset-0 bg-sky-900/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
+
+        <!-- Efek Sinar Bintang Belakang -->
+        <div
+            class="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.2)_0%,transparent_60%)] spin-slow pointer-events-none">
+        </div>
+
+        <div class="modal-animate flex flex-col items-center relative z-10">
+            <h1 class="text-7xl md:text-9xl font-black text-yellow-300 mb-2 drop-shadow-[0_8px_0_#b45309] tracking-tighter"
+                style="-webkit-text-stroke: 3px #b45309;">
+                HOREEE!</h1>
+            <p class="text-3xl md:text-5xl font-black text-white mb-10 drop-shadow-[0_4px_0_#0ea5e9]"
+                style="-webkit-text-stroke: 1.5px #0ea5e9;">Kamu Pintar Sekali!
+            </p>
+            <button onclick="window.location.href='{{ route('general.index') }}'"
+                class="bg-green-500 text-white px-10 py-4 md:px-14 md:py-6 rounded-full text-2xl md:text-4xl font-black border-4 border-white shadow-[0_8px_0_#15803d] active:translate-y-[8px] active:shadow-none hover:bg-green-400 transition-all uppercase tracking-widest">
+                Main Lagi 🌟
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================
+        // DATA KABUPATEN & KOORDINAT TARGET
+        // =========================================================
+        // CARA DEBUG MANUAL:
+        // 1. Buka Inspect Element -> tab Console di browser.
+        // 2. Tarik kepingan dari bawah ke posisi yang benar secara visual di peta kosong, lalu lepas.
+        // 3. Kepingan akan kembali ke bawah, TAPI di Console akan muncul pesan berwarna kuning:
+        //    "[KALIBRASI] Siak -> targetX: 45.2, targetY: 60.1"
+        // 4. Salin angka targetX dan targetY tersebut, lalu ubah di baris kode di bawah ini!
+        const piecesData = [
+            { id: 'rokan_hilir', name: 'Rokan Hilir', src: 'potongan_rokan_hilir.png', targetX: 34.4, targetY: 19.9, labelX: 32.4, labelY: 35.9 },
+            // Kepingan dumai ditarik ke atas (dikurangi targetY-nya)
+            { id: 'dumai', name: 'Dumai', src: 'potongan_dumai.png', targetX: 43.9, targetY: 20.8, labelX: 44.0, labelY: 52.1 },
+            { id: 'bengkalis', name: 'Bengkalis', src: 'potongan_bengkalis.png', targetX: 48.2, targetY: 28.5, labelX: 48.2, labelY: 55.5 },
+            { id: 'rokan_hulu', name: 'Rokan Hulu', src: 'potongan_rokan_hulu.png', targetX: 31.0, targetY: 46.0, labelX: 31.0, labelY: 46.0 },
+            { id: 'kepulauan_meranti', name: 'Kepulauan Meranti', src: 'potongan_kepulauan_meranti.png', targetX: 62.1, targetY: 39.3, labelX: 62.1, labelY: 39.3 },
+            { id: 'siak', name: 'Siak', src: 'potongan_siak.png', targetX: 52.2, targetY: 46.4, labelX: 52.2, labelY: 46.4 },
+            { id: 'kampar', name: 'Kampar', src: 'potongan_kampar.png', targetX: 39.3, targetY: 57.9, labelX: 40.3, labelY: 57.9 },
+            { id: 'pekanbaru', name: 'Pekanbaru', src: 'potongan_pekanbaru.png', targetX: 44.7, targetY: 52.3, labelX: 48.7, labelY: 52.3 },
+            { id: 'pelalawan', name: 'Pelalawan', src: 'potongan_pelalawan.png', targetX: 58.2, targetY: 62.6, labelX: 50.2, labelY: 55.0 },
+            { id: 'kuantan_singingi', name: 'Kuantan Singingi', src: 'potongan_kuantan_singingi.png', targetX: 44.6, targetY: 78.6, labelX: 40, labelY: 60 },
+            { id: 'indragiri_hulu', name: 'Indragiri Hulu', src: 'potongan_indragili_hulu.png', targetX: 56.6, targetY: 78.6, labelX: 54.0, labelY: 72.0 },
+            { id: 'indragiri_hilir', name: 'Indragiri Hilir', src: 'potongan_indragili_hilir.png', targetX: 70.0, targetY: 73.7, labelX: 65, labelY: 65.0 }
+        ];
+
+        let lockedCount = 0;
+        const totalPieces = piecesData.length;
+        const piecesTray = document.getElementById('pieces-tray');
+        const mapContainer = document.getElementById('map-container');
+        const mapImg = document.getElementById('base-img');
+
+        const guideLine = document.getElementById('guide-line');
+        const guideTarget = document.getElementById('guide-target');
+        const guideTargetInner = document.getElementById('guide-target-inner');
+
+        let activePiece = null;
+        let initialX, initialY, startLeft, startTop;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        shuffle(piecesData);
+
+        // Spacer kiri agar scroll tidak menabrak batas kotak
+        const startSpacer = document.createElement('div');
+        startSpacer.className = 'flex-shrink-0 w-2 md:w-4';
+        piecesTray.appendChild(startSpacer);
+
+        piecesData.forEach(data => {
+            const slot = document.createElement('div');
+            slot.className = 'tray-slot flex items-center justify-center';
+            slot.id = 'slot-' + data.id;
+
+            const img = new Image();
+            img.src = `{{ asset('images/general/map') }}/${data.src}`;
+            img.className = 'puzzle-piece drop-shadow-md w-full h-auto';
+            img.id = data.id;
+            img.dataset.name = data.name;
+            img.dataset.labelX = data.labelX;
+            img.dataset.labelY = data.labelY;
+            img.dataset.targetX = data.targetX;
+            img.dataset.targetY = data.targetY;
+            img.dataset.slotId = slot.id;
+            img.draggable = false;
+
+            img.addEventListener('mousedown', handleStart, { passive: false });
+            img.addEventListener('touchstart', handleStart, { passive: false });
+
+            slot.appendChild(img);
+            piecesTray.appendChild(slot);
+        });
+
+        // Spacer kanan agar scroll mentok dengan indah
+        const endSpacer = document.createElement('div');
+        endSpacer.className = 'flex-shrink-0 w-2 md:w-4';
+        piecesTray.appendChild(endSpacer);
+
+        document.addEventListener('mousemove', handleMove, { passive: false });
+        document.addEventListener('touchmove', handleMove, { passive: false });
+
+        document.addEventListener('mouseup', handleEnd);
+        document.addEventListener('touchend', handleEnd);
+
+        function handleStart(e) {
+            if (e.type === 'mousedown' && e.button !== 0) return;
+            e.preventDefault();
+
+            activePiece = e.target;
+            if (activePiece.classList.contains('piece-label')) {
+                activePiece = document.getElementById(activePiece.dataset.for);
+            }
+            if (!activePiece || !activePiece.classList.contains('puzzle-piece')) {
+                activePiece = null;
+                return;
+            }
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            const pieceRect = activePiece.getBoundingClientRect();
+
+            const offsetX = clientX - pieceRect.left;
+            const offsetY = clientY - pieceRect.top;
+
+            const clickPctX = offsetX / pieceRect.width;
+            const clickPctY = offsetY / pieceRect.height;
+
+            if (activePiece.classList.contains('locked')) {
+                activePiece.classList.remove('locked');
+                lockedCount--;
+                const oldLabel = document.getElementById('label-' + activePiece.id);
+                if (oldLabel) oldLabel.remove();
+                document.body.appendChild(activePiece);
+            }
+            else if (activePiece.parentElement.classList.contains('tray-slot')) {
+                document.body.appendChild(activePiece);
+
+                // Sembunyikan instruksi saat kepingan pertama diambil
+                const instr = document.getElementById('start-instruction');
+                if (instr) instr.style.display = 'none';
+
+                if (mapImg.naturalWidth && mapImg.getBoundingClientRect().width > 0) {
+                    const displayedMapWidth = mapImg.getBoundingClientRect().width;
+                    const mapScale = displayedMapWidth / mapImg.naturalWidth;
+
+                    const newWidth = activePiece.naturalWidth * mapScale;
+                    activePiece.style.width = newWidth + 'px';
+
+                    const ratio = activePiece.naturalHeight / activePiece.naturalWidth;
+                    const newHeight = newWidth * ratio;
+
+                    activePiece.style.left = (clientX - (clickPctX * newWidth)) + 'px';
+                    activePiece.style.top = (clientY - (clickPctY * newHeight)) + 'px';
+                } else {
+                    activePiece.style.left = (clientX - (pieceRect.width / 2)) + 'px';
+                    activePiece.style.top = (clientY - (pieceRect.height / 2)) + 'px';
+                }
+            }
+
+            activePiece.classList.add('dragging');
+
+            initialX = clientX;
+            initialY = clientY;
+            startLeft = parseFloat(activePiece.style.left) || 0;
+            startTop = parseFloat(activePiece.style.top) || 0;
+
+            const newRect = activePiece.getBoundingClientRect();
+            updateGuideLine(newRect.left + newRect.width / 2, newRect.top + newRect.height / 2);
+        }
+
+        function handleMove(e) {
+            if (!activePiece) return;
+            e.preventDefault();
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            const dx = clientX - initialX;
+            const dy = clientY - initialY;
+            activePiece.style.left = (startLeft + dx) + 'px';
+            activePiece.style.top = (startTop + dy) + 'px';
+
+            const pieceRect = activePiece.getBoundingClientRect();
+            updateGuideLine(pieceRect.left + pieceRect.width / 2, pieceRect.top + pieceRect.height / 2);
+        }
+
+        function updateGuideLine(centerX, centerY) {
+            if (!activePiece) return;
+            const mapRect = mapContainer.getBoundingClientRect();
+
+            const targetX = parseFloat(activePiece.dataset.targetX);
+            const targetY = parseFloat(activePiece.dataset.targetY);
+
+            const targetPxX = mapRect.left + (mapRect.width * (targetX / 100));
+            const targetPxY = mapRect.top + (mapRect.height * (targetY / 100));
+
+            // FITUR DEBUGGING: Garis penolong dinonaktifkan karena koordinat sudah pas
+            /*
+            guideLine.setAttribute('x1', centerX);
+            guideLine.setAttribute('y1', centerY);
+            guideLine.setAttribute('x2', targetPxX);
+            guideLine.setAttribute('y2', targetPxY);
+            guideLine.setAttribute('opacity', '0.8');
+
+            guideTarget.setAttribute('cx', targetPxX);
+            guideTarget.setAttribute('cy', targetPxY);
+            guideTargetInner.setAttribute('cx', targetPxX);
+            guideTargetInner.setAttribute('cy', targetPxY);
+            guideTarget.setAttribute('opacity', '1');
+            guideTargetInner.setAttribute('opacity', '1');
+
+            // UPDATE DEBUGGER DI LAYAR
+            const pctDropX = ((centerX - mapRect.left) / mapRect.width) * 100;
+            const pctDropY = ((centerY - mapRect.top) / mapRect.height) * 100;
+
+            document.getElementById('debug-x').innerText = pctDropX.toFixed(1);
+            document.getElementById('debug-y').innerText = pctDropY.toFixed(1);
+            */
+        }
+
+        function handleEnd(e) {
+            if (!activePiece) return;
+
+            // guideLine.setAttribute('opacity', '0');
+            // guideTarget.setAttribute('opacity', '0');
+            // guideTargetInner.setAttribute('opacity', '0');
+
+            const mapRect = mapContainer.getBoundingClientRect();
+            const pieceRect = activePiece.getBoundingClientRect();
+
+            const centerX = pieceRect.left + (pieceRect.width / 2);
+            const centerY = pieceRect.top + (pieceRect.height / 2);
+
+            const targetX = parseFloat(activePiece.dataset.targetX);
+            const targetY = parseFloat(activePiece.dataset.targetY);
+
+            const targetPxX = mapRect.left + (mapRect.width * (targetX / 100));
+            const targetPxY = mapRect.top + (mapRect.height * (targetY / 100));
+
+            const distance = Math.hypot(targetPxX - centerX, targetPxY - centerY);
+
+            const threshold = mapRect.width * 0.10; // Jarak toleransi nempel
+
+            // FITUR DEBUGGING MANUAL: Disembunyikan karena sudah selesai kalibrasi
+            /*
+            const pctDropX = ((centerX - mapRect.left) / mapRect.width) * 100;
+            const pctDropY = ((centerY - mapRect.top) / mapRect.height) * 100;
+            console.log(`%c[KALIBRASI] %c${activePiece.dataset.name}`, 'color: yellow; font-size: 16px; font-weight: bold;', 'color: cyan; font-size: 16px; font-weight: bold;');
+            console.log(`%c-> Ganti kode menjadi: targetX: ${pctDropX.toFixed(1)}, targetY: ${pctDropY.toFixed(1)}`, 'color: white; font-size: 14px;');
+            */
+
+            if (distance < threshold) {
+                lockPiece(activePiece, targetX, targetY);
+            } else {
+                activePiece.classList.remove('dragging');
+                activePiece.style.left = '0';
+                activePiece.style.top = '0';
+                activePiece.style.width = '100%';
+                const slot = document.getElementById(activePiece.dataset.slotId);
+                slot.appendChild(activePiece);
+            }
+
+            activePiece = null;
+        }
+
+        function lockPiece(piece, targetX, targetY) {
+            piece.classList.remove('dragging');
+            piece.classList.add('locked');
+
+            const mapContainer = document.getElementById('map-container');
+            mapContainer.appendChild(piece);
+
+            // Perbaikan Responsive Absolut: 
+            // Karena ukuran gambar adalah 800x800 dan peta adalah 1920x1080
+            const piecePctW = (800 / 1920) * 100; // Lebar gambar 41.66%
+            const piecePctH = (800 / 1080) * 100; // Tinggi gambar 74.07%
+
+            piece.style.width = `${piecePctW}%`;
+
+            // Atur posisi secara persen agar otomatis ikut bergeser jika layar di-resize
+            piece.style.left = `${targetX}%`;
+            piece.style.top = `${targetY}%`;
+            piece.style.transform = 'translate(-50%, -50%)';
+
+            const label = document.createElement('div');
+            // Label diganti menjadi warna putih bersih dengan garis biru agar lebih netral & elegan
+            label.className = 'piece-label absolute font-black text-sky-700 bg-white px-3 py-1.5 rounded-full shadow-[0_4px_0_#0284c7] border-2 md:border-4 border-sky-400 text-[11px] md:text-sm lg:text-base cursor-pointer z-[60] text-center uppercase tracking-widest';
+            label.innerText = piece.dataset.name;
+            label.id = 'label-' + piece.id;
+            label.dataset.for = piece.id;
+
+            const labelX = parseFloat(piece.dataset.labelX);
+            const labelY = parseFloat(piece.dataset.labelY);
+
+            // Posisi label juga dalam persentase relatif terhadap container map
+            const labelPctLeft = targetX - (piecePctW / 2) + (piecePctW * (labelX / 100));
+            const labelPctTop = targetY - (piecePctH / 2) + (piecePctH * (labelY / 100));
+
+            label.style.left = `${labelPctLeft}%`;
+            label.style.top = `${labelPctTop}%`;
+            label.style.transform = 'translate(-50%, -50%)';
+
+            setTimeout(() => { mapContainer.appendChild(label); }, 300);
+
+            lockedCount++;
+            if (lockedCount === totalPieces) {
+                setTimeout(winGame, 1500);
+            }
+        }
+
+        function winGame() {
+            const baseImg = document.getElementById('base-img');
+            const fullImg = document.getElementById('full-img');
+            baseImg.style.opacity = 0;
+            fullImg.style.opacity = 1;
+
+            document.querySelectorAll('.locked, .piece-label').forEach(p => {
+                p.style.transition = 'opacity 1s ease';
+                p.style.opacity = 0;
+            });
+
+            setTimeout(() => {
+                const modal = document.getElementById('win-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }, 1200);
+        }
+    </script>
+</body>
+
+</html>

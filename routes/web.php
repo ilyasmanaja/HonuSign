@@ -125,7 +125,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // 5. Placeholder untuk rute yang lain
     Route::get('materi/quiz', fn() => "Halaman Quiz Segera Hadir")->name('materi.quiz');
-    Route::get('materi/puzzle', fn() => "Halaman Puzzle Segera Hadir")->name('materi.puzzle');
+    
+    Route::get('general', function () {
+        return view('general.index');
+    })->name('general.index');
+
+    Route::get('general/puzzle', function () {
+        return view('general.puzzle');
+    })->name('general.puzzle');
 
 });
 
