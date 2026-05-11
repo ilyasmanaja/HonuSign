@@ -20,7 +20,7 @@
         <div
             class="w-full aspect-video bg-black rounded-[3rem] border-8 border-slate-800 overflow-hidden shadow-2xl mb-8">
             <!-- Ganti gambar menjadi video_peragaan -->
-            <img src="{{ asset('images/asset/' . $materi->video_peragaan) }}" alt="Thumbnail {{ $materi->judul }}"
+            <img src="{{ asset('images/' . $materi->video_peragaan) }}" alt="Thumbnail {{ $materi->judul }}"
                 class="w-full h-full object-contain">
         </div>
 

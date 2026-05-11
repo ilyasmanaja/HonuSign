@@ -53,40 +53,58 @@
             </div>
         @endif
 
-        {{-- BAGIAN 2: PLACEHOLDER UNTUK PUZZLE (SOAL KE-2) --}}
+        {{-- BAGIAN 2: PUZZLE (SOAL KE-2) --}}
         @if($quiz->tipe == 'puzzle')
             <div
-                class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-6 rounded-[3rem] w-full max-w-md shadow-lg mb-8">
+                class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-6 rounded-[3rem] w-full max-w-2xl shadow-lg mb-8">
                 <h2 class="text-xl font-black text-slate-800 dark:text-white uppercase mb-4 text-center">
                     {{ $quiz->pertanyaan }}
                 </h2>
 
-                <!-- Area Grid Puzzle -->
-                <div id="puzzle-grid"
-                    class="grid grid-cols-3 gap-1 bg-slate-200 p-1 rounded-2xl overflow-hidden aspect-square">
-                    @php
-                        // Membuat array 0-8 dan mengacaknya
-                        $pieces = range(0, 8);
-                        shuffle($pieces);
-                    @endphp
-
-                    @foreach($pieces as $index => $pos)
-                        <div onclick="swapPiece({{ $index }})" id="piece-{{ $index }}" data-correct="{{ $pos }}"
-                            class="puzzle-piece cursor-pointer border border-white/20 transition-all duration-200"
-                            style="background-image: url('{{ asset('images/asset/' . $quiz->jawaban_benar) }}'); 
-                                                                                                            background-size: 300% 300%; 
-                                                                                                            background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <!-- Sisi Kiri: Gambar Referensi (Kecil) -->
+                    <div class="w-full md:w-1/3">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 text-center">Contoh
+                            Jawaban:</p>
+                        <div
+                            class="relative rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm opacity-70 hover:opacity-100 transition-opacity">
+                            <img src="{{ asset('images/' . $quiz->jawaban_benar) }}"
+                                class="w-full grayscale-[50%] hover:grayscale-0">
+                            <div class="absolute inset-0 bg-blue-500/10"></div>
                         </div>
-                    @endforeach
+                    </div>
+
+                    <!-- Sisi Kanan: Area Grid Puzzle (16:9) -->
+                    <div id="puzzle-grid"
+                        class="grid grid-cols-3 gap-1 bg-slate-200 p-1 rounded-2xl overflow-hidden aspect-video w-full md:w-2/3 shadow-inner">
+                        @php
+                            $pieces = range(0, 8);
+                            shuffle($pieces);
+                        @endphp
+
+                        @foreach($pieces as $index => $pos)
+                            <div onclick="swapPiece({{ $index }})" id="piece-{{ $index }}" data-correct="{{ $pos }}"
+                                class="puzzle-piece cursor-pointer border border-white/10 transition-all duration-200" style="background-image: url('{{ asset('images/' . $quiz->jawaban_benar) }}'); 
+                                       background-size: 300% 300%; 
+                                       background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
             <style>
+                /* Mengatur agar container grid selalu 16:9 */
+                .aspect-video {
+                    aspect-ratio: 16 / 9;
+                }
+
                 .puzzle-piece.selected {
                     outline: 5px solid #3b82f6;
                     outline-offset: -5px;
-                    transform: scale(0.95);
+                    transform: scale(0.98);
                     z-index: 10;
+                    filter: brightness(1.2);
                 }
             </style>
         @endif

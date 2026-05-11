@@ -1,20 +1,72 @@
-<x-layouts::app>
-    <h2 class="font-semibold text-xl text-slate-600 leading-tight">
-        Statistik Pembelajaran SIBI 🎓
-    </h2>
-
-    <div class="py-12">
+<x-student-layout>
+    <div class="py-12 bg-slate-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="text-slate-500 font-bold uppercase text-xs tracking-widest">Total Siswa</h3>
-                    <p class="text-4xl font-black text-slate-600 mt-2">24</p>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-[2rem] p-8 border-4 border-slate-200">
+                
+                <div class="flex justify-between items-center mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800 uppercase tracking-tighter">Monitoring Siswa 📊</h2>
+                        <p class="text-slate-500 font-medium">Pantau progres belajar bahasa isyarat siswa secara real-time.</p>
+                    </div>
+                    <div class="bg-emerald-100 text-emerald-700 px-6 py-2 rounded-full font-bold text-sm border-2 border-emerald-200">
+                        {{ $students->count() }} Siswa Terdaftar
+                    </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="text-slate-500 font-bold uppercase text-xs tracking-widest">Rata-rata Skor Practice</h3>
-                    <p class="text-4xl font-black mt-2 text-green-500">88.5</p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-slate-400 text-xs uppercase tracking-widest border-b-2 border-slate-100">
+                                <th class="py-4 px-4">Nama Siswa</th>
+                                <th class="py-4 px-4 text-center">T1</th>
+                                <th class="py-4 px-4 text-center">T2 (Kuis)</th>
+                                <th class="py-4 px-4 text-center">T3</th>
+                                <th class="py-4 px-4 text-center">T4</th>
+                                <th class="py-4 px-4 text-center">T5</th>
+                                <th class="py-4 px-4 text-center">T6</th>
+                                <th class="py-4 px-4 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach($students as $student)
+                            <tr class="hover:bg-slate-50/50 transition-all">
+                                <td class="py-5 px-4">
+                                    <span class="font-bold text-slate-700">{{ $student->name }}</span>
+                                    <br><span class="text-xs text-slate-400">{{ $student->email }}</span>
+                                </td>
+                                
+                                {{-- Loop Tahap 1 sampai 6 --}}
+                                @for($i = 1; $i <= 6; $i++)
+                                    <td class="py-5 px-4 text-center">
+                                        @php
+                                            $prog = $student->progress->where('tahap', $i)->first();
+                                        @endphp
+
+                                        @if($prog && $prog->is_completed)
+                                            <div class="flex flex-col items-center">
+                                                <span class="text-emerald-500">✅</span>
+                                                @if($prog->score > 0)
+                                                    <span class="text-[10px] font-black text-slate-500">Nilai: {{ $prog->score }}</span>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <span class="text-slate-200 text-xs">-</span>
+                                        @endif
+                                    </td>
+                                @endfor
+
+                                <td class="py-5 px-4 text-right">
+                                    <button class="bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-700 transition-all">
+                                        Detail
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+
             </div>
         </div>
     </div>
-</x-layouts::app>
+</x-student-layout>

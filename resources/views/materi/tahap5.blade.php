@@ -48,7 +48,7 @@
 
                 @foreach($keberagaman as $judul => $gambar)
                     <div
-                        class="bg-slate-50 dark:bg-slate-800 rounded-3xl border-4 border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm hover:translate-y-[-5px] transition-all">
+                        class="bg-slate-50 dark:bg-slate-800 rounded-3xl border-4 border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm hover:-translate-y-1.25 transition-all">
                         <!-- Placeholder Gambar -->
                         <div
                             class="w-full h-40 bg-slate-200 dark:bg-slate-700 relative flex items-center justify-center border-b-4 border-slate-200 dark:border-slate-700">

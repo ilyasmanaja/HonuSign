@@ -18,8 +18,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // 2. Dashboard Khusus Guru (Terproteksi Middleware 'teacher')
     Route::get('teacher/dashboard', function () {
-        return view('teacher.dashboard');
-    })->middleware(['teacher'])->name('teacher.dashboard');
+        // 1. Ambil semua siswa
+        // 2. Load relasi progress-nya (Eager Loading agar tidak berat)
+        $students = \App\Models\User::where('role', 'student')
+            ->with([
+                'progress' => function ($query) {
+                    $query->orderBy('materi_id')->orderBy('tahap');
+                }
+            ])->get();
+
+        return view('teacher.dashboard', compact('students'));
+    })->middleware(['auth', 'teacher'])->name('teacher.dashboard');
 
     Route::post('/materi/save-progress', function (Request $request) {
         $request->validate([
@@ -117,6 +126,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         if ($step == 5) {
             return view('materi.tahap5', compact('materi', 'step'));
+        }
+
+        if ($step == 6) {
+            return view('materi.tahap6', compact('materi', 'step'));
         }
 
         return "Tahap $step sedang dalam pembangunan!";
