@@ -105,7 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // Jika ke-5 soal kamera sudah habis, kembali ke dashboard bawa status menang!
             if (!$quiz) {
-                return redirect()->route('dashboard')->with('status', 'Luar biasa! Tahap 3 Selesai!');
+                return redirect()->route('materi.belajar', ['step' => 4]);
             }
 
             return view('materi.tahap3_kamera', compact('materi', 'step', 'quiz', 'soal_ke'));
@@ -113,6 +113,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         if ($step == 4) {
             return view('materi.tahap4', compact('materi', 'step'));
+        }
+
+        if ($step == 5) {
+            return view('materi.tahap5', compact('materi', 'step'));
         }
 
         return "Tahap $step sedang dalam pembangunan!";
@@ -125,7 +129,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // 5. Placeholder untuk rute yang lain
     Route::get('materi/quiz', fn() => "Halaman Quiz Segera Hadir")->name('materi.quiz');
-    
+
     Route::get('general', function () {
         return view('general.index');
     })->name('general.index');
@@ -133,7 +137,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('general/puzzle', function () {
         return view('general.puzzle');
     })->name('general.puzzle');
-
 });
 
 require __DIR__ . '/settings.php';
