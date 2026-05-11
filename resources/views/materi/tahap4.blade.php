@@ -3,12 +3,12 @@
         <!-- Progress Bar (Tahap 4) -->
         <div class="w-full mb-10">
             <div class="flex justify-between mb-2">
-                <span class="text-xs font-black text-emerald-600 uppercase tracking-widest">Tahap 4: Belajar Keberagaman</span>
+                <span class="text-xs font-black text-blue-600 uppercase tracking-widest">Tahap 4: Belajar Keberagaman</span>
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Misi 4 dari 6</span>
             </div>
             <div class="w-full bg-slate-200 dark:bg-slate-800 h-3 rounded-full overflow-hidden border-2 border-white dark:border-slate-700">
                 <!-- Progress 66% -->
-                <div class="bg-emerald-500 h-full transition-all duration-1000" style="width: 66.6%"></div> 
+                <div class="bg-blue-500 h-full transition-all duration-1000" style="width: 66.6%"></div> 
             </div>
         </div>
 
@@ -17,7 +17,7 @@
         </h1>
 
         <!-- Kontainer Utama Materi -->
-        <div class="w-full bg-white dark:bg-slate-900 rounded-[3rem] border-4 border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden mb-10 p-10 md:p-14">
+        <div class="w-7xl h-full bg-white dark:bg-slate-900 rounded-[3rem] border-4 border-teal-400 dark:border-slate-800 shadow-2xl overflow-hidden mb-10 p-10 md:p-14">
             
             <!-- Intro Paragraph -->
             <div class="prose prose-lg dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-loose font-medium text-justify mb-10">
@@ -30,24 +30,24 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 @php
                     $keberagaman = [
-                        'Bahasa Daerah' => 'bahasa_daerah.jpg',
-                        'Agama dan Kepercayaan' => 'agama.jpg',
-                        'Pakaian Tradisional' => 'pakaian_adat.jpg',
-                        'Suku Bangsa' => 'suku_bangsa.jpg',
-                        'Tarian Daerah' => 'tarian.jpg',
-                        'Musik Daerah' => 'musik.jpg',
-                        'Rumah Adat' => 'rumah_adat_riau.jpg',
-                        'Makanan Khas Daerah' => 'makanan_riau.jpg',
-                        'Adat Istiadat' => 'nikah_melayu.jpg'
+                        'Bahasa Daerah' => 'bahasa_daerah.png',
+                        'Agama dan Kepercayaan' => 'agama.png',
+                        'Pakaian Tradisional' => 'pakaian_adat.png',
+                        'Suku Bangsa' => 'suku_bangsa.png',
+                        'Tarian Daerah' => 'tarian.png',
+                        'Musik Daerah' => 'musik.png',
+                        'Rumah Adat' => 'rumah_adat_riau.png',
+                        'Makanan Khas Daerah' => 'makanan_riau.png',
+                        'Adat Istiadat' => 'nikah_melayu.png'
                     ];
                     $i = 1;
                 @endphp
 
                 @foreach($keberagaman as $judul => $gambar)
-                <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl border-4 border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm hover:translate-y-[-5px] transition-all">
+                <div class="w-full bg-slate-50 dark:bg-slate-800 rounded-3xl border-4 border-teal-400 dark:border-slate-700 overflow-hidden shadow-sm hover:translate-y-[-5px] transition-all">
                     <!-- Placeholder Gambar -->
                     <div class="w-full h-40 bg-slate-200 dark:bg-slate-700 relative flex items-center justify-center border-b-4 border-slate-200 dark:border-slate-700">
-                        <img src="{{ asset('images/' . $gambar) }}" alt="{{ $judul }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img src="{{ asset('images/tahap4/' . $gambar) }}" alt="{{ $judul }}" class="w-full h-full object-cover" onerror="this.style.display='none'">
                         <span class="absolute text-slate-400 text-sm font-bold opacity-50 text-center px-4">Siapkan gambar:<br>{{ $gambar }}</span>
                     </div>
                     <div class="p-4 text-center">
@@ -88,7 +88,7 @@
         <!-- Tombol Lanjut (Dengan fitur save progress) -->
         <a href="{{ route('materi.belajar', ['step' => 5]) }}" 
            onclick="tandaiSelesai(event, this.href, 4)"
-           class="bg-emerald-600 hover:bg-emerald-500 text-white p-6 px-12 rounded-[2.5rem] font-black uppercase shadow-[0_10px_0_0_#059669] active:shadow-none active:translate-y-2 transition-all text-center text-lg w-full md:w-auto">
+           class="bg-blue-600 hover:bg-blue-500 text-white p-6 px-12 rounded-[2.5rem] font-black uppercase active:shadow-none active:translate-y-2 transition-all text-center text-lg w-full md:w-auto">
             Selesai Membaca, Lanjut Tahap 5! 🚀
         </a>
     </div>

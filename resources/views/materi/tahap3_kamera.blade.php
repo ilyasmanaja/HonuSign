@@ -1,6 +1,6 @@
 <x-student-layout>
     <div class="max-w-6xl w-full px-6 py-12 flex flex-col items-center">
-        <h2 class="text-2xl font-black text-purple-600 uppercase mb-6 text-center">
+        <h2 class="text-2xl font-black text-blue-600 uppercase mb-6 text-center">
             Misi {{ $soal_ke }} dari 5: Peragakan Isyarat Berikut!
         </h2>
 
@@ -46,11 +46,11 @@
         </div>
 
         <div class="mt-12 flex gap-4">
-            <button onclick="simulateAI()" class="bg-green-500 text-white p-6 px-10 rounded-2xl font-black uppercase shadow-[0_6px_0_0_#15803d]">
+            <button onclick="simulateAI()" class="bg-blue-500 text-white p-6 px-10 rounded-2xl font-black uppercase cursor-pointer">
                 Simulasikan Isyarat Benar (Testing)
             </button>
             <a href="{{ route('materi.belajar', ['step' => 3, 'soal_ke' => $soal_ke + 1]) }}" 
-               id="btn-next" class="hidden bg-purple-600 text-white p-6 px-10 rounded-2xl font-black uppercase shadow-[0_6px_0_0_#7e22ce]">
+               id="btn-next" class="hidden bg-teal-500 text-white p-6 px-10 rounded-2xl font-black uppercase">
                 Lanjut Soal Berikutnya! 🚀
             </a>
         </div>

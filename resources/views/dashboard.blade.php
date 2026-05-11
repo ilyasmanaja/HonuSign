@@ -17,7 +17,7 @@
                 class="group flex flex-col items-center justify-center bg-white border-4 border-green-500 p-10 rounded-[2.5rem] active:shadow-none active:translate-y-2 transition-all">
 
                 <span class="text-7xl block mb-4 group-hover:scale-110 transition-transform">📚</span>
-                <span class="text-2xl font-black text-slate-800 uppercase tracking-tighter">Materi</span>
+                <span class="text-2xl font-black text-slate-800 uppercase tracking-tighter">Study</span>
 
             </a>
 
@@ -26,7 +26,7 @@
             <button
                 class="group bg-white border-4 border-purple-500 p-10 rounded-[2.5rem] active:shadow-none active:translate-y-2 transition-all">
                 <span class="text-7xl block mb-4 group-hover:scale-110 transition-transform">🤟</span>
-                <span class="text-2xl font-black text-slate-600 uppercase tracking-tighter">Practice</span>
+                <span class="text-2xl font-black text-slate-600 uppercase tracking-tighter">Evaluasi</span>
             </button>
 
         </div>

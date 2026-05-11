@@ -3,11 +3,11 @@
         
         <div class="w-full max-w-7xl mb-10">
             <div class="flex justify-between mb-2">
-                <span class="text-xs font-black text-pink-600 uppercase tracking-widest">Tahap 6: Ekspresi & Mewarnai</span>
+                <span class="text-xs font-black text-blue-500 uppercase tracking-widest">Tahap 6: Ekspresi & Mewarnai</span>
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Misi Terakhir! 🏆</span>
             </div>
             <div class="w-full bg-slate-200 dark:bg-slate-800 h-3 rounded-full overflow-hidden border-2 border-white">
-                <div class="bg-pink-500 h-full w-full transition-all duration-1000"></div>
+                <div class="bg-blue-500 h-full w-full transition-all duration-1000"></div>
             </div>
         </div>
 
@@ -40,17 +40,17 @@
         </div>
 
         <div class="mt-14 flex flex-wrap justify-center gap-5 w-full max-w-7xl">
-            <button id="clear-btn" onclick="clearCanvas()" class="px-10 py-5 rounded-2xl font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-all uppercase text-sm tracking-wider">Hapus Semua</button>
+            <button id="clear-btn" onclick="clearCanvas()" class="px-10 py-5 rounded-2xl font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-all uppercase text-sm tracking-wider cursor-pointer">Hapus Semua</button>
             
-            <button id="show-result-btn" onclick="enablePresentationMode()" class="bg-emerald-600 text-white px-14 py-5 rounded-3xl font-black uppercase shadow-[0_10px_0_0_#059669] hover:translate-y-1 active:shadow-none transition-all text-lg flex items-center gap-2">
+            <button id="show-result-btn" onclick="enablePresentationMode()" class="bg-blue-600 hover:bg-blue-500 cursor-pointer text-white px-14 py-5 rounded-3xl font-black uppercase hover:translate-y-1 active:shadow-none transition-all text-lg flex items-center gap-2">
                 Tampilkan Hasil! ✨
             </button>
 
-            <button id="back-edit-btn" onclick="disablePresentationMode()" class="hidden px-10 py-5 rounded-2xl font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-all uppercase text-sm tracking-wider">
+            <button id="back-edit-btn" onclick="disablePresentationMode()" class="hidden px-10 py-5 cursor-pointer rounded-2xl font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-all uppercase text-sm tracking-wider">
                 Kembali Edit
             </button>
             
-            <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)" class="hidden bg-pink-600 text-white px-14 py-5 rounded-3xl font-black uppercase shadow-[0_10px_0_0_#be185d] hover:translate-y-1 active:shadow-none transition-all text-lg flex items-center gap-2">
+            <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)" class="hidden bg-blue-600 hover:bg-blue-500 text-white px-14 py-5 rounded-3xl font-black uppercase hover:translate-y-1 active:shadow-none transition-all text-lg flex items-center gap-2">
                 Selesai & Ke Dashboard 🏆
             </a>
         </div>

@@ -18,7 +18,7 @@
 
         <!-- Container Gambar -->
         <div
-            class="w-full aspect-video bg-black rounded-[3rem] border-8 border-slate-800 overflow-hidden shadow-2xl mb-8">
+            class="w-6xl aspect-video bg-black rounded-[3rem] border-8 border-slate-800 overflow-hidden shadow-2xl mb-8">
             <!-- Ganti gambar menjadi video_peragaan -->
             <img src="{{ asset('images/' . $materi->video_peragaan) }}" alt="Thumbnail {{ $materi->judul }}"
                 class="w-full h-full object-contain">
@@ -26,7 +26,7 @@
 
         <!-- Teks Bacaan -->
         <div
-            class="w-full bg-white dark:bg-slate-900 p-10 rounded-[3rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl mb-10">
+            class="w-6xl bg-white dark:bg-slate-900 p-10 rounded-[3rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl mb-10">
             <h3 class="font-black text-blue-500 mb-4 uppercase tracking-widest text-sm flex items-center gap-2">
                 <span class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">📖</span> Teks Bacaan:
             </h3>

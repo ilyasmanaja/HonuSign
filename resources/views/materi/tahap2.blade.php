@@ -154,7 +154,7 @@
 
             {{-- Link Lanjut menggunakan parameter soal_ke + 1 --}}
             <a href="{{ route('materi.belajar', ['step' => 2, 'soal_ke' => $soal_ke + 1]) }}" id="next-btn"
-                class="hidden bg-green-500 text-white px-10 py-3 rounded-2xl font-black uppercase text-sm shadow-[0_5px_0_0_#15803d] hover:translate-y-1 active:shadow-none transition-all">
+                class="hidden bg-blue-600 hover:bg-blue-500 text-white px-10 py-3 rounded-2xl font-black uppercase text-sm hover:translate-y-1 active:shadow-none transition-all">
                 Lanjut! 🚀
             </a>
         </div>

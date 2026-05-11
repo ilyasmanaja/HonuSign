@@ -9,8 +9,8 @@ Route::view('/', 'welcome')->name('home');
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // 1. Dashboard Traffic Controller (Siswa vs Guru)
-    Route::get('dashboard', function () {
-        if (auth()->user()->role === 'teacher') {
+    Route::get('dashboard', function (Request $request) {
+        if ($request->user()?->role === 'teacher') {
             return redirect()->route('teacher.dashboard');
         }
         return view('dashboard');
