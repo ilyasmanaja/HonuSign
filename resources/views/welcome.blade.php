@@ -73,10 +73,10 @@
                     @else
                         <a href="{{ route('login') }}"
                             class="px-6 py-2 bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover rounded-xl transition-all">Masuk</a>
-                        @if (Route::has('register'))
+                        <!-- @if (Route::has('register'))
                             <a href="{{ route('register') }}"
                                 class="px-6 py-2 bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover rounded-xl transition-all hidden sm:inline-block">Daftar</a>
-                        @endif
+                        @endif -->
                     @endauth
                 @endif
             </div>
@@ -112,12 +112,12 @@
                             class="inline-flex items-center justify-center px-10 py-4 bg-[#BEE9E8] font-bold text-xl brutal-border brutal-shadow brutal-hover rounded-2xl transition-all text-center">
                             Mulai Belajar
                         </a>
-                        @if (Route::has('register'))
+                        <!-- @if (Route::has('register'))
                             <a href="{{ route('register') }}"
                                 class="inline-flex items-center justify-center px-10 py-4 bg-[#FFFEFA] font-bold text-xl brutal-border brutal-shadow brutal-hover rounded-2xl transition-all text-center">
                                 Daftar Gratis
                             </a>
-                        @endif
+                        @endif -->
                     @endauth
                 </div>
             </div>

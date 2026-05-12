@@ -30,10 +30,10 @@
                 tipe: 'pilihan_gambar',
                 pertanyaan: "Jika kita membersihkan kelas maka kelas akan terlihat rapi. Pilihlah aktivitas apa saja yang dapat menciptakan kelas yang rapi dan bersih? [cite: 2]",
                 pilihan: {
-                    A: "{{ asset('images/wahyu_sapu_kelas.jpg') }}",
-                    B: "{{ asset('images/ina_sapu_halaman.jpg') }}",
-                    C: "{{ asset('images/ririn_cuci_piring.jpg') }}",
-                    D: "{{ asset('images/bayu_bersih_selokan.jpg') }}"
+                    A: "{{ asset('images/evaluasi/siska_piket.png') }}",
+                    B: "{{ asset('images/evaluasi/buang_sampah_sungai.png') }}",
+                    C: "{{ asset('images/evaluasi/coret_halte.png') }}",
+                    D: "{{ asset('images/evaluasi/sampah_sungai.png') }}"
                 },
                 jawaban: "A"
             },
@@ -42,18 +42,18 @@
                 tipe: 'pilihan_gambar',
                 pertanyaan: "Gambar manakah yang menunjukkan sikap menghargai keberagaman? [cite: 9]",
                 pilihan: {
-                    A: "{{ asset('images/menghargai_agama.jpg') }}", 
-                    B: "{{ asset('images/gotong_royong_kelas.jpg') }}",
-                    C: "{{ asset('images/mengobrol_santai.jpg') }}",
-                    D: "{{ asset('images/mengganggu_ibadah.jpg') }}"
+                    A: "{{ asset('images/evaluasi/langgar_lalulintas.png') }}",
+                    B: "{{ asset('images/evaluasi/kerja_bakti.png') }}",
+                    C: "{{ asset('images/evaluasi/ngobrol_shalat.png') }}",
+                    D: "{{ asset('images/evaluasi/idul_fitri2.png') }}"
                 },
-                jawaban: "A"
+                jawaban: "D"    
             },
             {
                 id: 3,
                 tipe: 'pilihan_ganda',
                 pertanyaan: "Menurut Ananda bagaimana keadaan halaman sekolah setelah kegiatan tersebut selesai?",
-                gambar_soal: "{{ asset('images/kegiatan_bersih.jpg') }}", // Gambar 1, 2, dan 3 dalam satu frame 
+                gambar_soal: "{{ asset('images/evaluasi/goro.png') }}", // Gambar 1, 2, dan 3 dalam satu frame 
                 pilihan: {
                     A: "Bersih",
                     B: "Tidak bersih"
@@ -113,12 +113,12 @@
                 html += `<div class="grid grid-cols-2 gap-6">`;
                 for (let key in q.pilihan) {
                     html += `
-            <button onclick="checkAnswer('${key}')" class="group relative overflow-hidden border-4 border-slate-100 rounded-[2rem] hover:border-indigo-500 transition-all shadow-sm bg-white">
-                <img src="${q.pilihan[key]}" class="w-full h-48 object-cover group-hover:scale-105 transition-all" onerror="this.src='https://placehold.co/400x300?text=Gambar+Pilihan+Tidak+Ada'">
-                <div class="absolute top-4 left-4 w-10 h-10 bg-white/90 backdrop-blur rounded-xl flex items-center justify-center font-black text-slate-400 group-hover:text-indigo-600 shadow-sm">
-                    ${key}
-                </div>
-            </button>`;
+        <button onclick="checkAnswer('${key}')" class="group relative overflow-hidden aspect-square border-4 border-slate-100 rounded-[2rem] hover:border-indigo-500 transition-all shadow-sm bg-white">
+            <img src="${q.pilihan[key]}" class="w-full h-full object-cover group-hover:scale-105 transition-all" onerror="this.src='https://placehold.co/400x400?text=Gambar+Pilihan+Tidak+Ada'">
+            <div class="absolute top-4 left-4 w-10 h-10 bg-white/90 backdrop-blur rounded-xl flex items-center justify-center font-black text-slate-400 group-hover:text-indigo-600 shadow-sm">
+                ${key}
+            </div>
+        </button>`;
                 }
                 html += `</div>`;
             }

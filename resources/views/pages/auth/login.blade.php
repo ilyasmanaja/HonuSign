@@ -31,6 +31,14 @@
             font-family: 'Fredoka', sans-serif !important;
             transition: all 0.2s ease-in-out;
             background-color: #FFFEFA !important;
+            /* TAMBAHKAN BARIS DI BAWAH INI */
+            color: #000 !important;
+        }
+
+        input::placeholder {
+            color: #64748b !important;
+            /* Warna abu-abu slate agar beda dengan teks ketikan */
+            opacity: 1;
         }
 
         input[type="email"]:focus,
@@ -124,13 +132,13 @@
             </div>
         </form>
 
-        @if (Route::has('register'))
+        <!-- @if (Route::has('register'))
             <div class="mt-4 text-center transform rotate-1">
                 <span class="text-lg font-medium text-slate-600">Belum punya akun?</span>
                 <a href="{{ route('register') }}"
                     class="text-lg font-bold text-[#E0BBE4] text-outline hover:text-[#FFF5B8] transition-colors ml-1"
                     wire:navigate>Daftar Disini</a>
             </div>
-        @endif
+        @endif -->
     </div>
 </x-layouts::auth>
