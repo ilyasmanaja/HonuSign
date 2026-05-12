@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\UserProgress;
+use Illuminate\Support\Facades\Auth;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -134,7 +135,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return "Tahap $step sedang dalam pembangunan!";
     })->name('materi.belajar');
-    
+
     Route::get('evaluasi', function () {
         return view('evaluasi.index');
     })->middleware(['auth', 'verified'])->name('evaluasi.index');
@@ -157,6 +158,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('general/memory', function () {
         return view('general.memory');
     })->name('general.memory');
+
+    Route::post('/logout', function (Illuminate\Http\Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    })->name('logout');
 });
 
 require __DIR__ . '/settings.php';
