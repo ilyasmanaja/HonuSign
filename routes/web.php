@@ -150,6 +150,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('general/puzzle', function () {
         return view('general.puzzle');
     })->name('general.puzzle');
+
+    Route::get('general/puzzle_instrument', function () {
+        return view('general.puzzle_instrument');
+    })->name('general.puzzle_instrument');
+
+    Route::get('general/memory', function () {
+        return view('general.memory');
+    })->name('general.memory');
 });
 
 require __DIR__ . '/settings.php';

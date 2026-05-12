@@ -1,90 +1,139 @@
 <x-student-layout>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
 
-        .font-fredoka {
-            font-family: 'Fredoka', sans-serif;
+        body {
+            font-family: 'Fredoka', sans-serif !important;
+            background-color: #FFFEFA !important;
+            /* Putih Gading */
+        }
+
+        .brutal-border {
+            border: 3px solid #000000 !important;
+        }
+
+        .brutal-shadow {
+            box-shadow: 6px 6px 0px 0px #000000 !important;
+        }
+
+        .brutal-shadow-sm {
+            box-shadow: 3px 3px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover {
+            transition: all 0.2s ease-in-out !important;
+        }
+
+        .brutal-hover:hover {
+            transform: translate(-3px, -3px) !important;
+            box-shadow: 9px 9px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover:active {
+            transform: translate(2px, 2px) !important;
+            box-shadow: 2px 2px 0px 0px #000000 !important;
+        }
+
+        .text-outline {
+            text-shadow:
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                2px 2px 0 #000;
         }
     </style>
 
-    <div class="py-12 w-full flex flex-col items-center justify-center font-fredoka">
-        <div class="text-center mb-12">
-            <h1 class="text-5xl md:text-6xl font-black text-sky-600 tracking-tight drop-shadow-sm mb-4">Koleksi Fun &
-                Play 🎮</h1>
-            <p class="text-slate-500 mt-2 text-xl font-medium">Pilih permainan seru yang ingin kamu mainkan hari ini!
-            </p>
+    <div class="py-12 w-full flex flex-col items-center justify-center font-['Fredoka']">
+        <div class="text-center mb-16 pt-8 md:pt-0">
+            <h1 class="text-4xl md:text-5xl font-bold text-black tracking-tighter mb-6 leading-tight">
+                Koleksi <span class="text-[#FFD1E3] text-outline">Fun & Play 🎮</span>
+            </h1>
+            <p class="text-xl font-medium text-slate-700 mt-6 px-4">Pilih permainan seru yang ingin kamu mainkan hari
+                ini!</p>
         </div>
 
         <div class="max-w-6xl w-full px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
 
             <!-- Card 1: Riau Discovery -->
             <a href="{{ route('general.puzzle') }}"
-                class="group bg-gradient-to-b from-sky-300 to-sky-400 p-8 rounded-[3rem] shadow-[0_15px_30px_rgba(14,165,233,0.3)] border-b-8 border-sky-500 transform md:hover:-translate-y-3 transition-transform duration-300 relative overflow-hidden flex flex-col items-center text-center active:scale-[0.98]">
+                class="brutal-hover block bg-[#BEE9E8] brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden group flex flex-col h-full">
 
-                <!-- Dekorasi Latar -->
-                <div class="absolute -top-6 -right-6 w-32 h-32 bg-white/20 rounded-full blur-xl"></div>
-                <div class="absolute bottom-10 -left-6 w-24 h-24 bg-white/20 rounded-full blur-xl"></div>
+                <!-- Bagian Gambar (Mengikuti efek Fun & Play: Zoom saat hover) -->
+                <div class="h-56 overflow-hidden bg-[#FFFEFA] brutal-border border-t-0 border-l-0 border-r-0 relative">
+                    <img src="{{ asset('images/page/puzzle page.png') }}" alt="Riau Discovery"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        onerror="this.src='https://via.placeholder.com/400x300?text=Peta+Riau+Discovery'" />
 
-                <div
-                    class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-sky-500 mb-6 shadow-[inset_0_4px_6px_rgba(0,0,0,0.1)] md:group-hover:scale-110 transition-transform duration-300 relative z-10 border-4 border-sky-100">
-                    <span class="text-6xl">🗺️</span>
+                    <!-- Badge Kecil -->
+                    <div
+                        class="absolute text-black bottom-4 right-4 bg-[#FFFEFA] brutal-border brutal-shadow-sm px-3 py-1 rounded-xl font-bold text-sm">
+                        🧩 Riau Discovery
+                    </div>
                 </div>
 
-                <h3 class="text-3xl font-black text-white mb-3 drop-shadow-md tracking-wide relative z-10">Riau
-                    Discovery</h3>
-
-                <p class="text-sky-50 text-lg leading-relaxed mb-8 font-medium relative z-10">Susun kepingan peta dan
-                    kenali nama-nama kabupaten di Riau!</p>
-
-                <div
-                    class="mt-auto w-full bg-orange-500 text-white text-xl py-4 rounded-full font-black uppercase tracking-widest shadow-[0_6px_0_#c2410c] border-4 border-white relative z-10 transition-all duration-150 md:group-hover:bg-orange-400 md:group-hover:translate-y-[2px] md:group-hover:shadow-[0_4px_0_#c2410c] group-active:translate-y-[6px] group-active:shadow-none group-active:bg-orange-600">
-                    Mainkan
+                <!-- Bagian Tombol  -->
+                <div class="p-6">
+                    <div
+                        class="w-full bg-[#FFF5B8] text-black text-xl py-4 rounded-2xl font-bold uppercase tracking-widest brutal-border brutal-shadow-sm transition-all duration-150 text-center group-hover:bg-white">
+                        Mainkan
+                    </div>
                 </div>
             </a>
 
-            <!-- Card 2: Permainan 2 (Coming Soon) -->
-            <div
-                class="bg-slate-200 p-8 rounded-[3rem] border-b-8 border-slate-300 relative overflow-hidden flex flex-col items-center text-center opacity-90">
-                <div
-                    class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-800/40 backdrop-blur-[4px] rounded-[3rem]">
-                    <span class="text-7xl mb-4 drop-shadow-lg">🔒</span>
-                    <span
-                        class="bg-slate-800 text-white px-6 py-2 rounded-full font-bold tracking-widest text-sm border-2 border-slate-600 shadow-md">SEGERA
-                        HADIR</span>
-                </div>
-                <div
-                    class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-slate-400 mb-6 shadow-inner border-4 border-slate-100">
-                    <span class="text-6xl">🧩</span>
-                </div>
-                <h3 class="text-2xl font-black text-slate-500 mb-3 tracking-wide">Tebak Kata SIBI</h3>
-                <p class="text-slate-500 text-lg leading-relaxed font-medium">Cocokkan isyarat tangan dengan kata yang
-                    tepat.</p>
-            </div>
+            <!-- Card 2: Harmoni Alat Musik (Sliding Puzzle) -->
+            <a href="{{ route('general.puzzle_instrument') }}"
+                class="brutal-hover block bg-[#E0BBE4] brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden group flex flex-col h-full">
 
-            <!-- Card 3: Permainan 3 (Coming Soon) -->
-            <div
-                class="bg-slate-200 p-8 rounded-[3rem] border-b-8 border-slate-300 relative overflow-hidden flex flex-col items-center text-center opacity-90">
-                <div
-                    class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-800/40 backdrop-blur-[4px] rounded-[3rem]">
-                    <span class="text-7xl mb-4 drop-shadow-lg">🔒</span>
-                    <span
-                        class="bg-slate-800 text-white px-6 py-2 rounded-full font-bold tracking-widest text-sm border-2 border-slate-600 shadow-md">SEGERA
-                        HADIR</span>
+                <!-- Bagian Gambar (Menggunakan foto Alat Musik Riau dengan efek Zoom) -->
+                <div class="h-56 overflow-hidden bg-[#FFFEFA] brutal-border border-t-0 border-l-0 border-r-0 relative">
+                    <img src="{{ asset('images/page/sliding page.png') }}" alt="Harmoni Riau"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        onerror="this.src='https://via.placeholder.com/400x300?text=Alat+Musik+Tradisional+Riau'" />
+
+                    <div
+                        class="absolute text-black bottom-4 right-4 bg-[#FFFEFA] brutal-border brutal-shadow-sm px-3 py-1 rounded-xl font-bold text-sm">
+                        🎹 Harmoni Riau
+                    </div>
                 </div>
-                <div
-                    class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-slate-400 mb-6 shadow-inner border-4 border-slate-100">
-                    <span class="text-6xl">🎯</span>
+
+                <div class="p-8 flex flex-col flex-grow text-center items-center">
+                    <div
+                        class="mt-auto w-full bg-[#FFF5B8] text-black text-xl py-4 rounded-2xl font-bold uppercase tracking-widest brutal-border brutal-shadow-sm group-hover:bg-white transition-all duration-150 text-center">
+                        Mainkan
+                    </div>
                 </div>
-                <h3 class="text-2xl font-black text-slate-500 mb-3 tracking-wide">Memori Visual</h3>
-                <p class="text-slate-500 text-lg leading-relaxed font-medium">Latih ingatanmu dengan mencocokkan kartu
-                    bergambar.</p>
-            </div>
+            </a>
+
+            <a href="{{ route('general.memory') }}"
+                class="brutal-hover block bg-[#FFF5B8] brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden group flex flex-col h-full">
+
+                <!-- Bagian Gambar (Mengikuti gaya Fun & Play: Zoom saat hover) -->
+                <div class="h-56 overflow-hidden bg-[#FFFEFA] brutal-border border-t-0 border-l-0 border-r-0 relative">
+                    <img src="{{ asset('images/page/memory page.png') }}" alt="Memori Visual"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        onerror="this.src='https://via.placeholder.com/400x300?text=Memori+Visual+SIBI'" />
+
+                    <!-- Badge Indikator Game -->
+                    <div
+                        class="absolute text-black bottom-4 right-4 bg-[#FFFEFA] brutal-border brutal-shadow-sm px-3 py-1 rounded-xl font-bold text-sm">
+                        🎯 Memori Visual
+                    </div>
+                </div>
+
+                <div class="p-8 flex flex-col flex-grow text-center items-center">
+                    <div
+                        class="mt-auto w-full bg-[#BEE9E8] text-black text-xl py-4 rounded-2xl font-bold uppercase tracking-widest brutal-border brutal-shadow-sm group-hover:bg-white transition-all duration-150 text-center">
+                        Mainkan
+                    </div>
+                </div>
+            </a>
 
         </div>
 
         <div class="mt-16">
             <a href="{{ route('dashboard') }}"
-                class="bg-white text-slate-500 px-8 py-3 rounded-full font-bold border-2 border-slate-200 shadow-sm hover:text-sky-600 hover:border-sky-300 transition-colors uppercase tracking-widest">
+                class="bg-[#FFFEFA] text-black px-8 py-3 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover transition-colors uppercase tracking-widest inline-block">
                 ⬅ Kembali ke Beranda
             </a>
         </div>

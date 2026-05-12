@@ -1,0 +1,91 @@
+DOKUMEN IMPLEMENTASI TAMPILAN (VISUAL GUIDELINES)
+Proyek: Platform Edukasi Anak Tunarungu (HonuSign)
+Target Platform: Windows & Tablet
+Estetika: Semi-Brutalism & Pastel Ceria
+
+I. KONSEP VISUAL
+Gaya Desain (Semi-Brutalism):
+
+Outline: Setiap elemen (tombol, card, container) wajib memiliki border hitam tegas dengan ketebalan 3px - 4px.
+
+Shadow: Gunakan "Hard Shadow" (bayangan tajam tanpa blur). Efek bayangan harus memberikan kesan elemen tersebut menonjol dari latar belakang.
+
+Corner Radius: Sudut elemen dibuat membulat (rounded) untuk memberikan kesan ramah anak, namun tetap mempertahankan garis tepi yang kuat.
+
+Palet Warna (Eye-Friendly Pastels):
+
+Background Utama: Putih Gading / Broken White (#FFFEFA) untuk mengurangi kelelahan mata.
+
+Aksen Pastel:
+
+Biru Muda (#BEE9E8) - Untuk header dan kategori umum.
+
+Pink Lembut (#FFD1E3) - Untuk materi seni atau kreativitas.
+
+Kuning Cerah (#FFF5B8) - Untuk materi logika atau coding.
+
+Hijau Mint (#D4F1BE) - Untuk indikator keberhasilan atau tombol positif.
+
+Ungu Pastel (#E0BBE4) - Untuk area profil atau pencapaian.
+
+Tipografi:
+
+Font Utama: Fredoka atau Quicksand (Rounded Sans-Serif).
+
+Karakteristik: Huruf harus tebal (bold) untuk judul agar mudah dibaca oleh anak dengan fokus visual primer.
+
+Ukuran: Minimal 14pt untuk teks biasa, dan 24pt+ untuk judul section.
+
+II. TATA LETAK & NAVIGASI
+
+Struktur Utama (Bento Grid):
+
+Menggunakan sistem kotak-kotak terorganisir seperti pada Screenshot 2026-05-12 214417.png.
+
+Setiap informasi dipisahkan dalam "card" individu agar anak tidak bingung saat memproses informasi (satu kotak, satu pesan).
+
+Responsivitas:
+
+Windows: Navigasi menggunakan Top-Bar yang lebar dan mudah diakses kursor.
+
+Tablet: Mempertahankan Bento Grid namun dengan target klik yang lebih luas untuk jempol.
+
+III. FITUR AKSESIBILITAS KHUSUS (DEAF-FRIENDLY)
+
+Konten Materi (Side-by-Side):
+
+Video Instruktur SIBI diletakkan berdampingan secara horizontal dengan teks materi.
+
+Video harus memiliki kontrol: [Slow Motion 0.5x] dan [Replay 5s] agar anak bisa mengulang gerakan isyarat yang sulit.
+
+Kamera SIBI Detection:
+
+Jendela preview kamera AI tidak muncul permanen.
+
+Kamera hanya akan muncul secara otomatis di tengah layar saat memasuki mode "Kuis Isyarat" atau interaksi deteksi.
+
+Visual Cues (Glow & Feedback):
+
+Tanpa Suara: Seluruh indikator keberhasilan/kesalahan menggunakan cahaya (glow) di seluruh pinggiran bingkai layar (Frame Glow).
+
+Kode Warna Glow:
+
+Hijau: Jawaban Benar / Selesai.
+
+Merah: Jawaban Salah / Coba Lagi.
+
+Kuning: Peringatan / Instruksi penting.
+
+Notifikasi & Aset:
+
+Menggunakan Pop-up animasi yang dinamis (bounce effect).
+
+Minimalisir teks panjang; gunakan lebih banyak aset visual, ikon, dan piktogram untuk menjelaskan instruksi.
+
+IV. ELEMEN INTERAKSI
+
+Tombol: Saat di-hover atau ditekan, tombol harus memberikan feedback visual berupa pergeseran posisi (transform) dan perubahan bayangan untuk mengonfirmasi aksi telah diterima.
+
+Karakter/Maskot: Gunakan elemen ilustrasi anak-anak seperti pada Screenshot 2026-05-12 214429.png untuk memberikan ekspresi emosi (senang/semangat) sebagai pengganti intonasi suara.
+
+Dokumen ini menjadi acuan utama bagi tim frontend dalam membangun antarmuka pengguna.

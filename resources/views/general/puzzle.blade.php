@@ -10,6 +10,39 @@
     <style>
         body {
             font-family: 'Fredoka', sans-serif;
+            background-color: #BEE9E8 !important;
+            /* Biru Muda Pastel */
+        }
+
+        /* Semi-Brutalism Utility Classes */
+        .brutal-border {
+            border: 3px solid #000000 !important;
+        }
+
+        .brutal-shadow {
+            box-shadow: 6px 6px 0px 0px #000000 !important;
+        }
+
+        .brutal-shadow-sm {
+            box-shadow: 3px 3px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover {
+            transition: all 0.2s ease-in-out !important;
+        }
+
+        .brutal-hover:hover {
+            transform: translate(-3px, -3px) !important;
+            box-shadow: 9px 9px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover:active {
+            transform: translate(2px, 2px) !important;
+            box-shadow: 2px 2px 0px 0px #000000 !important;
+        }
+
+        .text-outline {
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 0 #000;
         }
 
         .puzzle-piece {
@@ -79,10 +112,11 @@
             width: 80px;
             height: 80px;
             display: inline-block;
-            background-color: rgba(0, 0, 0, 0.3); /* Gelap seperti lubang kayu */
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 3px solid #000;
+            box-shadow: inset 3px 3px 0px 0px rgba(0, 0, 0, 0.2);
             border-radius: 1rem;
-            box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.5), 0 2px 0 rgba(255, 255, 255, 0.2);
-            flex-shrink: 0; /* Penting agar tidak mengecil saat di scroll horizontal */
+            flex-shrink: 0;
         }
 
         @media (min-width: 768px) {
@@ -92,10 +126,36 @@
             }
         }
 
+        @keyframes screen-shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-15px) rotate(-1deg);
+            }
+
+            50% {
+                transform: translateX(15px) rotate(1deg);
+            }
+
+            75% {
+                transform: translateX(-10px) rotate(-0.5deg);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .screen-shake {
+            animation: screen-shake 0.4s ease;
+        }
+
         .wrong-drop {
-            animation: wrong-shake 0.4s ease;
-            outline: 2px solid rgba(239, 68, 68, 0.35);
-            filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.28));
+            outline: 3px solid #FF6B6B;
+            filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 1));
+            transition: all 0.3s;
         }
 
         .wrong-bubble {
@@ -103,18 +163,19 @@
             left: 50%;
             bottom: 130%;
             transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.95);
-            color: #b91c1c;
-            border: 1px solid rgba(239, 68, 68, 0.25);
-            padding: 0.7rem 1rem;
+            background: #FF6B6B;
+            color: #FFFEFA;
+            border: 3px solid #000;
+            padding: 0.7rem 1.2rem;
             border-radius: 9999px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             white-space: nowrap;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
             pointer-events: none;
             opacity: 0;
             animation: bubble-pop 0.9s ease forwards;
+            z-index: 9999;
         }
 
         .stars-burst {
@@ -138,136 +199,135 @@
             opacity: 0;
         }
 
-        @keyframes wrong-shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-7px); }
-            100% { transform: translateX(0); }
-        }
-
         @keyframes bubble-pop {
-            0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.95); }
-            50% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(0.95); }
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(10px) scale(0.95);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px) scale(0.95);
+            }
         }
 
         @keyframes star-fly {
-            0% { opacity: 1; transform: translate(0, 0) scale(0.4); }
-            80% { opacity: 1; }
-            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.1); }
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0.4);
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--dx), var(--dy)) scale(0.1);
+            }
         }
 
         .spin-slow {
             animation: spin 15s linear infinite;
         }
 
-        /* Custom Scrollbar untuk Rak Kayu */
+        /* Custom Scrollbar untuk Rak */
         #pieces-tray::-webkit-scrollbar {
             height: 14px;
         }
 
         #pieces-tray::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
 
         #pieces-tray::-webkit-scrollbar-thumb {
-            background: #92400e;
+            background: #FFD1E3;
             border-radius: 10px;
-            border: 2px solid #b45309;
-        }
-
-        #pieces-tray::-webkit-scrollbar-thumb:hover {
-            background: #78350f;
+            border: 3px solid #000;
         }
     </style>
 </head>
 
 <body
-    class="m-0 p-0 overflow-hidden bg-gradient-to-b from-sky-300 to-sky-400 font-sans h-screen w-screen flex flex-col selection:bg-transparent">
+    class="m-0 p-0 overflow-hidden font-sans h-screen w-screen flex flex-col selection:bg-transparent transition-transform">
+
+    <!-- Intro Overlay -->
+    <div id="intro-overlay"
+        class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
+        <h1
+            class="text-6xl md:text-8xl font-black text-[#FFD1E3] text-outline transform -rotate-2 animate-bounce text-center px-4">
+            Riau Discovery
+        </h1>
+        <p class="mt-4 text-2xl font-bold text-slate-500">Mari Belajar Bersama!</p>
+    </div>
 
     <a href="{{ route('general.index') }}"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-orange-500 text-white px-5 py-3 md:px-8 md:py-4 rounded-full font-black text-lg md:text-2xl shadow-[0_6px_0_#c2410c] hover:translate-y-[2px] hover:shadow-[0_4px_0_#c2410c] active:translate-y-[6px] active:shadow-none transition-all uppercase tracking-widest border-4 border-white">
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFF5B8] text-black px-5 py-3 md:px-8 md:py-4 rounded-3xl font-black text-lg md:text-2xl brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest">
         ⬅ KEMBALI
     </a>
-    <!-- Alat Debugging On-Screen (DINONAKTIFKAN KARENA SUDAH SELESAI KALIBRASI) -->
-    <!--
-    <div
-        class="absolute top-4 right-4 md:top-6 md:right-6 z-[110] bg-black/60 text-green-300 font-mono text-sm md:text-xl px-4 py-2 rounded-xl border-2 border-green-400 shadow-md">
-        X: <span id="debug-x">00.0</span> | Y: <span id="debug-y">00.0</span>
-    </div>
-    -->
 
     <!-- Garis Penunjuk (Hint) -->
     <svg id="guide-svg">
-        <line id="guide-line" x1="0" y1="0" x2="0" y2="0" stroke="yellow" stroke-width="6" stroke-dasharray="15,15"
+        <line id="guide-line" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="6" stroke-dasharray="15,15"
             opacity="0" />
-        <circle id="guide-target" cx="0" cy="0" r="20" fill="yellow" opacity="0" class="drop-shadow-lg" />
-        <circle id="guide-target-inner" cx="0" cy="0" r="8" fill="red" opacity="0" />
+        <circle id="guide-target" cx="0" cy="0" r="20" fill="#FFF5B8" stroke="black" stroke-width="4" opacity="0"
+            class="drop-shadow-lg" />
+        <circle id="guide-target-inner" cx="0" cy="0" r="8" fill="black" opacity="0" />
     </svg>
 
     <!-- Area Peta Utama (Perbaikan Responsive) -->
     <div id="game-board" class="relative w-full h-[75vh] flex items-center justify-center z-10 px-4">
-        <!-- Penggunaan kalkulasi matematika memastikan mapContainer 100% PAS di layar apapun TANPA melampaui batas atas/bawah/samping, dan tetap mempertahankan aspect ratio 16:9! -->
-        <div id="map-container" class="relative pointer-events-none drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)] mx-auto"
+        <div id="map-container" class="relative pointer-events-none drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)] mx-auto"
             style="width: min(95vw, calc(75vh * 16 / 9)); height: min(75vh, calc(95vw * 9 / 16));">
             <img src="{{ asset('images/general/map/peta_kosong_riau.png') }}" id="base-img"
                 class="absolute inset-0 w-full h-full transition-opacity duration-1000" alt="Peta Kosong">
             <img src="{{ asset('images/general/map/peta_penuh_riau.png') }}" id="full-img"
                 class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000" alt="Peta Penuh">
         </div>
-
-        <div id="status-panel"
-            class="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 flex flex-wrap items-center justify-center gap-4 bg-white/95 border-4 border-slate-200 rounded-3xl px-4 py-3 shadow-2xl text-slate-700 font-black text-sm md:text-base">
-            <div class="flex items-center gap-2"><span class="uppercase tracking-[0.25em]">Waktu</span> <span id="timer-display">00:00</span></div>
-            <div class="flex items-center gap-2"><span class="uppercase tracking-[0.25em]">Bintang</span> <span id="star-display">⭐️⭐️⭐️</span></div>
-        </div>
     </div>
 
     <!-- Instruksi Awal Bermain -->
-    <div id="start-instruction" class="absolute bottom-[28vh] left-1/2 transform -translate-x-1/2 z-[100] bg-white text-orange-600 font-black px-6 py-3 rounded-full shadow-[0_6px_0_#ea580c] text-lg md:text-2xl animate-bounce border-4 border-orange-500 flex items-center gap-2 pointer-events-none whitespace-nowrap">
-        👇 Tarik kepingan dari kotak kayu ini!
+    <div id="start-instruction"
+        class="absolute bottom-[28vh] left-1/2 transform -translate-x-1/2 z-[100] bg-[#FFF5B8] text-black font-black px-6 py-3 rounded-full brutal-border brutal-shadow-sm text-lg md:text-2xl animate-bounce flex items-center gap-2 pointer-events-none whitespace-nowrap">
+        👇 Tarik kepingan dari rak ini!
     </div>
 
-    <!-- Kotak Penyimpanan Kayu Mengambang (Floating Box) -->
+    <!-- Kotak Penyimpanan Kayu Mengambang (Floating Box) -> Diubah jadi rak pastel -->
     <div id="pieces-tray"
-        class="absolute bottom-4 left-4 right-4 h-[22vh] bg-[#b45309] border-4 md:border-8 border-[#92400e] flex items-center justify-start flex-nowrap overflow-x-auto overflow-y-hidden z-20 shadow-[0_15px_30px_rgba(0,0,0,0.5)] rounded-2xl md:rounded-[2rem] py-4 gap-4 md:gap-6 scroll-smooth">
+        class="absolute bottom-4 left-4 right-4 h-[22vh] bg-[#FFFEFA] brutal-border flex items-center justify-start flex-nowrap overflow-x-auto overflow-y-hidden z-20 brutal-shadow rounded-2xl md:rounded-[2rem] py-4 gap-4 md:gap-6 scroll-smooth px-2">
         <!-- Slot akan digenerate -->
     </div>
 
     <div id="win-modal"
-        class="hidden fixed inset-0 bg-sky-900/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
+        class="hidden fixed inset-0 bg-[#BEE9E8]/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
 
         <!-- Efek Sinar Bintang Belakang -->
         <div
-            class="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.2)_0%,transparent_60%)] spin-slow pointer-events-none">
+            class="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.4)_0%,transparent_60%)] spin-slow pointer-events-none">
         </div>
 
-        <div class="modal-animate flex flex-col items-center relative z-10">
-            <h1 class="text-7xl md:text-9xl font-black text-yellow-300 mb-2 drop-shadow-[0_8px_0_#b45309] tracking-tighter"
-                style="-webkit-text-stroke: 3px #b45309;">
-                HOREEE!</h1>
-            <p id="result-message" class="text-3xl md:text-5xl font-black text-white mb-8 drop-shadow-[0_4px_0_#0ea5e9]"
-                style="-webkit-text-stroke: 1.5px #0ea5e9;">Kamu Pintar Sekali!
+        <div
+            class="modal-animate flex flex-col items-center relative z-10 bg-[#FFFEFA] brutal-border brutal-shadow p-10 rounded-[3rem] transform -rotate-1">
+            <h1
+                class="text-7xl md:text-9xl font-black text-[#FFF5B8] mb-2 text-outline tracking-tighter transform rotate-2">
+                HORE!
+            </h1>
+            <p id="result-message" class="text-2xl md:text-4xl font-bold text-black mb-8">
+                Kamu Pintar Sekali!
             </p>
-            <div class="grid gap-4 w-full md:w-[28rem] text-slate-900">
-                <div class="bg-white/90 rounded-3xl border-2 border-slate-200 p-5 text-left font-black">
-                    <div class="uppercase tracking-[0.3em] text-xs text-slate-500 mb-2">Waktu Selesai</div>
-                    <div class="text-3xl" id="timer-result">00:00</div>
-                </div>
-                <div class="bg-white/90 rounded-3xl border-2 border-slate-200 p-5 text-left font-black">
-                    <div class="uppercase tracking-[0.3em] text-xs text-slate-500 mb-2">Bintang Kamu</div>
-                    <div class="text-3xl" id="star-result">★★★</div>
-                </div>
-            </div>
             <div class="mt-8 flex flex-col md:flex-row gap-4 w-full md:w-auto justify-center">
                 <button onclick="window.location.reload()"
-                    class="w-full md:w-auto bg-yellow-400 text-slate-900 px-10 py-4 rounded-full text-xl font-black border-4 border-slate-900 shadow-[0_8px_0_#a16207] hover:bg-yellow-300 transition-all uppercase tracking-widest">
+                    class="w-full md:w-auto bg-[#FFF5B8] text-black px-10 py-4 rounded-3xl text-xl font-black brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest">
                     Ulangi
                 </button>
                 <button onclick="window.location.href='{{ route('general.index') }}'"
-                    class="w-full md:w-auto bg-slate-900 text-white px-10 py-4 rounded-full text-xl font-black border-4 border-white shadow-[0_8px_0_#0f172a] hover:bg-slate-700 transition-all uppercase tracking-widest">
+                    class="w-full md:w-auto bg-[#E0BBE4] text-black px-10 py-4 rounded-3xl text-xl font-black brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest">
                     Keluar
                 </button>
             </div>
@@ -566,6 +626,10 @@
             const slot = document.getElementById(piece.dataset.slotId);
             slot.appendChild(piece);
             setTimeout(() => piece.classList.remove('wrong-drop'), 700);
+
+            // Layar bergetar (screen shake)
+            document.body.classList.add('screen-shake');
+            setTimeout(() => document.body.classList.remove('screen-shake'), 400);
         }
 
         function showWrongBubble() {
@@ -582,6 +646,12 @@
 
             const mapContainer = document.getElementById('map-container');
             mapContainer.appendChild(piece);
+
+            // Sembunyikan slot penyimpanannya karena sudah diletakkan
+            const slot = document.getElementById(piece.dataset.slotId);
+            if (slot) {
+                slot.style.display = 'none';
+            }
 
             // Perbaikan Responsive Absolut: 
             // Karena ukuran gambar adalah 800x800 dan peta adalah 1920x1080
@@ -675,6 +745,19 @@
                 modal.classList.add('flex');
             }, 1200);
         }
+
+        // Jalankan Intro Overlay saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const overlay = document.getElementById('intro-overlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 1000); // Tunggu sampai transisi memudar selesai
+                }
+            }, 2500); // Tampil selama 2.5 detik
+        });
     </script>
 </body>
 
