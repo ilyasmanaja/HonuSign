@@ -40,40 +40,58 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="beranda"
-        class="pt-32 pb-20 md:pt-48 md:pb-32 px-6 flex flex-col items-center justify-center min-h-[90vh]">
-        <div class="max-w-7xl mx-auto text-center">
-            <span
-                class="inline-block px-5 py-2 mb-8 text-sm font-black tracking-widest text-blue-600 uppercase bg-blue-100 rounded-full border border-blue-200 shadow-sm">
-                🚀 LIDM 2026 - Universitas Riau
-            </span>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-slate-800 leading-tight tracking-tighter mb-8">
-                Jembatani Dunia dengan <br />
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">Bahasa
-                    Isyarat.</span>
-            </h1>
-            <p class="text-xl md:text-2xl text-slate-500 mb-12 max-w-3xl mx-auto font-medium leading-relaxed">
-                Belajar Sistem Isyarat Bahasa Indonesia (SIBI) kini lebih menyenangkan, interaktif, dan didukung
-                kecerdasan buatan. Mulai perjalanan belajarmu hari ini.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                @auth
-                    <a href="{{ url('/dashboard') }}"
-                        class="px-12 py-5 bg-teal-500 hover:bg-teal-600 text-white font-black text-xl rounded-full shadow-[0_8px_0_0_#0f766e] hover:shadow-[0_4px_0_0_#0f766e] hover:translate-y-1 active:shadow-none active:translate-y-2 transition-all">
-                        Lanjut Belajar (Dashboard)
-                    </a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="px-12 py-5 bg-teal-500 hover:bg-teal-600 text-white font-black text-xl rounded-full shadow-[0_8px_0_0_#0f766e] hover:shadow-[0_4px_0_0_#0f766e] hover:translate-y-1 active:shadow-none active:translate-y-2 transition-all">
-                        Mulai Belajar Sekarang
-                    </a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="px-12 py-5 bg-white text-slate-700 font-black text-xl rounded-full shadow-[0_8px_0_0_#cbd5e1] hover:shadow-[0_4px_0_0_#cbd5e1] hover:translate-y-1 active:shadow-none active:translate-y-2 transition-all border-2 border-slate-200">
-                            Buat Akun Baru
+    <section id="beranda" class="pt-32 pb-20 md:pt-48 md:pb-32 px-6">
+        <div class="max-w-7xl mx-auto grid gap-12 items-center lg:grid-cols-[1.05fr_0.95fr]">
+            <div class="max-w-2xl">
+                <span
+                    class="inline-flex px-5 py-2 mb-6 text-xs font-black tracking-widest text-slate-700 uppercase bg-slate-100 rounded-full border border-slate-200 shadow-sm">
+                    🚀 LIDM 2026 - Universitas Riau
+                </span>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 leading-tight tracking-tight mb-8">
+                    Yuk Belajar SIBI dengan Cara yang <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">Mudah,</span>
+                    <span class="text-teal-600">Seru</span>, dan <span
+                        class="text-blue-600">Interaktif.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed">
+                    HonuSign hadir untuk anak-anak dan keluarga yang ingin belajar bahasa isyarat dengan cara
+                    menyenangkan. Materi yang ramah anak, kuis interaktif, dan dukungan AI membuat belajar jadi
+                    lebh percaya diri.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+                    @auth
+                        <a href="{{ url('/dashboard') }}"
+                            class="inline-flex items-center justify-center px-11 py-4 bg-teal-500 hover:bg-teal-600 text-white font-black text-base rounded-full shadow-[0_10px_0_0_#0f766e] hover:shadow-[0_6px_0_0_#0f766e] transition-all">
+                            Lanjut Belajar
                         </a>
-                    @endif
-                @endauth
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="inline-flex items-center justify-center px-11 py-4 bg-teal-500 hover:bg-teal-600 text-white font-black text-base rounded-full shadow-[0_10px_0_0_#0f766e] hover:shadow-[0_6px_0_0_#0f766e] transition-all">
+                            Mulai Belajar
+                        </a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}"
+                                class="inline-flex items-center justify-center px-11 py-4 bg-white text-slate-700 font-black text-base rounded-full border-2 border-slate-200 shadow-[0_10px_0_0_#cbd5e1] hover:bg-slate-50 transition-all">
+                                Daftar Gratis
+                            </a>
+                        @endif
+                    @endauth
+                </div>
+                <div class="mt-12 grid gap-4 sm:grid-cols-2">
+                    <div class="rounded-3xl border border-teal-100 bg-teal-50/80 p-5 shadow-sm">
+                        <p class="font-black text-slate-900">Materi yang mudah dipahami</p>
+                        <p class="text-sm text-slate-600 mt-2">Dari dasar sampai latihan praktis.</p>
+                    </div>
+                    <div class="rounded-3xl border border-blue-100 bg-blue-50/80 p-5 shadow-sm">
+                        <p class="font-black text-slate-900">Latihan interaktif</p>
+                        <p class="text-sm text-slate-600 mt-2">Kuis, kamera, dan game yang seru.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative flex justify-center">
+                <img src="{{ asset('images/page/hero.png') }}" alt="HonuSign Hero"
+                    class="w-full max-w-xl rounded-[3rem] object-cover" />
             </div>
         </div>
     </section>

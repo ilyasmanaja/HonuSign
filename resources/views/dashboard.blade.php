@@ -8,25 +8,36 @@
         <div class="max-w-6xl w-full px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
 
             <a href="{{ route('general.index') }}"
-                class="group flex flex-col items-center justify-center bg-white border-4 border-blue-500 p-10 rounded-[2.5rem] active:shadow-none active:translate-y-2 transition-all">
-                <span class="text-7xl block mb-4 group-hover:scale-110 transition-transform">🎮</span>
-                <span class="text-2xl font-black text-slate-600 uppercase tracking-tighter">Fun & Play</span>
+                class="group block bg-white border-4 border-blue-500 rounded-[2.5rem] overflow-hidden shadow-lg transition-transform duration-200 hover:-translate-y-1 active:shadow-none">
+                <div class="h-56 overflow-hidden bg-slate-100">
+                    <img src="{{ asset('images/page/fun&play.png') }}" alt="Fun & Play"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                </div>
+                <div class="p-8 text-center">
+                    <span class="text-2xl font-black text-slate-600 uppercase tracking-tighter">Fun & Play</span>
+                </div>
             </a>
 
             <a href="{{ route('materi.index') }}"
-                class="group flex flex-col items-center justify-center bg-white border-4 border-green-500 p-10 rounded-[2.5rem] active:shadow-none active:translate-y-2 transition-all">
-
-                <span class="text-7xl block mb-4 group-hover:scale-110 transition-transform">📚</span>
-                <span class="text-2xl font-black text-slate-800 uppercase tracking-tighter">Study</span>
-
+                class="group block bg-white border-4 border-green-500 rounded-[2.5rem] overflow-hidden shadow-lg transition-transform duration-200 hover:-translate-y-1 active:shadow-none">
+                <div class="h-56 overflow-hidden bg-slate-100">
+                    <img src="{{ asset('images/page/studies.png') }}" alt="Study"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                </div>
+                <div class="p-8 text-center">
+                    <span class="text-2xl font-black text-slate-800 uppercase tracking-tighter">Study</span>
+                </div>
             </a>
 
-
-
-            <button
-                class="group bg-white border-4 border-purple-500 p-10 rounded-[2.5rem] active:shadow-none active:translate-y-2 transition-all">
-                <span class="text-7xl block mb-4 group-hover:scale-110 transition-transform">🤟</span>
-                <span class="text-2xl font-black text-slate-600 uppercase tracking-tighter">Evaluasi</span>
+            <button type="button"
+                class="group w-full bg-white border-4 border-purple-500 rounded-[2.5rem] overflow-hidden shadow-lg transition-transform duration-200 hover:-translate-y-1 active:shadow-none">
+                <div class="h-56 overflow-hidden bg-slate-100">
+                    <img src="{{ asset('images/page/evaluasi.png') }}" alt="Evaluasi"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                </div>
+                <div class="p-8 text-center">
+                    <span class="text-2xl font-black text-slate-600 uppercase tracking-tighter">Evaluasi</span>
+                </div>
             </button>
 
         </div>

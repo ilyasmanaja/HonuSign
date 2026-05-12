@@ -92,6 +92,72 @@
             }
         }
 
+        .wrong-drop {
+            animation: wrong-shake 0.4s ease;
+            outline: 2px solid rgba(239, 68, 68, 0.35);
+            filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.28));
+        }
+
+        .wrong-bubble {
+            position: absolute;
+            left: 50%;
+            bottom: 130%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #b91c1c;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 0.7rem 1rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            pointer-events: none;
+            opacity: 0;
+            animation: bubble-pop 0.9s ease forwards;
+        }
+
+        .stars-burst {
+            position: absolute;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+            overflow: visible;
+            z-index: 50;
+        }
+
+        .stars-burst .star {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #fff 20%, #facc15 50%, rgba(250, 204, 21, 0) 70%);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.8));
+            transform: translate(0, 0) scale(0.7);
+            animation: star-fly 0.9s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes wrong-shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-7px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes bubble-pop {
+            0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.95); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(0.95); }
+        }
+
+        @keyframes star-fly {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.4); }
+            80% { opacity: 1; }
+            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.1); }
+        }
+
         .spin-slow {
             animation: spin 15s linear infinite;
         }
@@ -151,6 +217,12 @@
             <img src="{{ asset('images/general/map/peta_penuh_riau.png') }}" id="full-img"
                 class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000" alt="Peta Penuh">
         </div>
+
+        <div id="status-panel"
+            class="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 flex flex-wrap items-center justify-center gap-4 bg-white/95 border-4 border-slate-200 rounded-3xl px-4 py-3 shadow-2xl text-slate-700 font-black text-sm md:text-base">
+            <div class="flex items-center gap-2"><span class="uppercase tracking-[0.25em]">Waktu</span> <span id="timer-display">00:00</span></div>
+            <div class="flex items-center gap-2"><span class="uppercase tracking-[0.25em]">Bintang</span> <span id="star-display">⭐️⭐️⭐️</span></div>
+        </div>
     </div>
 
     <!-- Instruksi Awal Bermain -->
@@ -176,13 +248,29 @@
             <h1 class="text-7xl md:text-9xl font-black text-yellow-300 mb-2 drop-shadow-[0_8px_0_#b45309] tracking-tighter"
                 style="-webkit-text-stroke: 3px #b45309;">
                 HOREEE!</h1>
-            <p class="text-3xl md:text-5xl font-black text-white mb-10 drop-shadow-[0_4px_0_#0ea5e9]"
+            <p id="result-message" class="text-3xl md:text-5xl font-black text-white mb-8 drop-shadow-[0_4px_0_#0ea5e9]"
                 style="-webkit-text-stroke: 1.5px #0ea5e9;">Kamu Pintar Sekali!
             </p>
-            <button onclick="window.location.href='{{ route('general.index') }}'"
-                class="bg-green-500 text-white px-10 py-4 md:px-14 md:py-6 rounded-full text-2xl md:text-4xl font-black border-4 border-white shadow-[0_8px_0_#15803d] active:translate-y-[8px] active:shadow-none hover:bg-green-400 transition-all uppercase tracking-widest">
-                Main Lagi 🌟
-            </button>
+            <div class="grid gap-4 w-full md:w-[28rem] text-slate-900">
+                <div class="bg-white/90 rounded-3xl border-2 border-slate-200 p-5 text-left font-black">
+                    <div class="uppercase tracking-[0.3em] text-xs text-slate-500 mb-2">Waktu Selesai</div>
+                    <div class="text-3xl" id="timer-result">00:00</div>
+                </div>
+                <div class="bg-white/90 rounded-3xl border-2 border-slate-200 p-5 text-left font-black">
+                    <div class="uppercase tracking-[0.3em] text-xs text-slate-500 mb-2">Bintang Kamu</div>
+                    <div class="text-3xl" id="star-result">★★★</div>
+                </div>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row gap-4 w-full md:w-auto justify-center">
+                <button onclick="window.location.reload()"
+                    class="w-full md:w-auto bg-yellow-400 text-slate-900 px-10 py-4 rounded-full text-xl font-black border-4 border-slate-900 shadow-[0_8px_0_#a16207] hover:bg-yellow-300 transition-all uppercase tracking-widest">
+                    Ulangi
+                </button>
+                <button onclick="window.location.href='{{ route('general.index') }}'"
+                    class="w-full md:w-auto bg-slate-900 text-white px-10 py-4 rounded-full text-xl font-black border-4 border-white shadow-[0_8px_0_#0f172a] hover:bg-slate-700 transition-all uppercase tracking-widest">
+                    Keluar
+                </button>
+            </div>
         </div>
     </div>
 
@@ -224,6 +312,42 @@
 
         let activePiece = null;
         let initialX, initialY, startLeft, startTop;
+        let startTime = null;
+        let timerInterval = null;
+
+        function formatTime(seconds) {
+            const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const sec = String(seconds % 60).padStart(2, '0');
+            return `${min}:${sec}`;
+        }
+
+        function updateTime() {
+            if (!startTime) return;
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('timer-display').innerText = formatTime(elapsed);
+        }
+
+        function startTimer() {
+            if (startTime) return;
+            startTime = Date.now();
+            updateTime();
+            timerInterval = setInterval(updateTime, 1000);
+        }
+
+        function stopTimer() {
+            if (!startTime) return 0;
+            clearInterval(timerInterval);
+            timerInterval = null;
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            startTime = null;
+            return elapsed;
+        }
+
+        function getStarRating(seconds) {
+            if (seconds <= 60) return 3;
+            if (seconds <= 110) return 2;
+            return 1;
+        }
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -306,6 +430,7 @@
             }
             else if (activePiece.parentElement.classList.contains('tray-slot')) {
                 document.body.appendChild(activePiece);
+                startTimer();
 
                 // Sembunyikan instruksi saat kepingan pertama diambil
                 const instr = document.getElementById('start-instruction');
@@ -424,15 +549,31 @@
             if (distance < threshold) {
                 lockPiece(activePiece, targetX, targetY);
             } else {
-                activePiece.classList.remove('dragging');
-                activePiece.style.left = '0';
-                activePiece.style.top = '0';
-                activePiece.style.width = '100%';
-                const slot = document.getElementById(activePiece.dataset.slotId);
-                slot.appendChild(activePiece);
+                returnPieceToSlot(activePiece);
+                showWrongBubble();
             }
 
             activePiece = null;
+        }
+
+        function returnPieceToSlot(piece) {
+            piece.classList.remove('dragging');
+            piece.classList.add('wrong-drop');
+            piece.style.left = '0';
+            piece.style.top = '0';
+            piece.style.width = '100%';
+            piece.style.transform = '';
+            const slot = document.getElementById(piece.dataset.slotId);
+            slot.appendChild(piece);
+            setTimeout(() => piece.classList.remove('wrong-drop'), 700);
+        }
+
+        function showWrongBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'wrong-bubble';
+            bubble.innerText = 'Oops, coba lagi ya 😊';
+            mapContainer.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 1000);
         }
 
         function lockPiece(piece, targetX, targetY) {
@@ -473,6 +614,7 @@
             label.style.transform = 'translate(-50%, -50%)';
 
             setTimeout(() => { mapContainer.appendChild(label); }, 300);
+            showStarsEffect(targetX, targetY);
 
             lockedCount++;
             if (lockedCount === totalPieces) {
@@ -480,7 +622,43 @@
             }
         }
 
+        function showStarsEffect(targetX, targetY) {
+            const effect = document.createElement('div');
+            effect.className = 'stars-burst';
+            effect.style.left = `${targetX}%`;
+            effect.style.top = `${targetY}%`;
+
+            const starCount = 14;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('span');
+                star.className = 'star';
+                const dx = Math.random() * 160 - 80;
+                const dy = -(Math.random() * 160 + 20);
+                const size = 8 + Math.random() * 8;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--dx', `${dx}px`);
+                star.style.setProperty('--dy', `${dy}px`);
+                star.style.left = '0';
+                star.style.top = '0';
+                effect.appendChild(star);
+            }
+
+            mapContainer.appendChild(effect);
+            setTimeout(() => effect.remove(), 1100);
+        }
+
         function winGame() {
+            const totalSeconds = stopTimer();
+            const stars = getStarRating(totalSeconds);
+            document.getElementById('timer-result').innerText = formatTime(totalSeconds);
+            document.getElementById('star-result').innerText = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+            document.getElementById('result-message').innerText = stars === 3
+                ? 'Wah hebat! Kamu cepat sekali menyelesaikannya!'
+                : stars === 2
+                    ? 'Bagus! Terus latihan biar makin cepat.'
+                    : 'Keren! Ayo coba sekali lagi untuk dapat 3 bintang.';
+
             const baseImg = document.getElementById('base-img');
             const fullImg = document.getElementById('full-img');
             baseImg.style.opacity = 0;
