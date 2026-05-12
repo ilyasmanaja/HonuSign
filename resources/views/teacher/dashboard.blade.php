@@ -24,7 +24,7 @@
                                 <th class="py-4 px-4 text-center">T4</th>
                                 <th class="py-4 px-4 text-center">T5</th>
                                 <th class="py-4 px-4 text-center">T6</th>
-                                <th class="py-4 px-4 text-right">Aksi</th>
+                                <th class="py-4 px-4 text-center bg-indigo-50 text-indigo-600 rounded-t-xl">Evaluasi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
@@ -35,9 +35,9 @@
                                     <br><span class="text-xs text-slate-400">{{ $student->email }}</span>
                                 </td>
                                 
-                                {{-- Loop Tahap 1 sampai 6 --}}
-                                @for($i = 1; $i <= 6; $i++)
-                                    <td class="py-5 px-4 text-center">
+                                {{-- Loop Tahap 1 sampai 7 (Evaluasi) --}}
+                                @for($i = 1; $i <= 7; $i++)
+                                    <td class="py-5 px-4 text-center {{ $i == 7 ? 'bg-indigo-50/30' : '' }}">
                                         @php
                                             $prog = $student->progress->where('tahap', $i)->first();
                                         @endphp
@@ -46,7 +46,9 @@
                                             <div class="flex flex-col items-center">
                                                 <span class="text-emerald-500">✅</span>
                                                 @if($prog->score > 0)
-                                                    <span class="text-[10px] font-black text-slate-500">Nilai: {{ $prog->score }}</span>
+                                                    <span class="text-[10px] font-black {{ $i == 7 ? 'text-indigo-600' : 'text-slate-500' }}">
+                                                        Nilai: {{ $prog->score }}
+                                                    </span>
                                                 @endif
                                             </div>
                                         @else
@@ -54,12 +56,6 @@
                                         @endif
                                     </td>
                                 @endfor
-
-                                <td class="py-5 px-4 text-right">
-                                    <button class="bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-700 transition-all">
-                                        Detail
-                                    </button>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>

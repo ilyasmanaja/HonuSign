@@ -96,7 +96,7 @@
             </a>
 
             <!-- Evaluasi -->
-            <button type="button"
+            <a href="{{ route('evaluasi.index') }}"
                 class="brutal-hover w-full block bg-[#E0BBE4] brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden group text-left">
                 <div class="h-56 overflow-hidden bg-[#FFFEFA] brutal-border border-t-0 border-l-0 border-r-0 relative">
                     <img src="{{ asset('images/page/evaluasi.png') }}" alt="Evaluasi"
@@ -106,7 +106,7 @@
                 <div class="p-8 text-center">
                     <span class="text-3xl font-bold text-black uppercase tracking-tighter">Evaluasi</span>
                 </div>
-            </button>
+            </a>
 
         </div>
     </div>

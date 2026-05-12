@@ -134,11 +134,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return "Tahap $step sedang dalam pembangunan!";
     })->name('materi.belajar');
-
-    // Halaman Detail Membaca (Video Player) - Opsional jika masih terpakai
-    Route::get('materi/membaca/{materi:slug}', function (\App\Models\Materi $materi) {
-        return view('materi.show', compact('materi'));
-    })->middleware(['auth', 'verified'])->name('materi.show');
+    
+    Route::get('evaluasi', function () {
+        return view('evaluasi.index');
+    })->middleware(['auth', 'verified'])->name('evaluasi.index');
 
     // 5. Placeholder untuk rute yang lain
     Route::get('materi/quiz', fn() => "Halaman Quiz Segera Hadir")->name('materi.quiz');
