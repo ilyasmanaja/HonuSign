@@ -131,10 +131,10 @@
 
         </div>
 
-        <div class="mt-16">
+        <div class="fixed top-6 left-6 z-[60]">
             <a href="{{ route('dashboard') }}"
-                class="bg-[#FFFEFA] text-black px-8 py-3 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover transition-colors uppercase tracking-widest inline-block">
-                ⬅ Kembali ke Beranda
+                class="bg-[#FF6B6B] text-black brutal-border brutal-shadow-sm brutal-hover px-5 py-2 rounded-xl font-bold uppercase tracking-tight text-sm flex items-center gap-2 group transition-colors hover:bg-white hover:text-black">
+                Kembali
             </a>
         </div>
     </div>

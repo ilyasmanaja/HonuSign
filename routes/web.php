@@ -61,7 +61,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('materi.study-page');
     })->name('materi.index');
 
-    // 4. Halaman Pembelajaran Linear (Linear Progression)
+    // 4. Halaman Khusus Video Peragaan SIBI Tahap 1
+    Route::get('materi/tahap1/video', function () {
+        $materi = \App\Models\Materi::orderBy('order', 'asc')->first();
+        if (!$materi) return redirect()->route('dashboard');
+        return view('materi.tahap1video', compact('materi'));
+    })->name('materi.tahap1.video');
+
+    // 5. Halaman Pembelajaran Linear (Linear Progression)
     // Parameter diubah menjadi null agar Tahap 3 bisa mendeteksi nilai kosong
     Route::get('materi/belajar/{step}/{soal_ke?}', function ($step, $soal_ke = null) {
 
