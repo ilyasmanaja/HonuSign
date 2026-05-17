@@ -74,9 +74,9 @@
                         <a href="{{ route('login') }}"
                             class="px-6 py-2 bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover rounded-xl transition-all">Masuk</a>
                         <!-- @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="px-6 py-2 bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover rounded-xl transition-all hidden sm:inline-block">Daftar</a>
-                        @endif -->
+                                    <a href="{{ route('register') }}"
+                                        class="px-6 py-2 bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover rounded-xl transition-all hidden sm:inline-block">Daftar</a>
+                                @endif -->
                     @endauth
                 @endif
             </div>
@@ -98,7 +98,7 @@
                         class="inline-block bg-[#FFD1E3] brutal-border brutal-shadow-sm px-4 py-1 rounded-2xl transform rotate-2 mt-2 lg:mt-0">Seru!</span>
                 </h1>
                 <p class="text-xl md:text-2xl font-medium mb-10 leading-relaxed">
-                    HonuSign hadir untuk anak-anak dan keluarga yang ingin anak anak spesialnya belajar dengan cara
+                    HonuSign hadir untuk anak-anak dan keluarga yang ingin anak spesialnya belajar dengan cara
                     menyenangkan dan interaktif.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-6">
@@ -113,11 +113,11 @@
                             Mulai Belajar
                         </a>
                         <!-- @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="inline-flex items-center justify-center px-10 py-4 bg-[#FFFEFA] font-bold text-xl brutal-border brutal-shadow brutal-hover rounded-2xl transition-all text-center">
-                                Daftar Gratis
-                            </a>
-                        @endif -->
+                                <a href="{{ route('register') }}"
+                                    class="inline-flex items-center justify-center px-10 py-4 bg-[#FFFEFA] font-bold text-xl brutal-border brutal-shadow brutal-hover rounded-2xl transition-all text-center">
+                                    Daftar Gratis
+                                </a>
+                            @endif -->
                     @endauth
                 </div>
             </div>
