@@ -79,15 +79,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // --- LOGIKA TAHAP 2 (Menjawab 3 Jenis Kuis) ---
         if ($step == 2) {
-            $nomor_soal = $soal_ke ?? 1; // Default soal ke 1 jika tidak ada parameter
+            $nomor_soal = $soal_ke ?? 1;
 
-            // Ambil soal berdasarkan urutan, tapi PASTIKAN bukan tipe kamera
-            $quiz = \App\Models\Quiz::where('tipe', '!=', 'isyarat_kamera')
+            // FIX: Batasi kueri hanya mengambil tipe soal khusus milik Tahap 2 saja
+            $quiz = \App\Models\Quiz::whereIn('tipe', ['susun_huruf', 'puzzle', 'susun_kalimat'])
                 ->orderBy('id')
                 ->skip($nomor_soal - 1)
                 ->first();
 
-            // Jika soal Tahap 2 sudah habis, lempar otomatis ke Tahap 3!
+            // Jika ke-3 soal Tahap 2 sudah habis, lempar otomatis ke Tahap 3!
             if (!$quiz) {
                 return redirect()->route('materi.belajar', ['step' => 3]);
             }
@@ -107,13 +107,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 return view('materi.tahap3_baca', compact('materi', 'step'));
             }
 
-            // Jika tombol 'Mulai Tantangan Kamera' diklik, jalankan soal kamera
-            $quiz = \App\Models\Quiz::where('tipe', 'isyarat_kamera')
+            // FIX: Ubah pencarian tipe dari 'isyarat_kamera' menjadi 'eja_kata' sesuai isi seeder baru
+            $quiz = \App\Models\Quiz::where('tipe', 'eja_kata')
                 ->orderBy('id')
                 ->skip($soal_ke - 1)
                 ->first();
 
-            // Jika ke-5 soal kamera sudah habis, kembali ke dashboard bawa status menang!
+            // Jika ke-5 soal cerita eja kata sudah habis, lanjut ke Tahap 4!
             if (!$quiz) {
                 return redirect()->route('materi.belajar', ['step' => 4]);
             }

@@ -149,7 +149,7 @@
             fetch('{{ route('materi.save_progress') }}', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                body: JSON.stringify({ materi_id: {{ $materi->id ?? 1 }}, tahap: 6, score: 100 })
+                body: JSON.stringify({ materi_id: {{ $materi->id ?? 1 }}, tahap: 6, score: 0 })
             }).then(() => { window.location.href = nextUrl; });
         }
     </script>

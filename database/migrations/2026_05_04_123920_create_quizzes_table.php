@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->string('tipe'); // Contoh: 'susun_huruf'
+            $table->string('tipe');
             $table->text('pertanyaan');
             $table->string('jawaban_benar');
             $table->json('pilihan_data')->nullable(); // Untuk menyimpan data acak (jika perlu)

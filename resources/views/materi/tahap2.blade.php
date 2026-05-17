@@ -1,5 +1,5 @@
 <x-student-layout>
-    <div class="max-w-4xl w-full px-6 py-12 flex flex-col items-center">
+    <div class="max-w-5xl w-full px-6 py-12 flex flex-col items-center">
         <!-- Progress Bar (Tahap 2) -->
         <div class="w-full mb-10">
             <div class="flex justify-between mb-2">
@@ -55,8 +55,7 @@
 
         {{-- BAGIAN 2: PUZZLE (SOAL KE-2) --}}
         @if($quiz->tipe == 'puzzle')
-            <div
-                class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-6 rounded-[3rem] w-full max-w-2xl shadow-lg mb-8">
+            <div class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-6 rounded-[3rem] w-7xl max-w-7xl shadow-lg mb-8">
                 <h2 class="text-xl font-black text-slate-800 dark:text-white uppercase mb-4 text-center">
                     {{ $quiz->pertanyaan }}
                 </h2>
@@ -76,7 +75,7 @@
 
                     <!-- Sisi Kanan: Area Grid Puzzle (16:9) -->
                     <div id="puzzle-grid"
-                        class="grid grid-cols-3 gap-1 bg-slate-200 p-1 rounded-2xl overflow-hidden aspect-video w-full md:w-2/3 shadow-inner">
+                        class="grid grid-cols-3 gap-1.5 bg-slate-200 p-1.5 rounded-3xl overflow-hidden aspect-video w-full shadow-2xl border-4 border-slate-100">
                         @php
                             $pieces = range(0, 8);
                             shuffle($pieces);
@@ -94,7 +93,6 @@
             </div>
 
             <style>
-                /* Mengatur agar container grid selalu 16:9 */
                 .aspect-video {
                     aspect-ratio: 16 / 9;
                 }
@@ -166,7 +164,7 @@
         let currentInput = "";
 
         // Fungsi untuk mengirim nilai ke database via AJAX
-        function saveProgress(tahap, score) {
+        function saveProgress(tahap) {
             fetch('{{ route('materi.save_progress') }}', {
                 method: 'POST',
                 headers: {
@@ -176,8 +174,7 @@
                 },
                 body: JSON.stringify({
                     materi_id: {{ $materi->id }},
-                    tahap: tahap,
-                    score: score
+                    tahap: tahap
                 })
             })
                 .then(async response => {

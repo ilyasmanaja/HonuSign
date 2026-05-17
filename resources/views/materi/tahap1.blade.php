@@ -1,5 +1,5 @@
 <x-student-layout>
-    <div class="max-w-6xl w-full px-6 py-12 flex flex-col items-center">
+    <div class="max-w-5xl w-full px-6 py-12 flex flex-col items-center">
         <!-- Progress Bar (Tahap 1) -->
         <div class="w-full mb-10">
             <div class="flex justify-between mb-2">
