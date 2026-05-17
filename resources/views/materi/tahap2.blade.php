@@ -53,7 +53,8 @@
 
         {{-- BAGIAN 2: PUZZLE (SOAL KE-2) --}}
         @if($quiz->tipe == 'puzzle')
-            <div class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-6 rounded-[3rem] w-7xl max-w-7xl shadow-lg mb-8">
+            <div
+                class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-6 rounded-[3rem] w-7xl max-w-7xl shadow-lg mb-8">
                 <h2 class="text-xl font-black text-slate-800 dark:text-white uppercase mb-4 text-center">
                     {{ $quiz->pertanyaan }}
                 </h2>
@@ -78,8 +79,8 @@
                             <div onclick="swapPiece({{ $index }})" id="piece-{{ $index }}" data-correct="{{ $pos }}"
                                 class="puzzle-piece cursor-pointer border-2 border-black/10 transition-all duration-200 rounded-md hover:border-black hover:scale-[0.98]"
                                 style="background-image: url('{{ asset('images/materi/tahap1/' . $quiz->jawaban_benar) }}'); 
-                                                                                                               background-size: 300% 300%; 
-                                                                                                               background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
+                                                                                                                       background-size: 300% 300%; 
+                                                                                                                       background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
                             </div>
                         @endforeach
                     </div>
@@ -249,21 +250,22 @@
         let currentInput = "";
 
         // Fungsi untuk mengirim nilai ke database via AJAX
-        function saveProgress(tahap) {
+        // Tambahkan parameter 'nilai' di fungsi
+        function saveProgress(tahap, nilai) {
             fetch('{{ route('materi.save_progress') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json', // <--- SANGAT PENTING: Minta balasan berupa JSON
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify({
                     materi_id: {{ $materi->id }},
-                    tahap: tahap
+                    tahap: tahap,
+                    score: nilai // <--- Sekarang data nilai (0) ikut dikirim ke Laravel
                 })
             })
                 .then(async response => {
-                    // Kalau statusnya bukan 200 OK, tangkap pesan errornya!
                     if (!response.ok) {
                         const err = await response.json();
                         console.error("Laravel Error Detail:", err);
@@ -274,8 +276,6 @@
                 })
                 .then(data => {
                     console.log("System:", data.message);
-                    // (Opsional) Kamu bisa memunculkan alert kecil kalau mau pastikan sukses
-                    // alert("Sukses tersimpan ke database!");
                 })
                 .catch(error => {
                     console.error('Error fetch:', error);
@@ -295,7 +295,7 @@
 
             if (currentInput === correctAnswer) {
                 showSuccessModal("HEBAT!", "Susunan isyarat kamu BENAR!", "🎉");
-                saveProgress(2, 100); // <--- TAMBAHKAN INI
+                saveProgress(2, 0); // <--- TAMBAHKAN INI
                 document.getElementById('next-btn').classList.remove('hidden');
             } else if (currentInput.length === correctAnswer.length) {
                 setTimeout(() => {
@@ -395,7 +395,7 @@
 
             if (isCorrect) {
                 showSuccessModal("GOKIL!", "Puzzlenya utuh lagi!", "🧩");
-                saveProgress(2, 100); // <--- TAMBAHKAN INI
+                saveProgress(2, 0); // <--- TAMBAHKAN INI
                 document.getElementById('next-btn').classList.remove('hidden');
             }
         }
@@ -422,7 +422,7 @@
             if (currentSentence.length === totalWords) {
                 if (currentSentence.join(' ') === correctSentence) {
                     showSuccessModal("LUAR BIASA!", "Kalimatnya sudah benar!", "🌟");
-                    saveProgress(2, 100); // <--- TAMBAHKAN INI
+                    saveProgress(2, 0); // <--- TAMBAHKAN INI
                     document.getElementById('next-btn').classList.remove('hidden');
                 } else {
                     setTimeout(() => {
