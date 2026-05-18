@@ -1,57 +1,86 @@
 <x-student-layout>
     <div class="max-w-8xl w-full px-10 py-12 flex flex-col items-center">
-        
-        <div class="w-full max-w-7xl mb-10">
-            <div class="flex justify-between mb-2">
-                <span class="text-xs font-black text-blue-500 uppercase tracking-widest">Tahap 6: Ekspresi & Mewarnai</span>
-                <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Misi Terakhir! 🏆</span>
+
+        <!-- Progress Bar (Tahap 6) -->
+        <div class="w-full max-w-3xl mb-10">
+            <div class="flex justify-between mb-4 items-end">
+                <span class="font-black text-xl tracking-widest uppercase text-black">Tahap 6: Ekspresi &amp; Mewarnai</span>
+                <span
+                    class="text-xl font-black text-black bg-[#D4F1BE] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-[2px_2px_0_#000]">Misi
+                    Terakhir! 🏆</span>
             </div>
-            <div class="w-full bg-slate-200 dark:bg-slate-800 h-3 rounded-full overflow-hidden border-2 border-white">
-                <div class="bg-blue-500 h-full w-full transition-all duration-1000"></div>
+            <div class="w-full h-8 bg-white brutal-border brutal-shadow-sm rounded-2xl overflow-hidden p-1">
+                <div class="h-full bg-[#D4F1BE] rounded-xl transition-all duration-1000 border-r-4 border-black"
+                    style="width: 100%"></div>
             </div>
         </div>
 
-        <h1 id="main-title" class="text-4xl font-black text-slate-800 dark:text-white uppercase mb-4 text-center tracking-tighter">Warnai Gambarmu! 🎨</h1>
-        <p id="sub-title" class="text-lg text-slate-500 mb-10 text-center">Gunakan kuas di bawah untuk memberi warna pada gambar ini.</p>
+        <h1 id="main-title" class="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter mb-4 text-center transform -rotate-1">
+            Warnai Gambarmu! 🎨
+        </h1>
+        <p id="sub-title" class="text-lg font-bold text-slate-500 bg-[#FFFEFA] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl mb-10 text-center">Gunakan kuas di bawah untuk memberi warna pada gambar ini.</p>
 
         <div class="flex flex-col lg:flex-row gap-8 w-full items-start justify-center">
-            <div id="toolbar" class="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border-4 border-slate-200 flex lg:flex-col gap-5 w-full lg:w-auto overflow-x-auto shadow-lg">
+            <div id="toolbar"
+                class="bg-[#FFFEFA] brutal-border brutal-shadow-sm p-6 rounded-[2.5rem] flex lg:flex-col gap-4 w-full lg:w-auto overflow-x-auto">
                 @php
-                    $colors = [['bg-red-500', '#ef4444'], ['bg-blue-500', '#3b82f6'], ['bg-green-500', '#22c55e'], ['bg-yellow-400', '#facc15'], ['bg-purple-500', '#a855f7'], ['bg-pink-500', '#ec4899'], ['bg-orange-500', '#f97316'], ['bg-black', '#000000']];
+                    $colors = [
+                        ['bg-red-400', '#ef4444'],
+                        ['bg-blue-400', '#3b82f6'],
+                        ['bg-green-400', '#22c55e'],
+                        ['bg-yellow-400', '#facc15'],
+                        ['bg-purple-400', '#a855f7'],
+                        ['bg-pink-400', '#ec4899'],
+                        ['bg-orange-400', '#f97316'],
+                        ['bg-black', '#000000']
+                    ];
                 @endphp
 
                 @foreach($colors as $color)
-                    <button onclick="changeColor('{{ $color[1] }}')" class="w-12 h-12 flex-shrink-0 rounded-full {{ $color[0] }} border-4 border-white shadow-lg hover:scale-110 transition-all"></button>
+                    <button onclick="changeColor('{{ $color[1] }}')" title="Warna"
+                        class="w-10 h-10 flex-shrink-0 rounded-full {{ $color[0] }} brutal-border hover:scale-125 transition-all"></button>
                 @endforeach
 
-                <hr class="hidden lg:block border-slate-200 my-3">
+                <hr class="hidden lg:block border-black/20 my-2">
 
-                <button onclick="useEraser()" class="bg-slate-100 p-3 rounded-2xl border-2 border-slate-300 hover:bg-white transition-all shadow" title="Hapus">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                <button onclick="useEraser()"
+                    class="bg-[#FFF5B8] brutal-border brutal-shadow-sm p-3 rounded-2xl hover:scale-110 transition-all"
+                    title="Hapus">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
                 </button>
             </div>
 
-            <div class="relative bg-white rounded-[3rem] border-8 border-white shadow-2xl overflow-hidden cursor-crosshair w-full flex justify-center items-center transition-all duration-500 ease-in-out" id="canvas-container">
-                <img id="coloring-image" src="{{ asset('images/mewarnai.png') }}" class="absolute inset-0 w-full h-full object-contain pointer-events-none p-6 z-0" alt="Mewarnai">
+            <div class="relative bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden cursor-crosshair w-full flex justify-center items-center transition-all duration-500 ease-in-out"
+                id="canvas-container">
+                <img id="coloring-image" src="{{ asset('images/mewarnai.png') }}"
+                    class="absolute inset-0 w-full h-full object-contain pointer-events-none p-6 z-0" alt="Mewarnai">
                 <canvas id="coloringCanvas" class="relative z-10 w-full h-full"></canvas>
             </div>
         </div>
 
-        <div class="mt-14 flex flex-wrap justify-center gap-5 w-full max-w-7xl">
-            <button id="clear-btn" onclick="clearCanvas()" class="px-10 py-5 rounded-2xl font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-all uppercase text-sm tracking-wider cursor-pointer">Hapus Semua</button>
-            
-            <button id="show-result-btn" onclick="enablePresentationMode()" class="bg-blue-600 hover:bg-blue-500 cursor-pointer text-white px-14 py-5 rounded-3xl font-black uppercase hover:translate-y-1 active:shadow-none transition-all text-lg flex items-center gap-2">
+        <div class="mt-10 flex flex-wrap justify-center gap-4 w-full max-w-7xl">
+            <button id="clear-btn" onclick="clearCanvas()"
+                class="px-8 py-4 rounded-2xl font-bold text-black bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover uppercase text-sm tracking-wider cursor-pointer">
+                Hapus Semua
+            </button>
+
+            <button id="show-result-btn" onclick="enablePresentationMode()"
+                class="bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover cursor-pointer text-black px-12 py-4 rounded-3xl font-black uppercase text-lg flex items-center gap-2">
                 Tampilkan Hasil! ✨
             </button>
 
-            <button id="back-edit-btn" onclick="disablePresentationMode()" class="hidden px-10 py-5 cursor-pointer rounded-2xl font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-all uppercase text-sm tracking-wider">
+            <button id="back-edit-btn" onclick="disablePresentationMode()"
+                class="hidden px-8 py-4 cursor-pointer rounded-2xl font-bold text-black bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover uppercase text-sm tracking-wider">
                 Kembali Edit
             </button>
-            
-            <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)" class="hidden bg-blue-600 hover:bg-blue-500 text-white px-14 py-5 rounded-3xl font-black uppercase hover:translate-y-1 active:shadow-none transition-all text-lg flex items-center gap-2">
-                Selesai & Ke Dashboard 🏆
+
+            <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)"
+                class="hidden bg-[#FFD1E3] brutal-border brutal-shadow brutal-hover text-black px-12 py-4 rounded-3xl font-black uppercase text-lg flex items-center gap-2">
+                Selesai &amp; Ke Dashboard 🏆
             </a>
         </div>
     </div>

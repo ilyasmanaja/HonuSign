@@ -53,11 +53,7 @@
 
         {{-- BAGIAN 2: PUZZLE (SOAL KE-2) --}}
         @if($quiz->tipe == 'puzzle')
-            <div
-                class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-6 rounded-[3rem] w-7xl max-w-7xl shadow-lg mb-8">
-                <h2 class="text-xl font-black text-slate-800 dark:text-white uppercase mb-4 text-center">
-                    {{ $quiz->pertanyaan }}
-                </h2>
+            <div class="w-full flex flex-col lg:flex-row gap-8 mb-8">
 
                 <!-- Area Kiri: Puzzle Board -->
                 <div
@@ -78,9 +74,9 @@
                         @foreach($pieces as $index => $pos)
                             <div onclick="swapPiece({{ $index }})" id="piece-{{ $index }}" data-correct="{{ $pos }}"
                                 class="puzzle-piece cursor-pointer border-2 border-black/10 transition-all duration-200 rounded-md hover:border-black hover:scale-[0.98]"
-                                style="background-image: url('{{ asset('images/materi/tahap1/' . $quiz->jawaban_benar) }}'); 
-                                                                                                                       background-size: 300% 300%; 
-                                                                                                                       background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
+                                style="background-image: url('{{ asset('images/materi/tahap1/' . $quiz->jawaban_benar) }}');
+                                       background-size: 300% 300%;
+                                       background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
                             </div>
                         @endforeach
                     </div>

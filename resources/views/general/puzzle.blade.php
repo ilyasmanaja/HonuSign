@@ -260,16 +260,24 @@
     <!-- Intro Overlay -->
     <div id="intro-overlay"
         class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
-        <h1
-            class="text-6xl md:text-8xl font-black text-[#FFD1E3] text-outline transform -rotate-2 animate-bounce text-center px-4">
-            Riau Discovery
-        </h1>
-        <p class="mt-4 text-2xl font-bold text-slate-500">Mari Belajar Bersama!</p>
+        <div class="text-center px-6">
+            <div
+                class="inline-block px-6 py-2 bg-[#BEE9E8] brutal-border brutal-shadow-sm rounded-2xl text-sm font-bold mb-6 -rotate-2">
+                Drag & Drop Puzzle
+            </div>
+            <h1
+                class="text-6xl md:text-8xl font-black text-black text-outline transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
+                Riau Discovery
+            </h1>
+            <p
+                class="mt-6 text-2xl font-bold text-slate-500 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl inline-block rotate-1">
+                Mari Belajar Bersama!</p>
+        </div>
     </div>
 
     <a href="{{ route('general.index') }}"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFF5B8] text-black px-5 py-3 md:px-8 md:py-4 rounded-3xl font-black text-lg md:text-2xl brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest">
-        ⬅ KEMBALI
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black px-5 py-2.5 md:px-7 md:py-3 rounded-2xl font-bold text-sm md:text-base brutal-border brutal-shadow-sm brutal-hover flex items-center gap-2">
+        Kembali
     </a>
 
     <!-- Garis Penunjuk (Hint) -->
@@ -294,8 +302,8 @@
 
     <!-- Instruksi Awal Bermain -->
     <div id="start-instruction"
-        class="absolute bottom-[28vh] left-1/2 transform -translate-x-1/2 z-[100] bg-[#FFF5B8] text-black font-black px-6 py-3 rounded-full brutal-border brutal-shadow-sm text-lg md:text-2xl animate-bounce flex items-center gap-2 pointer-events-none whitespace-nowrap">
-        👇 Tarik kepingan dari rak ini!
+        class="absolute bottom-[28vh] left-1/2 transform -translate-x-1/2 z-[100] bg-[#FFF5B8] text-black font-bold px-6 py-3 rounded-full brutal-border brutal-shadow-sm text-base md:text-xl animate-bounce flex items-center gap-2 pointer-events-none whitespace-nowrap">
+        Tarik kepingan dari rak ini!
     </div>
 
     <!-- Kotak Penyimpanan Kayu Mengambang (Floating Box) -> Diubah jadi rak pastel -->
@@ -307,27 +315,26 @@
     <div id="win-modal"
         class="hidden fixed inset-0 bg-[#BEE9E8]/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
 
-        <!-- Efek Sinar Bintang Belakang -->
-        <div
-            class="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.4)_0%,transparent_60%)] spin-slow pointer-events-none">
-        </div>
-
         <div
             class="modal-animate flex flex-col items-center relative z-10 bg-[#FFFEFA] brutal-border brutal-shadow p-10 rounded-[3rem] transform -rotate-1">
+
+            <div class="text-6xl mb-4 animate-bounce">🎉</div>
             <h1
-                class="text-7xl md:text-9xl font-black text-[#FFF5B8] mb-2 text-outline tracking-tighter transform rotate-2">
+                class="text-6xl md:text-8xl font-black text-black text-outline mb-3 tracking-tighter transform rotate-1">
                 HORE!
             </h1>
-            <p id="result-message" class="text-2xl md:text-4xl font-bold text-black mb-8">
+            <p id="result-message"
+                class="text-xl md:text-2xl font-bold text-slate-600 mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-3 rounded-2xl">
                 Kamu Pintar Sekali!
             </p>
-            <div class="mt-8 flex flex-col md:flex-row gap-4 w-full md:w-auto justify-center">
+
+            <div class="mt-2 flex flex-col md:flex-row gap-4 w-full md:w-auto justify-center">
                 <button onclick="window.location.reload()"
-                    class="w-full md:w-auto bg-[#FFF5B8] text-black px-10 py-4 rounded-3xl text-xl font-black brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest">
+                    class="w-full md:w-auto bg-[#FFF5B8] text-black px-10 py-4 rounded-3xl text-xl font-bold brutal-border brutal-shadow-sm brutal-hover">
                     Ulangi
                 </button>
                 <button onclick="window.location.href='{{ route('general.index') }}'"
-                    class="w-full md:w-auto bg-[#E0BBE4] text-black px-10 py-4 rounded-3xl text-xl font-black brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest">
+                    class="w-full md:w-auto bg-[#FFB3B3] text-black px-10 py-4 rounded-3xl text-xl font-bold brutal-border brutal-shadow-sm brutal-hover">
                     Keluar
                 </button>
             </div>

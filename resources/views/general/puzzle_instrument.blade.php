@@ -232,16 +232,24 @@
     <!-- Intro Overlay -->
     <div id="intro-overlay"
         class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
-        <h1
-            class="text-6xl md:text-8xl font-black text-[#BEE9E8] text-outline transform -rotate-2 animate-bounce text-center px-4 drop-shadow-[0_10px_0_#000]">
-            Harmoni Riau
-        </h1>
-        <p class="mt-4 text-2xl font-bold text-slate-500">Mari Belajar Bersama!</p>
+        <div class="text-center px-6">
+            <div
+                class="inline-block px-6 py-2 bg-[#E0BBE4] brutal-border brutal-shadow-sm rounded-2xl text-sm font-bold mb-6 -rotate-2">
+                Sliding Puzzle
+            </div>
+            <h1
+                class="text-6xl md:text-8xl font-black text-black text-outline transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
+                Harmoni Riau
+            </h1>
+            <p
+                class="mt-6 text-2xl font-bold text-slate-500 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl inline-block rotate-1">
+                Mari Belajar Bersama!</p>
+        </div>
     </div>
 
     <a href="{{ route('general.index') }}"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFFEFA] text-black px-4 py-2 md:px-6 md:py-3 rounded-2xl font-black text-sm md:text-xl brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest flex items-center gap-2">
-        <span class="text-xl md:text-2xl">⬅</span> KEMBALI
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black px-5 py-2.5 md:px-7 md:py-3 rounded-2xl font-bold text-sm md:text-base brutal-border brutal-shadow-sm brutal-hover flex items-center gap-2">
+        Kembali
     </a>
 
     <!-- Main Container Layout: Bento Grid Style -->
@@ -261,8 +269,8 @@
             </div>
 
             <p
-                class="mt-6 text-slate-500 font-bold text-center bg-[#FFFEFA] px-4 py-2 rounded-xl brutal-border brutal-shadow-sm">
-                👆 Klik 2 kotak untuk menukar posisinya!
+                class="mt-6 text-slate-500 font-bold text-center bg-[#FFFEFA] px-4 py-2 rounded-2xl brutal-border brutal-shadow-sm">
+                Klik 2 kotak untuk menukar posisinya!
             </p>
         </div>
 
@@ -295,12 +303,12 @@
 
                 <div class="grid grid-cols-2 gap-4 mt-2">
                     <button id="btn-shuffle"
-                        class="bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-4 py-3 rounded-2xl font-black text-sm uppercase flex items-center justify-center gap-2">
-                        🎲 Acak
+                        class="bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-4 py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+                        Acak
                     </button>
                     <button id="btn-hint"
-                        class="bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover px-4 py-3 rounded-2xl font-black text-sm uppercase flex items-center justify-center gap-2">
-                        💡 Bantuan
+                        class="bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover px-4 py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2">
+                        Bantuan
                     </button>
                 </div>
 
@@ -314,24 +322,26 @@
         class="hidden fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex-col items-center justify-center p-4">
         <div class="bg-[#FFFEFA] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center text-center transform scale-90 opacity-0 transition-all duration-500"
             id="win-modal-content">
-            <h2 class="text-6xl md:text-8xl font-black text-[#D4F1BE] text-outline mb-2 transform -rotate-3">HEBAT!</h2>
-            <p class="text-xl md:text-2xl font-bold text-slate-700 mb-2">Ini adalah alat musik:</p>
+
+            <div class="text-6xl mb-4 animate-bounce">🎉</div>
+            <h2 class="text-5xl md:text-7xl font-black text-[#D4F1BE] text-outline mb-3 transform -rotate-2">HEBAT!</h2>
+            <p class="text-base font-bold text-slate-600 mb-3">Ini adalah alat musik:</p>
             <h3 id="win-instrument-name"
-                class="text-4xl md:text-5xl font-black text-[#FFF5B8] text-outline mb-8 transform rotate-1 bg-[#FFFEFA] px-6 py-2 rounded-2xl brutal-border brutal-shadow-sm">
+                class="text-3xl md:text-4xl font-black text-black mb-6 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl transform rotate-1">
                 Nama Alat</h3>
 
             <div class="flex flex-wrap justify-center gap-4">
                 <button id="btn-lanjut" onclick="initGame()"
-                    class="hidden bg-[#D4F1BE] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-black uppercase tracking-widest text-lg">
+                    class="hidden bg-[#D4F1BE] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-bold text-lg">
                     Lanjut
                 </button>
                 <button id="btn-ulangi" onclick="initGame()"
-                    class="hidden bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-black uppercase tracking-widest text-lg">
+                    class="hidden bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-bold text-lg">
                     Main Lagi
                 </button>
                 <button onclick="window.location.href='{{ route('general.index') }}'"
-                    class="bg-[#E2E8F0] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-black uppercase tracking-widest text-lg">
-                    Selesai
+                    class="bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-bold text-lg">
+                    Keluar
                 </button>
             </div>
         </div>

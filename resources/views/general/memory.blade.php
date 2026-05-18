@@ -7,23 +7,28 @@
     <title>HonuSign - Memori Visual SIBI</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <meta name="description"
+        content="Game kartu memori bahasa isyarat SIBI HonuSign — cocokkan pasangan kartu isyarat tangan!">
     <style>
-        body {
+        * {
             font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
             background-color: #FFFEFA !important;
             overflow-x: hidden;
         }
 
         .brutal-border {
-            border: 4px solid #000000 !important;
+            border: 4px solid #000 !important;
         }
 
         .brutal-shadow {
-            box-shadow: 6px 6px 0px 0px #000000 !important;
+            box-shadow: 6px 6px 0 #000 !important;
         }
 
         .brutal-shadow-sm {
-            box-shadow: 3px 3px 0px 0px #000000 !important;
+            box-shadow: 3px 3px 0 #000 !important;
         }
 
         .brutal-hover {
@@ -32,16 +37,18 @@
 
         .brutal-hover:hover {
             transform: translate(-3px, -3px) !important;
-            box-shadow: 9px 9px 0px 0px #000000 !important;
+            box-shadow: 9px 9px 0 #000 !important;
         }
 
         .brutal-hover:active {
             transform: translate(2px, 2px) !important;
-            box-shadow: 2px 2px 0px 0px #000000 !important;
+            box-shadow: 2px 2px 0 #000 !important;
         }
 
         .text-outline {
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 0 #000;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000,
+                -2px 2px 0 #000, 2px 2px 0 #000,
+                3px 3px 0 #000;
         }
 
         /* Card Mechanics */
@@ -284,29 +291,37 @@
     <!-- Intro Overlay -->
     <div id="intro-overlay"
         class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
-        <h1
-            class="text-6xl md:text-8xl font-black text-[#FFD1E3] text-outline transform -rotate-2 animate-bounce text-center px-4 drop-shadow-[0_10px_0_#000]">
-            Memori Visual
-        </h1>
-        <p class="mt-4 text-2xl font-bold text-slate-500">Mengingat Isyarat Tangan!</p>
+        <div class="text-center px-6">
+            <div
+                class="inline-block px-6 py-2 bg-[#FFD1E3] brutal-border brutal-shadow-sm rounded-2xl text-sm font-bold mb-6 -rotate-2">
+                Memory Game
+            </div>
+            <h1
+                class="text-6xl md:text-8xl font-black text-black text-outline transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
+                Memori Visual
+            </h1>
+            <p
+                class="mt-6 text-2xl font-bold text-slate-500 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl inline-block rotate-1">
+                Cocokkan Isyarat Tangan!</p>
+        </div>
     </div>
 
     <!-- Header Navigation -->
     <div class="fixed top-0 left-0 right-0 p-4 md:p-6 flex justify-between items-start z-[110] pointer-events-none">
         <a href="{{ route('general.index') }}"
-            class="bg-[#FFFEFA] text-black px-4 py-2 md:px-6 md:py-3 rounded-2xl font-black text-sm md:text-xl brutal-border brutal-shadow-sm brutal-hover uppercase tracking-widest flex items-center gap-2 pointer-events-auto">
-            <span class="text-xl md:text-2xl">⬅</span> KEMBALI
+            class="bg-[#FFB3B3] text-black px-4 py-2 md:px-6 md:py-3 rounded-2xl font-black text-sm md:text-lg brutal-border brutal-shadow-sm brutal-hover flex items-center gap-2 pointer-events-auto">
+            Kembali
         </a>
 
         <!-- Difficulty Toggles -->
         <div class="flex flex-col md:flex-row gap-3 pointer-events-auto">
             <button onclick="setMode('easy')" id="btn-easy"
-                class="brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl font-black text-sm md:text-xl uppercase transition-colors bg-[#FFF5B8] brutal-hover">
-                Tingkat: Mudah
+                class="brutal-border brutal-shadow-sm px-5 py-2 rounded-2xl font-bold text-sm md:text-base transition-all bg-[#FFF5B8] brutal-hover">
+                Mudah
             </button>
             <button onclick="setMode('medium')" id="btn-medium"
-                class="brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl font-black text-sm md:text-xl uppercase transition-colors bg-[#E2E8F0] brutal-hover">
-                Tingkat: Sedang
+                class="brutal-border brutal-shadow-sm px-5 py-2 rounded-2xl font-bold text-sm md:text-base transition-all bg-[#BEE9E8] brutal-hover">
+                Sedang
             </button>
         </div>
     </div>
@@ -314,12 +329,13 @@
     <!-- Main Board -->
     <div class="min-h-screen pt-32 pb-12 px-4 md:px-8 flex flex-col items-center justify-center max-w-5xl mx-auto">
 
-        <div class="mb-6 flex flex-col items-center">
+        <div class="mb-6 flex flex-col items-center gap-3">
             <h2 id="mode-title"
-                class="text-3xl md:text-4xl font-black text-black tracking-tighter mb-2 bg-[#D4F1BE] brutal-border px-6 py-2 rounded-3xl transform -rotate-1 shadow-[4px_4px_0_#000]">
+                class="text-2xl md:text-3xl font-bold text-black bg-[#D4F1BE] brutal-border brutal-shadow-sm px-6 py-2 rounded-3xl transform -rotate-1">
                 Cari Pasangan yang Sama!
             </h2>
-            <p id="mode-desc" class="text-lg font-bold text-slate-500 bg-[#FFFEFA] px-4 py-1 rounded-xl brutal-border">
+            <p id="mode-desc"
+                class="text-base font-bold text-slate-500 bg-[#FFFEFA] px-4 py-2 rounded-2xl brutal-border">
                 Cocokkan Isyarat Tangan dengan Isyarat Tangan.
             </p>
         </div>
@@ -337,18 +353,23 @@
         <div class="bg-[#FFFEFA] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center text-center transform scale-90 opacity-0 transition-all duration-500 relative"
             id="win-modal-content">
 
-            <h2 class="text-6xl md:text-8xl font-black text-[#D4F1BE] text-outline mb-2 mt-6 transform -rotate-3">HEBAT!
+            <div class="text-6xl mb-4 animate-bounce">🎉</div>
+            <h2 class="text-5xl md:text-7xl font-black text-[#D4F1BE] text-outline mb-3 transform -rotate-2">
+                HEBAT!
             </h2>
-            <p class="text-xl md:text-2xl font-bold text-slate-700 mb-8">Ingatan kamu luar biasa! ✨</p>
+            <p
+                class="text-xl font-bold text-slate-600 mb-8 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-3 rounded-2xl">
+                Ingatan kamu luar biasa!
+            </p>
 
             <div class="flex gap-4">
                 <button onclick="initGame()"
-                    class="bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-black uppercase tracking-widest text-lg">
+                    class="bg-[#D4F1BE] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-bold text-lg">
                     Main Lagi
                 </button>
                 <button onclick="window.location.href='{{ route('general.index') }}'"
-                    class="bg-[#E2E8F0] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-black uppercase tracking-widest text-lg">
-                    Selesai
+                    class="bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-bold text-lg">
+                    Keluar
                 </button>
             </div>
         </div>

@@ -53,11 +53,15 @@
     <!-- Intro Overlay -->
     <div id="intro-overlay"
         class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
-        <h1
-            class="text-6xl md:text-8xl font-black text-[#FFF5B8] text-outline transform -rotate-2 animate-bounce text-center px-4 drop-shadow-[0_10px_0_#000]">
-            Perjalanan Samsul
-        </h1>
-        <p class="mt-4 text-2xl font-bold text-slate-500">Ayo ke Sekolah!</p>
+        <div class="text-center px-6">
+            <div class="inline-block px-6 py-2 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl text-sm font-bold mb-6 -rotate-2">
+                Perjalanan Belajar
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black text-black text-outline transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
+                Perjalanan Samsul
+            </h1>
+            <p class="mt-6 text-2xl font-bold text-slate-500 bg-[#BEE9E8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl inline-block rotate-1">Ayo ke Sekolah!</p>
+        </div>
     </div>
 
     <div id="game-container"

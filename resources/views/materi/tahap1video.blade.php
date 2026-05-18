@@ -8,8 +8,8 @@
             <!-- Header Kembali -->
             <div class="w-full mb-8 flex justify-start">
                 <a href="{{ route('materi.belajar', ['step' => 1]) }}"
-                    class="bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-6 py-4 rounded-3xl font-black text-black text-xl flex items-center gap-3 z-10 transform hover:-translate-y-1 transition-transform">
-                    <span class="text-3xl">⬅️</span> Kembali ke Cerita
+                    class="bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover px-6 py-3 rounded-3xl font-bold text-black text-lg flex items-center gap-3 z-10">
+                    Kembali ke Cerita
                 </a>
             </div>
 
@@ -52,24 +52,46 @@
 
             <div class="flex-grow flex flex-col items-center justify-center p-6 md:p-10 bg-[#FFFEFA] relative">
 
-                <!-- Video/Image Placeholder -->
-                <div
-                    class="w-full bg-white brutal-border brutal-shadow-sm rounded-3xl p-4 mb-8 flex justify-center hover:scale-[1.02] transition-transform duration-300 cursor-pointer">
-                    <img src="{{ asset('images/' . $materi->video_peragaan) }}" alt="Peragaan {{ $materi->judul }}"
-                        class="w-full max-w-2xl h-auto object-contain rounded-2xl brutal-border">
+                <!-- Video Player -->
+                <div class="w-full bg-black brutal-border brutal-shadow-sm rounded-3xl p-4 mb-8 flex items-center justify-center aspect-video relative overflow-hidden max-w-3xl">
+                    <video id="sibi-video" controls class="w-full h-full object-cover rounded-2xl z-10">
+                        <source src="{{ asset('videos/peragaan_sibi.mp4') }}" type="video/mp4">
+                        Browser kamu tidak mendukung tag video.
+                    </video>
+                    <!-- Teks petunjuk jika video belum ada -->
+                    <span class="absolute text-slate-500 font-bold z-0 text-sm text-center px-4">
+                        Siapkan video peragaan SIBI:<br>public/videos/peragaan_sibi.mp4
+                    </span>
                 </div>
 
                 <!-- Kontrol Video Khusus Tunarungu -->
                 <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 w-full max-w-2xl">
-                    <button type="button"
-                        class="flex-1 bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-6 py-5 rounded-2xl font-black text-lg uppercase flex items-center justify-center gap-4">
-                        <span class="text-3xl">🐌</span> Lambat 0.5x
+                    <button type="button" id="btn-slow" onclick="toggleSlowMotion()"
+                        class="flex-1 bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover px-6 py-5 rounded-2xl font-black text-lg uppercase flex items-center justify-center gap-4 cursor-pointer">
+                        <span class="text-3xl">🐌</span> <span id="slow-text">Lambat 0.5x</span>
                     </button>
-                    <button type="button"
-                        class="flex-1 bg-[#FFD1E3] brutal-border brutal-shadow-sm brutal-hover px-6 py-5 rounded-2xl font-black text-lg uppercase flex items-center justify-center gap-4">
+                    <button type="button" onclick="rewindVideo()"
+                        class="flex-1 bg-[#FFD1E3] brutal-border brutal-shadow-sm brutal-hover px-6 py-5 rounded-2xl font-black text-lg uppercase flex items-center justify-center gap-4 cursor-pointer">
                         <span class="text-3xl">⏪</span> Ulangi 5s
                     </button>
                 </div>
+
+                <!-- Script untuk interaksi tombol video -->
+                <script>
+                    const videoPlayer = document.getElementById('sibi-video');
+                    let isSlow = false;
+
+                    function toggleSlowMotion() {
+                        isSlow = !isSlow;
+                        videoPlayer.playbackRate = isSlow ? 0.5 : 1.0;
+                        document.getElementById('slow-text').innerText = isSlow ? 'Normal 1.0x' : 'Lambat 0.5x';
+                    }
+
+                    function rewindVideo() {
+                        videoPlayer.currentTime = Math.max(0, videoPlayer.currentTime - 5);
+                        videoPlayer.play();
+                    }
+                </script>
 
             </div>
         </div>

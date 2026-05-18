@@ -1,58 +1,80 @@
 <x-student-layout>
+    <style>
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        .animate-scan { animation: scan 3s linear infinite; }
+    </style>
+
     <div class="max-w-6xl w-full px-6 py-12 flex flex-col items-center">
-        <h2 class="text-2xl font-black text-blue-600 uppercase mb-6 text-center">
-            Misi dari 5: Peragakan Isyarat Cerita!
-        </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full items-start">
+        <!-- Progress Bar (Tahap 3) -->
+        <div class="w-full mb-8 max-w-3xl">
+            <div class="flex justify-between mb-4 items-end">
+                <span class="font-black text-xl tracking-widest uppercase text-black">Tahap 3: Peragakan!</span>
+                <span
+                    class="text-xl font-black text-black bg-[#BEE9E8] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-[2px_2px_0_#000]">Soal
+                    {{ $soal_ke }} dari 5</span>
+            </div>
+            <div class="w-full h-8 bg-white brutal-border brutal-shadow-sm rounded-2xl overflow-hidden p-1">
+                <div class="h-full bg-[#BEE9E8] rounded-xl transition-all duration-1000 border-r-4 border-black"
+                    style="width: {{ ($soal_ke / 5) * 100 }}%"></div>
+            </div>
+        </div>
 
+        <!-- Header Judul -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl md:text-4xl font-black text-black uppercase tracking-tighter transform -rotate-1">
+                Peragakan <span class="text-[#BEE9E8] text-outline drop-shadow-[0_4px_0_#000]">Isyarat</span> Cerita!
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-start">
+
+            <!-- Panel Kiri: Pertanyaan + Progress -->
             <div class="flex flex-col gap-6">
-                <div class="bg-white dark:bg-slate-900 border-4 border-slate-200 p-8 rounded-[3rem] shadow-lg">
-                    <p class="text-slate-500 font-bold uppercase text-xs mb-2">Pertanyaan Cerita:</p>
-                    <div
-                        class="text-slate-700 dark:text-slate-200 font-medium text-base leading-relaxed whitespace-pre-line">
+
+                <!-- Card Pertanyaan -->
+                <div class="bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-[2.5rem] p-8">
+                    <p class="font-black text-black uppercase tracking-widest text-sm mb-3">Pertanyaan Cerita:</p>
+                    <div class="text-slate-700 font-bold text-lg leading-relaxed whitespace-pre-line">
                         {!! nl2br(e($quiz->pertanyaan)) !!}
                     </div>
                 </div>
 
-                <div
-                    class="bg-purple-50 dark:bg-purple-950/30 border-4 border-purple-200 p-6 rounded-[2.5rem] shadow-md flex flex-col items-center justify-center text-center">
-                    <p class="text-purple-500 font-bold uppercase text-xs mb-2">Progress Ejaan Kamu:</p>
+                <!-- Card Progress Ejaan -->
+                <div class="bg-[#E0BBE4] brutal-border brutal-shadow-sm rounded-[2.5rem] p-6 flex flex-col items-center justify-center text-center">
+                    <p class="font-black text-black uppercase tracking-widest text-sm mb-2">Kata yang Dieja:</p>
                     <h1 id="word-progress"
-                        class="text-5xl font-black text-purple-700 dark:text-purple-400 uppercase tracking-widest mb-2">
+                        class="text-5xl font-black text-black uppercase tracking-widest mb-2">
                         -
                     </h1>
-                    <p id="word-target-hint" class="text-xs text-slate-400 font-semibold"></p>
+                    <p id="word-target-hint" class="text-sm text-slate-500 font-bold"></p>
                 </div>
 
-                {{-- Input Teks Fallback (Jika kamera bermasalah / Dev Mode) --}}
-                <div
-                    class="bg-slate-100 dark:bg-slate-800/50 p-6 rounded-3xl border-2 border-dashed border-slate-300 dark:border-slate-700">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-3">Ketikan jawaban jika kamera tidak muncul:
-                    </p>
+                <!-- Input Fallback -->
+                <div class="bg-[#FFFEFA] brutal-border brutal-shadow-sm rounded-2xl p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-3">Ketik jawaban jika kamera tidak muncul:</p>
                     <input type="text" id="manual-input" placeholder="Ketik di sini..."
-                        class="w-full p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none uppercase font-bold text-lg text-slate-800 dark:text-white">
+                        class="w-full p-4 rounded-xl brutal-border bg-white outline-none uppercase font-bold text-lg text-slate-800">
                 </div>
             </div>
 
-            <div class="relative group">
-                <div
-                    class="absolute -inset-4 bg-gradient-to-tr from-purple-500 to-blue-500 rounded-[4rem] blur-xl opacity-25 group-hover:opacity-40 transition duration-1000">
-                </div>
-
-                <div
-                    class="relative bg-black rounded-[3rem] border-8 border-slate-800 aspect-square overflow-hidden shadow-2xl">
+            <!-- Panel Kanan: Webcam -->
+            <div class="relative">
+                <div class="relative bg-black brutal-border brutal-shadow rounded-[2.5rem] aspect-square overflow-hidden">
                     <video id="webcam" autoplay playsinline muted
                         style="width: 100%; height: 100%; object-fit: cover; display: block;">
                     </video>
 
                     <div id="scanner-line"
-                        class="absolute inset-0 border-4 border-purple-500/50 rounded-[2.5rem] pointer-events-none">
-                        <div class="w-full h-1 bg-purple-500 absolute top-0 animate-scan"></div>
+                        class="absolute inset-0 border-4 border-[#BEE9E8]/70 rounded-[2rem] pointer-events-none">
+                        <div class="w-full h-1 bg-[#BEE9E8] absolute top-0 animate-scan"></div>
                     </div>
 
                     <div id="ai-status"
-                        class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md text-white px-6 py-3 rounded-full text-sm font-bold flex items-center gap-3 whitespace-nowrap">
+                        class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md text-white px-5 py-3 rounded-full text-sm font-bold flex items-center gap-3 whitespace-nowrap">
                         <span id="status-ping" class="w-3 h-3 bg-yellow-400 rounded-full animate-ping"></span>
                         <span id="status-text">Mengunduh Sistem AI...</span>
                     </div>
@@ -60,13 +82,14 @@
             </div>
         </div>
 
-        <div class="mt-12 flex gap-4">
+        <!-- Tombol Aksi -->
+        <div class="mt-10 flex flex-wrap gap-4 justify-center">
             <button onclick="simulateAI()"
-                class="bg-slate-500 text-white p-5 px-8 rounded-2xl font-black uppercase cursor-pointer opacity-50 hover:opacity-100 transition text-sm">
+                class="bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-2xl font-bold text-sm uppercase text-slate-600">
                 Bypass Isyarat (Dev Mode)
             </button>
             <a href="{{ route('materi.belajar', ['step' => 3, 'soal_ke' => $soal_ke + 1]) }}" id="btn-next"
-                class="hidden bg-teal-500 text-white p-5 px-10 rounded-2xl font-black uppercase shadow-lg text-sm animate-bounce">
+                class="hidden bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover text-black px-10 py-4 rounded-2xl font-black uppercase text-base animate-bounce">
                 Lanjut Soal Berikutnya! 🚀
             </a>
         </div>
