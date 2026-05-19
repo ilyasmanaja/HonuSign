@@ -169,26 +169,25 @@ Icon harus:
 ## Icon Rules
 
 ### REQUIRED
-- gunakan monochrome icon,
-- gunakan single-color icon,
-- gunakan outline icon,
-- stroke konsisten,
-- bentuk sederhana.
+- **wajib menggunakan gaya Duotone / Bulk Icons** (seperti Solar Icons Duotone, Iconly Bulk, atau Heroicons Duotone),
+- memiliki struktur dua lapisan (*two-tone layer*):
+  - **Layer Dasar/Latar**: Menggunakan `opacity="0.2"` (transparansi 20%) dengan warna senada untuk memberi efek kedalaman/dimensi lembut.
+  - **Layer Utama/Depan**: Menggunakan warna solid pekat (`fill="currentColor"`).
+- bentuk bersih, modern, dan *playful* yang ramah untuk anak-anak.
 
 ### FORBIDDEN
-- icon full-color,
-- icon realistis,
-- icon terlalu detail,
-- icon dengan banyak gradient,
-- icon 3D kompleks.
+- icon 3D kompleks atau realistis,
+- icon outline tipis (*kawat/light stroke*) yang sulit ditangkap mata anak tunarungu,
+- icon dengan banyak gradient rumit atau shadow blur,
+- icon bergaya korporat kaku.
 
 ---
 
 ## Recommended Icon Libraries
-- Lucide Icons
-- Tabler Icons
-- Phosphor Icons
-- Heroicons
+- **Solar Icons Duotone / Bulk (Utama & Wajib)**
+- Heroicons Duotone
+- Tabler Icons (versi Filled / Duotone)
+- Iconly Bulk
 
 ---
 

@@ -153,7 +153,6 @@
         }
 
         .wrong-drop {
-            outline: 3px solid #FF6B6B;
             filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 1));
             transition: all 0.3s;
         }
@@ -275,8 +274,8 @@
         </div>
     </div>
 
-    <a href="{{ route('general.index') }}"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black px-5 py-2.5 md:px-7 md:py-3 rounded-2xl font-bold text-sm md:text-base brutal-border brutal-shadow-sm brutal-hover flex items-center gap-2">
+    <a href="{{ route('general.index') }}" id="btn-back"
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black px-5 py-2.5 md:px-7 md:py-3 rounded-2xl font-bold text-sm md:text-base brutal-border brutal-shadow-sm brutal-hover flex items-center gap-2 transition-opacity duration-1000">
         Kembali
     </a>
 
@@ -300,11 +299,7 @@
         </div>
     </div>
 
-    <!-- Instruksi Awal Bermain -->
-    <div id="start-instruction"
-        class="absolute bottom-[28vh] left-1/2 transform -translate-x-1/2 z-[100] bg-[#FFF5B8] text-black font-bold px-6 py-3 rounded-full brutal-border brutal-shadow-sm text-base md:text-xl animate-bounce flex items-center gap-2 pointer-events-none whitespace-nowrap">
-        Tarik kepingan dari rak ini!
-    </div>
+
 
     <!-- Kotak Penyimpanan Kayu Mengambang (Floating Box) -> Diubah jadi rak pastel -->
     <div id="pieces-tray"
@@ -312,23 +307,110 @@
         <!-- Slot akan digenerate -->
     </div>
 
+    <!-- Interactive Visual Tutorial Overlay -->
+    <div id="tutorial-overlay"
+        class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[5000] flex items-center justify-center p-4 transition-opacity duration-500 opacity-0 pointer-events-none">
+        <div class="bg-[#FFFEFA] brutal-border brutal-shadow p-8 md:p-12 rounded-[3rem] max-w-xl w-full flex flex-col items-center text-center relative transform scale-90 transition-transform duration-500"
+            id="tutorial-modal-content">
+
+            <div
+                class="bg-[#FFF5B8] px-6 py-2 rounded-2xl brutal-border brutal-shadow-sm font-black text-sm mb-6 -rotate-2">
+                TUTORIAL SINGKAT
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-black text-black tracking-tight mb-6">
+                Cara Menyusun Peta!
+            </h2>
+
+            <!-- Animasi Simulasi Drag & Drop -->
+            <div
+                class="relative w-64 h-56 bg-[#E2E8F0] brutal-border rounded-2xl p-4 flex flex-col items-center justify-between mb-8 mx-auto overflow-hidden shadow-inner">
+                <!-- Area Peta Atas -->
+                <div
+                    class="w-full h-28 border-4 border-dashed border-slate-400 rounded-xl flex items-center justify-center relative bg-slate-100">
+                    <span class="font-bold text-slate-400 text-sm">Area Peta Riau</span>
+                    <!-- Target Siluet -->
+                    <div id="sim-target"
+                        class="absolute w-16 h-12 border-2 border-slate-400 rounded-lg bg-slate-200 opacity-50 flex items-center justify-center text-xs font-black">
+                        Siak</div>
+                </div>
+
+                <!-- Area Laci Bawah -->
+                <div
+                    class="w-full h-16 bg-[#FFFEFA] brutal-border rounded-xl flex items-center justify-center gap-3 px-2 shadow-sm">
+                    <div id="sim-piece"
+                        class="w-16 h-12 bg-[#FFF5B8] brutal-border rounded-lg flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40">
+                        Siak</div>
+                    <div
+                        class="w-16 h-12 bg-slate-200 brutal-border rounded-lg flex items-center justify-center font-bold text-slate-400 text-xs">
+                        Kampar</div>
+                    <div
+                        class="w-16 h-12 bg-slate-200 brutal-border rounded-lg flex items-center justify-center font-bold text-slate-400 text-xs">
+                        Dumai</div>
+                </div>
+
+                <!-- Tangan Animasi Cursor -->
+                <div id="sim-cursor"
+                    class="absolute w-10 h-10 transition-all duration-700 pointer-events-none z-50 flex items-center justify-center text-3xl"
+                    style="top: 75%; left: 25%;">
+                    👆
+                </div>
+            </div>
+
+            <!-- Penjelasan Teks -->
+            <div class="flex flex-col gap-4 text-left w-full bg-[#F8FAFC] brutal-border p-6 rounded-2xl mb-8 shadow-sm">
+                <div class="flex items-start gap-3">
+                    <span
+                        class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">1</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Tarik (Drag)</b> kepingan kabupaten dari
+                        laci di bagian bawah.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span
+                        class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">2</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Cocokkan & Lepas (Drop)</b> kepingan
+                        tersebut di posisi peta yang tepat!</p>
+                </div>
+            </div>
+
+            <button onclick="closeTutorial()"
+                class="w-full md:w-auto bg-[#D4F1BE] text-black font-black text-lg md:text-xl px-10 py-4 rounded-3xl brutal-border brutal-shadow-sm brutal-hover">
+                OKE, AKU MENGERTI!
+            </button>
+        </div>
+    </div>
+
     <div id="win-modal"
         class="hidden fixed inset-0 bg-[#BEE9E8]/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
 
         <div
-            class="modal-animate flex flex-col items-center relative z-10 bg-[#FFFEFA] brutal-border brutal-shadow p-10 rounded-[3rem] transform -rotate-1">
+            class="modal-animate flex flex-col items-center relative z-10 bg-[#FFFEFA] brutal-border brutal-shadow p-10 rounded-[3rem] transform -rotate-1 max-w-lg w-full">
 
-            <div class="text-6xl mb-4 animate-bounce">🎉</div>
+            <div class="mb-4 animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-20 h-20 shrink-0">
+                    <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        fill="#FFD1E3" />
+                    <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        fill="none" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" />
+                    <circle cx="9.5" cy="11.5" r="1.5" fill="#000000" />
+                    <circle cx="14.5" cy="11.5" r="1.5" fill="#000000" />
+                    <path d="M10 14.5s1 1 2 1 2-1 2-1" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                        fill="none" />
+                </svg>
+            </div>
+
             <h1
-                class="text-6xl md:text-8xl font-black text-black text-outline mb-3 tracking-tighter transform rotate-1">
+                class="text-6xl md:text-8xl font-black text-black text-outline mb-2 tracking-tighter transform rotate-1">
                 HORE!
             </h1>
             <p id="result-message"
-                class="text-xl md:text-2xl font-bold text-slate-600 mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-3 rounded-2xl">
+                class="text-xl md:text-2xl font-bold text-slate-600 mb-8 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-3 rounded-2xl">
                 Kamu Pintar Sekali!
             </p>
 
-            <div class="mt-2 flex flex-col md:flex-row gap-4 w-full md:w-auto justify-center">
+            <div class="mt-2 flex flex-col md:flex-row gap-4 w-full justify-center">
                 <button onclick="window.location.reload()"
                     class="w-full md:w-auto bg-[#FFF5B8] text-black px-10 py-4 rounded-3xl text-xl font-bold brutal-border brutal-shadow-sm brutal-hover">
                     Ulangi
@@ -728,9 +810,8 @@
         function winGame() {
             const totalSeconds = stopTimer();
             const stars = getStarRating(totalSeconds);
-            document.getElementById('timer-result').innerText = formatTime(totalSeconds);
-            document.getElementById('star-result').innerText = '★'.repeat(stars) + '☆'.repeat(3 - stars);
-            document.getElementById('result-message').innerText = stars === 3
+            const resMsg = document.getElementById('result-message');
+            if (resMsg) resMsg.innerText = stars === 3
                 ? 'Wah hebat! Kamu cepat sekali menyelesaikannya!'
                 : stars === 2
                     ? 'Bagus! Terus latihan biar makin cepat.'
@@ -738,19 +819,116 @@
 
             const baseImg = document.getElementById('base-img');
             const fullImg = document.getElementById('full-img');
-            baseImg.style.opacity = 0;
-            fullImg.style.opacity = 1;
+            const mapContainer = document.getElementById('map-container');
+
+            if (baseImg) baseImg.style.opacity = 0;
+            if (fullImg) fullImg.style.opacity = 1;
+
+            // Sembunyikan semua elemen UI lain secara perlahan (fade out)
+            const uiElements = [
+                document.getElementById('btn-back'),
+                document.getElementById('instruction-panel'),
+                document.getElementById('start-instruction'),
+                document.getElementById('pieces-tray')
+            ];
+            uiElements.forEach(el => {
+                if (el) {
+                    el.style.transition = 'opacity 1.5s ease';
+                    el.style.opacity = 0;
+                    el.style.pointerEvents = 'none';
+                }
+            });
 
             document.querySelectorAll('.locked, .piece-label').forEach(p => {
-                p.style.transition = 'opacity 1s ease';
+                p.style.transition = 'opacity 1.5s ease';
                 p.style.opacity = 0;
             });
 
+            // Animasi memajukan peta penuh pelan-pelan ke depan layar
+            if (mapContainer) {
+                mapContainer.style.transition = 'transform 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                mapContainer.style.transform = 'scale(1.35)';
+                mapContainer.style.zIndex = '110';
+            }
+
+            // Setelah 3.5 detik (selesai zoom), baru munculkan pop up ucapan
             setTimeout(() => {
                 const modal = document.getElementById('win-modal');
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }, 1200);
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                }
+            }, 3500);
+        }
+
+        let tutorialAnimTimer = null;
+
+        function runTutorialAnimation() {
+            const piece = document.getElementById('sim-piece');
+            const cursor = document.getElementById('sim-cursor');
+            if (!piece || !cursor) return;
+
+            // Reset posisi awal di laci
+            piece.style.transform = 'translate(0px, 0px) scale(1)';
+            piece.style.position = 'relative';
+            piece.style.zIndex = '40';
+            piece.className = 'w-16 h-12 bg-[#FFF5B8] brutal-border rounded-lg flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40';
+            cursor.style.top = '78%';
+            cursor.style.left = '25%';
+
+            // Langkah 1: Cursor menyentuh kepingan Siak
+            setTimeout(() => {
+                cursor.style.transform = 'scale(0.8)';
+                piece.classList.add('ring-4', 'ring-sky-400');
+            }, 800);
+
+            // Langkah 2: Drag kepingan ke atas (Area Peta)
+            setTimeout(() => {
+                cursor.style.top = '30%';
+                cursor.style.left = '45%';
+                piece.style.transform = 'translate(50px, -110px) scale(1.1)';
+            }, 1600);
+
+            // Langkah 3: Lepas kepingan (Drop) & Glow Kemenangan
+            setTimeout(() => {
+                cursor.style.transform = 'scale(1)';
+                piece.classList.remove('ring-4', 'ring-sky-400');
+                piece.classList.replace('bg-[#FFF5B8]', 'bg-[#D4F1BE]');
+            }, 2600);
+
+            // Langkah 4: Cursor kembali
+            setTimeout(() => {
+                cursor.style.top = '78%';
+                cursor.style.left = '65%';
+            }, 3200);
+        }
+
+        function showTutorial() {
+            const overlay = document.getElementById('tutorial-overlay');
+            const content = document.getElementById('tutorial-modal-content');
+            if (!overlay || !content) return;
+
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100', 'pointer-events-auto');
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+
+            runTutorialAnimation();
+            clearInterval(tutorialAnimTimer);
+            tutorialAnimTimer = setInterval(runTutorialAnimation, 4500);
+        }
+
+        function closeTutorial() {
+            const overlay = document.getElementById('tutorial-overlay');
+            const content = document.getElementById('tutorial-modal-content');
+            if (!overlay || !content) return;
+
+            overlay.classList.remove('opacity-100', 'pointer-events-auto');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-90');
+
+            clearInterval(tutorialAnimTimer);
         }
 
         // Jalankan Intro Overlay saat halaman dimuat
@@ -761,6 +939,7 @@
                     overlay.style.opacity = '0';
                     setTimeout(() => {
                         overlay.remove();
+                        showTutorial();
                     }, 1000); // Tunggu sampai transisi memudar selesai
                 }
             }, 2500); // Tampil selama 2.5 detik

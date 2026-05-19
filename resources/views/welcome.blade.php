@@ -214,25 +214,17 @@
             </div>
 
             <!-- Right: Hero illustration -->
-            <div class="relative flex justify-center">
-                <div class="relative">
-                    <!-- Shadow card behind image -->
-                    <div class="absolute inset-0 translate-x-4 translate-y-4 bg-[#FFD1E3] bb rounded-[3rem]"></div>
-                    <div class="relative bg-[#BEE9E8] bb rounded-[3rem] p-6 flex items-center justify-center">
-                        <img src="{{ asset('images/page/hero.png') }}" alt="HonuSign — Belajar Bahasa Isyarat"
-                            class="w-full max-w-sm rounded-2xl"
-                            onerror="this.src='https://via.placeholder.com/480x480?text=HonuSign'" />
-                    </div>
-                </div>
+            <div class="flex justify-center w-full px-4">
+                <img src="{{ asset('images/page/hero.png') }}" alt="HonuSign — Belajar Bahasa Isyarat"
+                    class="w-full max-w-md hero-float object-contain"
+                    onerror="this.src='https://via.placeholder.com/480x480?text=HonuSign'" />
             </div>
         </div>
     </section>
 
-    <!-- ══════════════════════════════ FITUR ══════════════════════════════ -->
     <section id="fitur" class="py-28 px-6 bg-[#BEE9E8] divider">
         <div class="max-w-7xl mx-auto">
 
-            <!-- Section header -->
             <div class="text-center mb-16">
                 <span
                     class="inline-block px-4 py-2 bg-[#FFFEFA] bb bs-sm rounded-2xl text-sm font-bold mb-4 tilt-r transition-all">
@@ -240,89 +232,126 @@
                 </span>
                 <h2 class="text-4xl md:text-5xl font-bold">
                     <span class="inline-block bg-[#FFFEFA] bb bs px-8 py-3 rounded-3xl -rotate-1">
-                        Fitur Unggulan Kami 🎯
+                        Fitur Unggulan Kami
                     </span>
                 </h2>
             </div>
 
-            <!-- Bento Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <!-- Card 1 — Materi Terstruktur -->
-                <div class="bg-[#FFFEFA] p-8 rounded-3xl bb bs bh tilt-l transition-all group cursor-default">
+                <div class="bg-[#FFFCE3] p-8 rounded-3xl bb bs bh tilt-l transition-all group cursor-default">
                     <div
-                        class="w-16 h-16 bg-[#FFF5B8] rounded-2xl flex items-center justify-center text-3xl mb-6 bb bs-sm group-hover:rotate-6 transition-transform">
-                        📚
+                        class="w-16 h-16 bg-[#FFF5B8] rounded-2xl flex items-center justify-center mb-6 bb bs-sm group-hover:rotate-6 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                            class="w-9 h-9 text-[#B39200]">
+                            <path
+                                d="M21 4H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1ZM5 18H4V6h1v12Zm15 0h-1V6h1v12Zm-3-6H7V10h10v2Zm0-4H7V6h10v2Z"
+                                opacity="0.2" />
+                            <path
+                                d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14Zm-4-8H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2Zm0-4H8a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2Z" />
+                        </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-3">Materi Terstruktur</h3>
+                    <h3 class="text-2xl font-bold mb-3 text-slate-800">Materi Terstruktur</h3>
                     <p class="font-medium text-lg leading-relaxed text-slate-600">Dari teori dasar SIBI hingga
                         perbendaharaan kata visual. Disusun rapi, mudah dipahami pemula.</p>
                 </div>
 
-                <!-- Card 2 — Kuis & Gamifikasi (wide) -->
                 <div
-                    class="bg-[#FFFEFA] p-8 rounded-3xl bb bs bh tilt-r transition-all group cursor-default lg:col-span-2">
+                    class="bg-[#FFF0F5] p-8 rounded-3xl bb bs bh tilt-r transition-all group cursor-default lg:col-span-2">
                     <div class="flex items-start gap-6">
                         <div
-                            class="w-16 h-16 bg-[#FFD1E3] rounded-2xl flex items-center justify-center text-3xl bb bs-sm shrink-0 group-hover:rotate-6 transition-transform">
-                            🎮
+                            class="w-16 h-16 bg-[#FFD1E3] rounded-2xl flex items-center justify-center bb bs-sm shrink-0 group-hover:rotate-6 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-9 h-9 text-[#C24173]">
+                                <rect x="3" y="5" width="18" height="14" rx="3" opacity="0.2" />
+                                <path
+                                    d="M19 3H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v12Zm-9-7H9V9a1 1 0 0 0-2 0v2H5a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2Zm6.5.5a1.25 1.25 0 1 1-1.25-1.25 1.25 1.25 0 0 1 1.25 1.25Zm-2.5 2a1.25 1.25 0 1 1-1.25-1.25A1.25 1.25 0 0 1 15 13Z" />
+                            </svg>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold mb-3">Kuis &amp; Gamifikasi</h3>
+                            <h3 class="text-2xl font-bold mb-3 text-slate-800">Kuis &amp; Gamifikasi</h3>
                             <p class="font-medium text-lg leading-relaxed text-slate-600">Kumpulkan poin dengan menjawab
                                 kuis menebak isyarat. Belajar serasa bermain game yang seru dan menantang!</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3 — Deteksi AI -->
                 <div
-                    class="bg-[#FFFEFA] p-8 rounded-3xl bb bs bh tilt-r transition-all group cursor-default lg:col-span-2">
+                    class="bg-[#F0F9EB] p-8 rounded-3xl bb bs bh tilt-r transition-all group cursor-default lg:col-span-2">
                     <div class="flex items-start gap-6">
                         <div
-                            class="w-16 h-16 bg-[#D4F1BE] rounded-2xl flex items-center justify-center text-3xl bb bs-sm shrink-0 group-hover:rotate-6 transition-transform">
-                            📸
+                            class="w-16 h-16 bg-[#D4F1BE] rounded-2xl flex items-center justify-center bb bs-sm shrink-0 group-hover:rotate-6 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-9 h-9 text-[#527A37]">
+                                <circle cx="12" cy="12" r="4" opacity="0.2" />
+                                <path
+                                    d="M4 5a1 1 0 0 1 1-1h2a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v2a1 1 0 0 0 2 0V5Zm15-3h-2a1 1 0 0 0 0 2h2a1 1 0 0 1 1 1v2a1 1 0 0 0 2 0V5a3 3 0 0 0-3-3ZM4 17a1 1 0 0 0-2 0v2a3 3 0 0 0 3 3h2a1 1 0 0 0 0-2H5a1 1 0 0 1-1-1v-2Zm16 2a1 1 0 0 1-1 1h-2a1 1 0 0 0 0 2h2a3 3 0 0 0 3-3v-2a1 1 0 0 0-2 0v2Zm-8-11a4 4 0 1 0 4 4 4 4 0 0 0-4-4Zm0 6a2 2 0 1 1 2-2 2 2 0 0 1-2 2Z" />
+                            </svg>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold mb-3">Deteksi AI Kamera</h3>
+                            <h3 class="text-2xl font-bold mb-3 text-slate-800">Deteksi AI Kamera</h3>
                             <p class="font-medium text-lg leading-relaxed text-slate-600">Praktikkan gerakan bahasa
                                 isyaratmu langsung, dan AI cerdas kami akan menilai gerakanmu secara real-time.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 4 — Pantau Progres -->
-                <div class="bg-[#FFFEFA] p-8 rounded-3xl bb bs bh tilt-l transition-all group cursor-default">
+                <div class="bg-[#F6EBF7] p-8 rounded-3xl bb bs bh tilt-l transition-all group cursor-default">
                     <div
-                        class="w-16 h-16 bg-[#E0BBE4] rounded-2xl flex items-center justify-center text-3xl mb-6 bb bs-sm group-hover:rotate-6 transition-transform">
-                        📈
+                        class="w-16 h-16 bg-[#E0BBE4] rounded-2xl flex items-center justify-center mb-6 bb bs-sm group-hover:rotate-6 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                            class="w-9 h-9 text-[#7E4A85]">
+                            <path
+                                d="M12 2L9.12 8.12L2.34 8.71L7.5 13.22L5.91 19.88L12 16.3L18.09 19.88L16.5 13.22L21.66 8.71L14.88 8.12L12 2Z"
+                                opacity="0.2" />
+                            <path
+                                d="M12 2a1 1 0 0 0-.89.55L8.51 7.82l-5.83.5a1 1 0 0 0-.56 1.74l4.37 3.79-1.3 5.67a1 1 0 0 0 1.5 1.08l5.11-3 5.11 3a1 1 0 0 0 1.5-1.08l-1.3-5.67 4.37-3.79a1 1 0 0 0-.56-1.74l-5.83-.5-2.6-5.27A1 1 0 0 0 12 2Zm3.55 11.85a1 1 0 0 0-.31.95l.89 3.89-3.41-2a1 1 0 0 0-.94 0l-3.41 2 .89-3.89a1 1 0 0 0-.31-.95L6.32 11.2l3.94-.34a1 1 0 0 0 .82-.6L12 6.69l.92 1.86a1 1 0 0 0 .82.6l3.94.34Z" />
+                        </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-3">Pantau Progres</h3>
+                    <h3 class="text-2xl font-bold mb-3 text-slate-800">Pantau Progres</h3>
                     <p class="font-medium text-lg leading-relaxed text-slate-600">Sistem otomatis menyimpan nilai dan
                         progres belajarmu di setiap tahap.</p>
                 </div>
 
-                <!-- Card 5 — Komunitas -->
-                <div class="bg-[#FFFEFA] p-8 rounded-3xl bb bs bh tilt-r transition-all group cursor-default">
+                <div class="bg-[#EBF7F7] p-8 rounded-3xl bb bs bh tilt-r transition-all group cursor-default">
                     <div
-                        class="w-16 h-16 bg-[#BEE9E8] rounded-2xl flex items-center justify-center text-3xl mb-6 bb bs-sm group-hover:rotate-6 transition-transform">
-                        🤝
+                        class="w-16 h-16 bg-[#BEE9E8] rounded-2xl flex items-center justify-center mb-6 bb bs-sm group-hover:rotate-6 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                            class="w-9 h-9 text-[#3A7573]">
+                            <path
+                                d="M12 2a10 10 0 0 0-10 10 9.87 9.87 0 0 0 2.26 6.4L3 21a1 1 0 0 0 1.26.94l2.76-.88A9.87 9.87 0 0 0 12 22a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z"
+                                opacity="0.2" />
+                            <path
+                                d="M12 2a10 10 0 0 0-7.74 16.33l-.93 2.93a1 1 0 0 0 1.27 1.27l2.93-.93A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.17-1.17 1 1 0 0 0-.82-.07l-1.64.52.52-1.64a1 1 0 0 0-.07-.82A8 8 0 1 1 12 20Zm-3-9a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 9 11Zm6 0a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 15 11Zm-6 4a3 3 0 0 0 6 0Z" />
+                        </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-3">Komunikasi Inklusif</h3>
+                    <h3 class="text-2xl font-bold mb-3 text-slate-800">Komunikasi Inklusif</h3>
                     <p class="font-medium text-lg leading-relaxed text-slate-600">Bangun kesetaraan komunikasi antara
                         anak tunarungu dan lingkungan sekitarnya.</p>
                 </div>
 
-                <!-- Card 6 — Aksesibilitas -->
-                <div class="bg-[#FFF5B8] p-8 rounded-3xl bb bs bh tilt-l transition-all group cursor-default">
-                    <div
-                        class="w-16 h-16 bg-[#FFFEFA] rounded-2xl flex items-center justify-center text-3xl mb-6 bb bs-sm group-hover:rotate-6 transition-transform">
-                        ♿
+                <div
+                    class="bg-[#FFF9DE] p-8 rounded-3xl bb bs bh tilt-l transition-all group cursor-default lg:col-span-2">
+                    <div class="flex flex-col md:flex-row md:items-center gap-6">
+                        <div
+                            class="w-16 h-16 bg-[#FFFEFA] rounded-2xl flex items-center justify-center bb bs-sm shrink-0 group-hover:rotate-6 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-9 h-9 text-[#B39200]">
+                                <path
+                                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5ZM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5Z"
+                                    opacity="0.2" />
+                                <path
+                                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Zm0 13a5 5 0 1 1 5-5 5 5 0 0 1-5 5Zm0-8a3 3 0 1 0 3 3 3 3 0 0 0-3-3Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 text-slate-800">Deaf-Friendly UI</h3>
+                            <p class="font-medium text-lg leading-relaxed text-slate-600">Semua feedback berbasis
+                                visual. Tidak bergantung suara sama sekali.</p>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-3">Deaf-Friendly UI</h3>
-                    <p class="font-medium text-lg leading-relaxed text-slate-600">Semua feedback berbasis visual. Tidak
-                        bergantung suara sama sekali.</p>
                 </div>
+
             </div>
         </div>
     </section>
@@ -374,7 +403,7 @@
     <section class="py-20 px-6 bg-[#FFF5B8] divider border-b-4 border-black">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-4xl md:text-5xl font-bold mb-6">
-                Siap Mulai Petualangan<br>Belajar? <span class="inline-block animate-bounce">🚀</span>
+                Siap Mulai Petualangan
             </h2>
             <p class="text-xl font-medium text-slate-600 mb-10">Bergabung dengan HonuSign dan bantu si kecil belajar
                 bahasa isyarat hari ini.</p>
@@ -408,5 +437,25 @@
     </footer>
 
 </body>
+
+<style>
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-18px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    .hero-float {
+        animation: float 3.5s ease-in-out infinite;
+    }
+</style>
 
 </html>

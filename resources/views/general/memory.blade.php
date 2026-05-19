@@ -329,14 +329,16 @@
     <!-- Main Board -->
     <div class="min-h-screen pt-32 pb-12 px-4 md:px-8 flex flex-col items-center justify-center max-w-5xl mx-auto">
 
-        <div class="mb-6 flex flex-col items-center gap-3">
+        <!-- Mode Banner & Instruction Box -->
+        <div class="mb-8 w-full max-w-2xl flex flex-col items-center gap-5">
             <h2 id="mode-title"
-                class="text-2xl md:text-3xl font-bold text-black bg-[#D4F1BE] brutal-border brutal-shadow-sm px-6 py-2 rounded-3xl transform -rotate-1">
+                class="text-3xl md:text-4xl font-black text-black bg-[#D4F1BE] brutal-border brutal-shadow-sm px-8 py-3 rounded-3xl transform -rotate-1 text-center">
                 Cari Pasangan yang Sama!
             </h2>
+
             <p id="mode-desc"
-                class="text-base font-bold text-slate-500 bg-[#FFFEFA] px-4 py-2 rounded-2xl brutal-border">
-                Cocokkan Isyarat Tangan dengan Isyarat Tangan.
+                class="text-base md:text-lg font-bold text-slate-700 bg-[#FFF5B8] brutal-border px-6 py-3 rounded-2xl shadow-sm transform rotate-1 text-center max-w-xl">
+                Ingat gambarnya dan <b>cari isyarat tangan</b> yang persis sama!
             </p>
         </div>
 
@@ -347,13 +349,91 @@
 
     </div>
 
+    <!-- Interactive Visual Tutorial Overlay -->
+    <div id="tutorial-overlay"
+        class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[5000] flex items-center justify-center p-4 transition-opacity duration-500 opacity-0 pointer-events-none">
+        <div class="bg-[#FFFEFA] brutal-border brutal-shadow p-8 md:p-12 rounded-[3rem] max-w-xl w-full flex flex-col items-center text-center relative transform scale-90 transition-transform duration-500"
+            id="tutorial-modal-content">
+
+            <div
+                class="bg-[#FFF5B8] px-6 py-2 rounded-2xl brutal-border brutal-shadow-sm font-black text-sm mb-6 -rotate-2">
+                TUTORIAL SINGKAT
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-black text-black tracking-tight mb-6">
+                Cara Mencocokkan Kartu!
+            </h2>
+
+            <!-- Animasi Simulasi Balik Kartu -->
+            <div
+                class="relative w-64 h-36 bg-[#E2E8F0] brutal-border rounded-2xl p-4 grid grid-cols-3 gap-3 mb-8 mx-auto overflow-hidden shadow-inner">
+                <!-- Kartu 1 (A) -->
+                <div id="sim-card-1"
+                    class="brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFB3B3] text-transparent select-none border-black">
+                    A
+                </div>
+                <!-- Kartu 2 (B - Salah) -->
+                <div id="sim-card-2"
+                    class="brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFB3B3] text-transparent select-none border-black">
+                    B
+                </div>
+                <!-- Kartu 3 (A - Benar) -->
+                <div id="sim-card-3"
+                    class="brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFB3B3] text-transparent select-none border-black">
+                    A
+                </div>
+
+                <!-- Tangan Animasi Cursor -->
+                <div id="sim-cursor"
+                    class="absolute w-10 h-10 transition-all duration-700 pointer-events-none z-50 flex items-center justify-center text-3xl"
+                    style="top: 70%; left: 70%;">
+                    👆
+                </div>
+            </div>
+
+            <!-- Penjelasan Teks -->
+            <div class="flex flex-col gap-4 text-left w-full bg-[#F8FAFC] brutal-border p-6 rounded-2xl mb-8 shadow-sm">
+                <div class="flex items-start gap-3">
+                    <span
+                        class="bg-[#FFB3B3] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">❌</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base">Jika gambar <b>berbeda (salah)</b>, kartu
+                        akan berwarna merah dan menutup kembali.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span
+                        class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">✔️</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base">Jika gambar <b>sama (benar)</b>, kartu akan
+                        berwarna hijau dan menghilang!</p>
+                </div>
+            </div>
+
+            <button onclick="closeTutorial()"
+                class="w-full md:w-auto bg-[#D4F1BE] text-black font-black text-lg md:text-xl px-10 py-4 rounded-3xl brutal-border brutal-shadow-sm brutal-hover">
+                OKE, AKU MENGERTI!
+            </button>
+        </div>
+    </div>
+
     <!-- Victory Modal -->
     <div id="win-modal"
         class="hidden fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex-col items-center justify-center p-4">
         <div class="bg-[#FFFEFA] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center text-center transform scale-90 opacity-0 transition-all duration-500 relative"
             id="win-modal-content">
 
-            <div class="text-6xl mb-4 animate-bounce">🎉</div>
+            <div class="mb-4 animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-20 h-20 shrink-0">
+                    <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        fill="#FFD1E3" />
+                    <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        fill="none" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" />
+                    <circle cx="9.5" cy="11.5" r="1.5" fill="#000000" />
+                    <circle cx="14.5" cy="11.5" r="1.5" fill="#000000" />
+                    <path d="M10 14.5s1 1 2 1 2-1 2-1" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                        fill="none" />
+                </svg>
+            </div>
             <h2 class="text-5xl md:text-7xl font-black text-[#D4F1BE] text-outline mb-3 transform -rotate-2">
                 HEBAT!
             </h2>
@@ -395,12 +475,12 @@
                 btnEasy.classList.replace('bg-[#E2E8F0]', 'bg-[#FFF5B8]');
                 btnMedium.classList.replace('bg-[#FFF5B8]', 'bg-[#E2E8F0]');
                 modeTitle.innerText = "Cari Pasangan Gambar!";
-                modeDesc.innerText = "Cocokkan Isyarat Tangan dengan Isyarat Tangan yang sama.";
+                modeDesc.innerHTML = "Ingat gambarnya dan <b>cari isyarat tangan</b> yang persis sama!";
             } else {
                 btnMedium.classList.replace('bg-[#E2E8F0]', 'bg-[#FFF5B8]');
                 btnEasy.classList.replace('bg-[#FFF5B8]', 'bg-[#E2E8F0]');
                 modeTitle.innerText = "Pasangkan Gambar & Huruf!";
-                modeDesc.innerText = "Cocokkan Isyarat Tangan dengan Huruf Abjadnya.";
+                modeDesc.innerHTML = "Ingat gambarnya dan cocokkan dengan <b>Huruf Abjadnya</b>!";
             }
             initGame();
         }
@@ -609,6 +689,126 @@
             }, 1000);
         }
 
+        let tutorialAnimTimer = null;
+
+        function runTutorialAnimation() {
+            const card1 = document.getElementById('sim-card-1');
+            const card2 = document.getElementById('sim-card-2');
+            const card3 = document.getElementById('sim-card-3');
+            const cursor = document.getElementById('sim-cursor');
+            if (!card1 || !card2 || !card3 || !cursor) return;
+
+            // Reset semua kartu ke posisi tertutup (Punggung Kartu Pink)
+            const closedClass = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFB3B3] text-transparent select-none border-black';
+            card1.className = closedClass;
+            card2.className = closedClass;
+            card3.className = closedClass;
+            cursor.style.top = '70%';
+            cursor.style.left = '70%';
+
+            // === FASE 1: CONTOH SALAH (A & B) ===
+            // 1. Cursor meluncur ke Kartu 1 (A)
+            setTimeout(() => {
+                cursor.style.top = '35%';
+                cursor.style.left = '12%';
+            }, 600);
+
+            // 2. Klik Kartu 1 (Terbuka jadi Kuning)
+            setTimeout(() => {
+                cursor.style.transform = 'scale(0.8)';
+                card1.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+            }, 1300);
+
+            // 3. Cursor meluncur ke Kartu 2 (B)
+            setTimeout(() => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.top = '35%';
+                cursor.style.left = '45%';
+            }, 1900);
+
+            // 4. Klik Kartu 2 (Terbuka jadi Kuning)
+            setTimeout(() => {
+                cursor.style.transform = 'scale(0.8)';
+                card2.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+            }, 2600);
+
+            // 5. SALAH! Kedua kartu menjadi Merah & Bergetar
+            setTimeout(() => {
+                cursor.style.transform = 'scale(1)';
+                const wrongClass = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-300 shadow-sm bg-red-400 text-white select-none border-red-700 animate-pulse';
+                card1.className = wrongClass;
+                card2.className = wrongClass;
+            }, 3300);
+
+            // 6. Tutup kembali Kartu 1 & Kartu 2
+            setTimeout(() => {
+                card1.className = closedClass;
+                card2.className = closedClass;
+            }, 4300);
+
+            // === FASE 2: CONTOH BENAR (A & A) ===
+            // 7. Cursor meluncur ke Kartu 1 (A) lagi
+            setTimeout(() => {
+                cursor.style.top = '35%';
+                cursor.style.left = '12%';
+            }, 4900);
+
+            // 8. Klik Kartu 1 (Terbuka jadi Kuning)
+            setTimeout(() => {
+                cursor.style.transform = 'scale(0.8)';
+                card1.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+            }, 5600);
+
+            // 9. Cursor meluncur ke Kartu 3 (A)
+            setTimeout(() => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.top = '35%';
+                cursor.style.left = '78%';
+            }, 6200);
+
+            // 10. Klik Kartu 3 (Terbuka jadi Kuning)
+            setTimeout(() => {
+                cursor.style.transform = 'scale(0.8)';
+                card3.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+            }, 6900);
+
+            // 11. BENAR! Kedua kartu menjadi Hijau Kemenangan
+            setTimeout(() => {
+                cursor.style.transform = 'scale(1)';
+                const rightClass = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#D4F1BE] text-black select-none border-green-600 animate-bounce';
+                card1.className = rightClass;
+                card3.className = rightClass;
+            }, 7600);
+        }
+
+        function showTutorial() {
+            const overlay = document.getElementById('tutorial-overlay');
+            const content = document.getElementById('tutorial-modal-content');
+            if (!overlay || !content) return;
+
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100', 'pointer-events-auto');
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+
+            runTutorialAnimation();
+            clearInterval(tutorialAnimTimer);
+            tutorialAnimTimer = setInterval(runTutorialAnimation, 9000);
+        }
+
+        function closeTutorial() {
+            const overlay = document.getElementById('tutorial-overlay');
+            const content = document.getElementById('tutorial-modal-content');
+            if (!overlay || !content) return;
+
+            overlay.classList.remove('opacity-100', 'pointer-events-auto');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-90');
+
+            clearInterval(tutorialAnimTimer);
+        }
+
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
             initGame();
@@ -618,7 +818,10 @@
                 const overlay = document.getElementById('intro-overlay');
                 if (overlay) {
                     overlay.style.opacity = '0';
-                    setTimeout(() => overlay.remove(), 1000);
+                    setTimeout(() => {
+                        overlay.remove();
+                        showTutorial();
+                    }, 1000);
                 }
             }, 2500);
         });

@@ -153,7 +153,6 @@
 
         <!-- Header -->
         <div class="text-center rotate-1">
-            <div class="text-5xl mb-3 animate-bounce inline-block">👋</div>
             <h1 class="text-4xl font-bold tracking-tight mb-2 text-black">
                 Masuk ke <span class="text-[#FFD1E3] text-stamp">HonuSign</span>
             </h1>
@@ -209,21 +208,5 @@
             </button>
         </form>
 
-        <!-- Divider -->
-        <div class="flex items-center gap-3">
-            <div class="flex-1 border-t-2 border-black/20"></div>
-            <span class="text-sm font-medium text-slate-400">atau</span>
-            <div class="flex-1 border-t-2 border-black/20"></div>
-        </div>
-
-        <!-- Register link -->
-        <div class="text-center rotate-1">
-            <span class="text-lg font-medium text-slate-500">Belum punya akun?</span>
-            <a href="{{ route('register') }}"
-                class="text-lg font-bold text-black underline decoration-2 underline-offset-4 hover:text-[#E0BBE4] transition-colors ml-1"
-                wire:navigate>
-                Daftar Gratis
-            </a>
-        </div>
     </div>
 </x-layouts::auth>
