@@ -1,54 +1,50 @@
 <x-student-layout>
     <style>
-        /* Gaya Khusus untuk Lintasan */
-        .road-path {
-            background-image: linear-gradient(90deg, #000 50%, transparent 50%);
-            background-size: 40px 4px;
-            background-repeat: repeat-x;
-            background-position: bottom;
+        /* Brutal Grid Pattern Background */
+        .brutal-grid-bg {
+            background-color: #BEE9E8;
+            background-image: radial-gradient(#000000 1.5px, transparent 1.5px);
+            background-size: 25px 25px;
         }
 
-        .bounce-active {
-            animation: character-bounce 0.4s ease;
+        /* Garis Konektor Putus-Putus */
+        .path-line {
+            position: absolute;
+            z-index: 0;
+            border-left: 6px dashed #000;
         }
 
-        @keyframes character-bounce {
+        /* Animasi Mengambang Lembut untuk Samsul */
+        .hover-samsul {
+            animation: samsul-float 2s ease-in-out infinite;
+        }
+
+        @keyframes samsul-float {
 
             0%,
             100% {
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
 
             50% {
-                transform: translateY(-30px) scale(1.1);
+                transform: translateY(-10px);
             }
-        }
-
-        .cloud-anim {
-            animation: cloud-float 10s linear infinite;
-        }
-
-        @keyframes cloud-float {
-            from {
-                transform: translateX(-100px);
-            }
-
-            to {
-                transform: translateX(100vw);
-            }
-        }
-
-        /* Full Screen Glow */
-        .step-glow {
-            box-shadow: inset 0 0 50px #D4F1BE !important;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .glow-yellow {
-            filter: drop-shadow(0 0 25px #facc15);
-            transform: scale(1.05);
         }
     </style>
+
+    <?php
+// Simulasi progres aktif dari backend
+$activePos = request('step', 1);
+
+$posData = [
+    1 => ['title' => 'Membaca Cerita', 'desc' => 'Cerita bergambar SIBI', 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-blue-500"><path opacity="0.2" d="M12 3v18c-3.333-1-5-1-8-1a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2c3 0 4.667 0 8 0z" /><path d="M12 3v18c3.333-1 5-1 8-1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2c-3 0-4.667 0-8 0z" /></svg>', 'route' => route('materi.belajar', ['step' => 1])],
+    2 => ['title' => 'Kosa Kata Visual', 'desc' => 'Mengenal isyarat baru', 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-purple-500"><path opacity="0.2" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z" /><circle cx="12" cy="12" r="3" /></svg>', 'route' => route('materi.belajar', ['step' => 2])],
+    3 => ['title' => 'Praktik Kamera', 'desc' => 'Coba isyaratmu ke AI!', 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-pink-500"><path opacity="0.2" d="M3 8a2 2 0 0 1 2-2h3l1.5-2h5L16 6h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" /><circle cx="12" cy="13" r="3" /></svg>', 'route' => route('materi.belajar', ['step' => 3])],
+    4 => ['title' => 'Tebak Isyarat', 'desc' => 'Kuis seru bergambar', 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-yellow-500"><path opacity="0.2" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.84.5 3.56 1.36 5.04L2 22l4.96-1.36A9.957 9.957 0 0 0 12 22z" /><path d="M12 17.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm.5-4.5c0-1.5 2-2 2-4a2.5 2.5 0 1 0-5 0h2c0-.5.5-1 1-1s1 .5 1 1-1 1.5-1 3.5h2z" /></svg>', 'route' => route('materi.belajar', ['step' => 4])],
+    5 => ['title' => 'Bermain Memori', 'desc' => 'Cocokkan kartu isyarat', 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-green-500"><path opacity="0.2" d="M4 6h12v12H4z" /><path d="M8 4h12v12h-2v2h4V2H6v4h2z" /></svg>', 'route' => route('materi.belajar', ['step' => 5])],
+    6 => ['title' => 'Ujian Akhir', 'desc' => 'Buktikan kemampuanmu!', 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-orange-500"><path opacity="0.2" d="M7 4h10v6a5 5 0 0 1-10 0V4z" /><path d="M11 15v4h-3v2h8v-2h-3v-4a7.02 7.02 0 0 0 4.9-5.32A3.5 3.5 0 0 0 20.5 7H18V4H6v3H3.5a3.5 3.5 0 0 0 2.6 4.68A7.02 7.02 0 0 0 11 15zM5 7h1v3H5V7zm13 3V7h1v3h-1z" /></svg>', 'route' => route('materi.belajar', ['step' => 6])],
+];
+    ?>
 
     <!-- Intro Overlay -->
     <div id="intro-overlay"
@@ -64,126 +60,115 @@
             </h1>
             <p
                 class="mt-6 text-2xl font-bold text-slate-500 bg-[#BEE9E8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl inline-block rotate-1">
-                Ayo ke Sekolah!</p>
+                Ayo Selesaikan Misimu!</p>
         </div>
     </div>
 
-    <div id="game-container"
-        class="min-h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] w-full flex flex-col items-center justify-between p-4 md:p-6 max-w-5xl mx-auto overflow-hidden transition-all duration-300">
+    <div class="brutal-grid-bg min-h-[calc(100vh-5rem)] w-full py-12 px-4 md:px-8 overflow-x-hidden relative">
 
-        <!-- Header Judul Visual -->
-        <div class="text-center mb-3 md:mb-4">
-            <h1 class="text-3xl md:text-5xl font-black text-black tracking-tighter mb-2 leading-tight uppercase">
-                Ayo <span class="text-[#FFD1E3] text-outline drop-shadow-[0_4px_0_#000]">Bantu Samsul</span> <br /> Ke
-                Sekolah!
+        <div class="text-center mb-16 relative z-10">
+            <div
+                class="inline-block bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl font-black text-black text-sm md:text-base uppercase tracking-widest mb-4 transform -rotate-2">
+                Peta Perjalanan
+            </div>
+            <h1
+                class="text-5xl md:text-7xl font-black text-white text-outline tracking-tighter drop-shadow-[0_8px_0_#000] transform rotate-1 uppercase">
+                Petualangan Samsul!
             </h1>
         </div>
 
-        <!-- Area Perjalanan (Environment) -->
-        <div
-            class="relative w-full max-w-5xl h-48 md:h-64 bg-[#BEE9E8] brutal-border brutal-shadow rounded-[2rem] md:rounded-[3rem] my-auto">
+        <div class="max-w-4xl mx-auto relative pt-8 pb-48">
 
-            <!-- Wrapper Latar Belakang (Awan & Pohon) agar terpotong rapi -->
-            <div class="absolute inset-0 overflow-hidden rounded-[2rem] md:rounded-[3rem] z-0">
+            <div class="path-line top-0 bottom-40 left-8 md:left-1/2 md:-translate-x-[3px]"></div>
 
-            <!-- Langit: Awan & Burung Terbang -->
-            <div class="absolute text-4xl md:text-5xl cloud-anim opacity-50 flex items-center gap-4 z-0"
-                style="top: 10%; left: 5%;">
-                ☁️ <span class="text-2xl mt-4" style="transform: scaleX(-1); display: inline-block;">🐦</span>
+            <div class="flex flex-col gap-16 md:gap-24 relative z-10">
+
+                @foreach ($posData as $index => $pos)
+                                <?php
+                    $isCompleted = $index < $activePos;
+                    $isActive = $index == $activePos;
+                    $isLocked = $index > $activePos;
+
+                    // Penentuan Warna dan Gaya berdasarkan Status
+                    $bgColor = $isCompleted ? 'bg-[#D4F1BE]' : ($isActive ? 'bg-[#FFFEFA]' : 'bg-slate-200');
+                    $borderColor = $isLocked ? 'border-slate-400 border-dashed' : 'border-black';
+
+                    // Rotasi Asimetris Komik
+                    $rotation = $index % 2 == 0 ? 'rotate-1' : '-rotate-1';
+
+                    // Pengaturan Posisi Grid Tangguh (Kiri-Kanan Desktop, Menyesuaikan di Mobile)
+                    $layoutClass = $index % 2 == 0 ? 'md:flex-row' : 'md:flex-row-reverse';
+                    $alignClass = $index % 2 == 0 ? 'md:pr-16 md:text-right' : 'md:pl-16 md:text-left';
+                                                                                                                                                                                                                                                                                                                                                    ?>
+
+                                <div
+                                    class="relative flex flex-col md:flex-row items-center w-full {{ $layoutClass }} pl-20 pr-4 md:px-0">
+
+                                    <!-- Anchor Koordinat untuk Samsul -->
+                                    <div id="pos-dot-{{ $index }}"
+                                        class="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-2 h-2 z-20 flex items-center justify-center text-sm font-black">
+                                    </div>
+
+                                    <div class="w-full md:w-1/2 {{ $alignClass }} relative">
+                                        <a href="{{ $isLocked ? '#' : $pos['route'] }}"
+                                            class="block w-full {{ $bgColor }} border-4 {{ $borderColor }} rounded-[2rem] p-5 md:p-6 transform {{ $rotation }} {{ $isLocked ? 'cursor-not-allowed opacity-75' : 'hover:-translate-y-2 brutal-hover transition-transform brutal-shadow' }} relative z-10 group">
+
+                                            <div class="flex items-center gap-4 {{ $index % 2 == 0 ? 'md:flex-row-reverse' : '' }}">
+                                                <div
+                                                    class="w-14 h-14 shrink-0 rounded-2xl brutal-border flex items-center justify-center text-2xl {{ $isCompleted ? 'bg-white' : ($isActive ? 'bg-[#BEE9E8]' : 'bg-slate-300 grayscale') }} transform group-hover:rotate-6 transition-transform">
+                                                    {!! $pos['icon'] !!}
+                                                </div>
+
+                                                <div class="flex-grow {{ $index % 2 == 0 ? 'md:text-right' : 'md:text-left' }}">
+                                                    <div
+                                                        class="text-[10px] md:text-xs font-black uppercase tracking-widest mb-1 {{ $isCompleted ? 'text-green-700' : ($isActive ? 'text-pink-600' : 'text-slate-500') }}">
+                                                        Pos {{ $index }} •
+                                                        @if($isCompleted) Selesai
+                                                        @elseif($isActive) Jalur Aktif
+                                                        @else Terkunci
+                                                        @endif
+                                                    </div>
+                                                    <h3 class="text-lg md:text-2xl font-black text-black leading-tight mb-0.5">
+                                                        {{ $pos['title'] }}
+                                                    </h3>
+                                                    <p class="text-xs md:text-sm font-bold text-slate-600 leading-tight">
+                                                        {{ $pos['desc'] }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="hidden md:block w-1/2"></div>
+
+                                </div>
+                @endforeach
+
             </div>
-            <div class="absolute text-2xl cloud-anim opacity-60 z-0"
-                style="top: 25%; left: 25%; animation-delay: -3s; animation-duration: 12s;">
-                <span style="transform: scaleX(-1); display: inline-block;">🦅</span>
-            </div>
-            <div class="absolute text-3xl md:text-4xl cloud-anim opacity-40 flex items-center gap-8 z-0"
-                style="top: 15%; left: 50%; animation-delay: -5s;">
-                ☁️ <span class="text-xl mt-2" style="transform: scaleX(-1); display: inline-block;">🕊️</span>
-            </div>
-            <div class="absolute text-4xl cloud-anim opacity-50 z-0"
-                style="top: 5%; left: 80%; animation-delay: -8s; animation-duration: 18s;">
-                ☁️
-            </div>
 
-            <!-- Darat: Pohon, Semak & Bunga (Terkunci di tanah agar tidak terbang) -->
-            <!-- Sisi Kiri -->
-            <div class="absolute text-5xl md:text-6xl opacity-90 z-0" style="bottom: 35px; left: 2%;">🌳</div>
-            <div class="absolute text-4xl md:text-5xl opacity-80 z-0" style="bottom: 30px; left: 8%;">🌲</div>
-            <div class="absolute text-2xl opacity-90 z-0" style="bottom: 35px; left: 15%;">🌻</div>
-
-            <!-- Tengah Kiri -->
-            <div class="absolute text-3xl opacity-80 z-0" style="bottom: 35px; left: 25%;">🌿</div>
-            <div class="absolute text-5xl opacity-90 z-0" style="bottom: 35px; left: 35%;">🌳</div>
-            <div class="absolute text-2xl opacity-90 z-0" style="bottom: 35px; left: 42%;">🍄</div>
-
-            <!-- Tengah Kanan -->
-            <div class="absolute text-4xl opacity-80 z-0" style="bottom: 30px; left: 55%;">🌲</div>
-            <div class="absolute text-2xl opacity-90 z-0" style="bottom: 35px; left: 62%;">🌷</div>
-            <div class="absolute text-5xl md:text-6xl opacity-90 z-0" style="bottom: 35px; left: 75%;">🌳</div>
-            <div class="absolute text-3xl opacity-80 z-0" style="bottom: 35px; left: 82%;">🌿</div>
-
-            <!-- Jalanan -->
-            <div class="absolute w-full h-10 md:h-12 bg-slate-400/30 road-path z-0" style="bottom: 0;"></div>
-
-            </div> <!-- Tutup Wrapper Latar Belakang -->
-
-            <!-- Sekolah (Tujuan) -->
-            <div id="school-container" class="absolute flex flex-col items-center transition-all duration-500 z-10"
-                style="bottom: 15px; right: 2rem;">
-                <div class="transform hover:scale-110 transition-transform">
-                    <img src="{{ asset('images/keSekolah/SLB.png') }}" class="w-32 md:w-48 h-auto filter drop-shadow-xl"
-                        alt="Sekolah SLB" />
+            <!-- Samsul Animasi -->
+            <div id="animated-samsul"
+                class="absolute z-30 flex flex-col items-center pointer-events-none transition-all" style="opacity: 0;">
+                <div id="samsul-bubble"
+                    class="bg-white brutal-border px-3 py-0.5 rounded-full text-[10px] md:text-xs font-black text-black whitespace-nowrap brutal-shadow-sm mb-1 transform -rotate-3 opacity-0 transition-opacity duration-500">
+                    KLIK POS INI!
                 </div>
+                <img src="{{ asset('images/keSekolah/samsul.png') }}" alt="Samsul"
+                    class="w-20 md:w-28 drop-shadow-lg transform scale-x-[-1]">
             </div>
 
-            <!-- Karakter Samsul -->
-            <div id="character-container"
-                class="absolute flex flex-col items-center transition-all duration-500 ease-out z-20"
-                style="bottom: 15px; left: 5%;">
-                <div id="character" class="relative select-none">
-                    <img src="{{ asset('images/keSekolah/samsul.png') }}" class="w-20 md:w-32 h-auto mix-blend-multiply"
-                        alt="Samsul" />
+            <div id="finish-school"
+                class="absolute bottom-0 left-8 md:left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center w-full max-w-xs text-center">
+                <div
+                    class="bg-[#FFF5B8] brutal-border brutal-shadow-sm px-5 py-1.5 rounded-full font-black text-xs md:text-sm mb-4 uppercase tracking-widest transform rotate-2 text-black">
+                    🏁 Sekolah SLB (Garis Akhir)
                 </div>
-                <!-- Efek Debu saat Jalan -->
-                <div id="dust"
-                    class="absolute -bottom-2 -left-6 text-2xl md:text-3xl opacity-0 transition-all duration-300"
-                    style="transform: scaleX(-1);">💨</div>
+                <img src="{{ asset('images/keSekolah/SLB.png') }}"
+                    class="w-44 md:w-56 h-auto drop-shadow-2xl filter transform hover:scale-105 transition-transform"
+                    alt="Sekolah SLB">
             </div>
 
         </div>
-
-        <!-- Tombol Aksi Jalan -->
-        <div class="mt-4 md:mt-6 flex flex-col items-center w-full z-30">
-            <p class="text-xs md:text-sm font-black text-slate-500 mb-1 md:mb-2 uppercase tracking-widest">TAP CEPAT
-                UNTUK ISI TENAGA!</p>
-            <button onclick="chargeEnergy()" id="move-btn"
-                class="relative bg-white text-black px-10 py-4 md:py-6 rounded-[2.5rem] md:rounded-[3rem] brutal-border brutal-shadow brutal-hover font-black uppercase tracking-widest text-xl md:text-4xl flex items-center justify-center gap-3 md:gap-4 transition-all overflow-hidden w-full max-w-sm">
-
-                <!-- Bar Pengisi Tenaga -->
-                <div id="energy-fill"
-                    class="absolute top-0 left-0 h-full bg-[#FFF5B8] w-0 transition-all duration-150 ease-out z-0 border-r-4 border-transparent">
-                </div>
-
-                <span
-                    class="relative z-10 flex items-center gap-3 md:gap-4 transform transition-transform active:scale-95">
-                    Isi Tenaga! <span class="text-3xl md:text-4xl" id="btn-icon">⚡</span>
-                </span>
-            </button>
-        </div>
-
-        <!-- Progress Bar ala Semi-Brutalism -->
-        <div class="mt-6 md:mt-8 w-full max-w-2xl mb-2">
-            <div class="flex justify-between mb-2 md:mb-4 items-end">
-                <span class="font-black text-lg md:text-xl tracking-widest uppercase text-black">Perjalanan:</span>
-                <span id="progressText"
-                    class="text-3xl md:text-4xl font-black text-black bg-[#D4F1BE] brutal-border px-4 py-1 rounded-2xl transform rotate-2">0%</span>
-            </div>
-            <div class="w-full h-6 md:h-8 bg-white brutal-border brutal-shadow-sm rounded-2xl overflow-hidden p-1">
-                <div id="progressBar"
-                    class="h-full w-0 bg-[#FFD1E3] rounded-xl transition-all duration-500 border-r-4 border-black">
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <!-- Interactive Visual Tutorial Overlay -->
@@ -197,38 +182,48 @@
                 TUTORIAL SINGKAT
             </div>
 
-            <h2 class="text-3xl md:text-5xl font-black text-black tracking-tight mb-6">
-                Cara Membantu Samsul!
+            <h2 class="text-3xl md:text-4xl font-black text-black tracking-tight mb-6">
+                Cara Belajar di Peta!
             </h2>
 
-            <!-- Animasi Simulasi Tap & Jalan -->
+            <!-- Animasi Simulasi Peta & Klik -->
             <div
-                class="relative w-64 h-48 bg-[#E2E8F0] brutal-border rounded-2xl p-4 flex flex-col items-center justify-between mb-8 mx-auto overflow-hidden shadow-inner">
-                <!-- Area Jalan & Karakter -->
+                class="relative w-64 h-64 bg-[#BEE9E8] brutal-border rounded-3xl p-4 flex flex-col items-center mb-8 mx-auto overflow-hidden shadow-inner pt-8">
+                <!-- Jalur Garis -->
                 <div
-                    class="w-full h-20 bg-[#BEE9E8] brutal-border rounded-xl flex items-center justify-between px-3 relative overflow-hidden">
-                    <div id="sim-samsul"
-                        class="text-3xl transition-all duration-500 z-10 relative transform scale-x-[-1] rotate-1"
-                        style="left: 0%;">
-                        🚶‍♂️</div>
-                    <div class="text-3xl z-10">🏫</div>
-                    <!-- Garis Jalan -->
-                    <div class="absolute bottom-2 left-0 right-0 h-2 bg-slate-400/40"></div>
+                    class="absolute top-0 bottom-0 left-1/2 border-l-4 border-dashed border-black transform -translate-x-1/2 z-0">
                 </div>
 
-                <!-- Tombol Tap Simulasi -->
-                <div id="sim-btn"
-                    class="w-full h-14 bg-white brutal-border rounded-xl flex items-center justify-center font-black text-base shadow-sm relative overflow-hidden transition-all duration-150 border-black text-black">
-                    <div id="sim-energy"
-                        class="absolute top-0 left-0 h-full bg-[#FFF5B8] w-0 transition-all duration-200 z-0 border-r-4 border-transparent">
+                <!-- Pos 1 (Awal) -->
+                <div class="w-full flex items-center justify-start relative z-10 mb-12">
+                    <!-- Anchor 1 -->
+
+                    <!-- Samsul Mini -->
+                    <div id="sim-samsul"
+                        class="absolute left-1/2 transform -translate-x-1/2 -translate-y-8 z-20 transition-all duration-1000"
+                        style="top: 0px;">
+                        <img src="{{ asset('images/keSekolah/samsul.png') }}"
+                            class="w-10 h-auto transform scale-x-[-1]">
                     </div>
-                    <span class="relative z-10 flex items-center gap-2 text-black font-black">TAP TOMBOL!</span>
+
+                    <div id="sim-card-1"
+                        class="w-3/4 ml-auto bg-[#FFFEFA] border-2 border-black rounded-xl p-2 text-[10px] font-black transition-all duration-300">
+                        Pos 1</div>
+                </div>
+
+                <!-- Pos 2 (Tujuan) -->
+                <div class="w-full flex items-center justify-start relative z-10">
+                    <!-- Anchor 2 -->
+                    <!-- Card Pos 2 -->
+                    <div id="sim-card-2"
+                        class="w-3/4 mr-auto bg-slate-200 border-2 border-dashed border-slate-400 rounded-xl p-2 text-[10px] font-black text-right transition-all duration-300 text-slate-500">
+                        Pos 2</div>
                 </div>
 
                 <!-- Tangan Animasi Cursor -->
                 <div id="sim-cursor"
-                    class="absolute w-10 h-10 transition-all duration-300 pointer-events-none z-50 flex items-center justify-center text-3xl"
-                    style="top: 75%; left: 50%; transform: translate(-50%, -50%);">
+                    class="absolute w-8 h-8 transition-all duration-700 pointer-events-none z-50 flex items-center justify-center text-3xl"
+                    style="top: 100%; left: 50%; opacity: 0; transform: translate(-50%, -50%);">
                     👆
                 </div>
             </div>
@@ -238,15 +233,14 @@
                 <div class="flex items-start gap-3">
                     <span
                         class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">1</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Tap (Klik) tombol "Isi Tenaga!"</b>
-                        berulang kali dengan cepat.</p>
+                    <p class="font-bold text-slate-700 text-sm md:text-base">Samsul akan <b>berjalan ke Pos</b> yang
+                        harus kamu selesaikan.</p>
                 </div>
                 <div class="flex items-start gap-3">
                     <span
                         class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">2</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base">Setiap tenaga penuh, Samsul akan
-                        <b>melangkah maju</b> menuju sekolah!
-                    </p>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Tap (Klik) kartu Pos tersebut</b> untuk
+                        mulai belajar dan melaju ke pos berikutnya!</p>
                 </div>
             </div>
 
@@ -258,191 +252,149 @@
     </div>
 
     <script>
-        let progress = 0;
-        const container = document.getElementById('game-container');
-        const charContainer = document.getElementById('character-container');
-        const char = document.getElementById('character');
-        const dust = document.getElementById('dust');
-        const bar = document.getElementById('progressBar');
-        const text = document.getElementById('progressText');
-
-        // Logika Pengisian Tenaga
-        let currentStepIndex = 0;
-        // Jumlah tap yang dibutuhkan untuk setiap 10% langkah (semakin lama semakin butuh banyak tenaga)
-        const tapsPerStep = [3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
-        let currentTaps = 0;
-
-        function chargeEnergy() {
-            if (progress >= 100) return;
-
-            currentTaps++;
-            const requiredTaps = tapsPerStep[currentStepIndex];
-
-            // Hitung persen tenaga di dalam tombol
-            let energyPct = (currentTaps / requiredTaps) * 100;
-            const energyFill = document.getElementById('energy-fill');
-            if (energyFill) {
-                energyFill.style.width = energyPct + '%';
-                energyFill.style.borderRightColor = '#000'; // Munculkan garis batas saat mengisi
-            }
-
-            // Efek getar kecil saat tombol ditekan
-            const btnIcon = document.getElementById('btn-icon');
-            if (btnIcon) {
-                btnIcon.style.transform = 'scale(1.3)';
-                setTimeout(() => btnIcon.style.transform = 'scale(1)', 150);
-            }
-
-            if (currentTaps >= requiredTaps) {
-                // TENAGA PENUH! SAMSUL JALAN
-                currentTaps = 0;
-                currentStepIndex++;
-
-                // Ubah icon sesaat menjadi sepatu
-                if (btnIcon) {
-                    btnIcon.innerText = '👟';
-                    setTimeout(() => btnIcon.innerText = '⚡', 500);
-                }
-
-                // Reset visual bar tenaga
-                if (energyFill) {
-                    setTimeout(() => {
-                        energyFill.style.transition = 'width 0.5s ease-in-out';
-                        energyFill.style.width = '0%';
-                        setTimeout(() => {
-                            energyFill.style.transition = 'width 0.15s ease-out';
-                            energyFill.style.borderRightColor = 'transparent';
-                        }, 500);
-                    }, 200);
-                }
-
-                // Panggil fungsi jalan
-                moveAhead();
-            }
-        }
-
-        function moveAhead() {
-            if (progress >= 100) return;
-
-            progress += 10;
-
-            // 1. Update Posisi Visual
-            // Kita batasi sampai 80% agar tidak menabrak sekolah secara visual
-            const visualPos = (progress * 0.75) + 5;
-            charContainer.style.left = visualPos + '%';
-
-            // 2. Animasi Loncat & Debu
-            char.classList.remove('bounce-active');
-            void char.offsetWidth; // trigger reflow
-            char.classList.add('bounce-active');
-
-            dust.style.opacity = '1';
-            dust.style.transform = 'scaleX(-1) translateY(-15px) scale(1.5)';
-            setTimeout(() => {
-                dust.style.opacity = '0';
-                dust.style.transform = 'scaleX(-1) translateY(0) scale(1)';
-            }, 300);
-
-            // 3. Visual Feedback (Glow Hijau)
-            container.classList.add('step-glow');
-            setTimeout(() => container.classList.remove('step-glow'), 300);
-
-            // 4. Update Progress Bar
-            bar.style.width = progress + '%';
-            text.innerText = progress + '%';
-
-            // 50% Milestone: Ekspresi / Bubble
-            if (progress === 50) {
-                const bubble = document.createElement('div');
-                bubble.id = 'char-bubble';
-                bubble.innerText = '🏃‍♂️';
-                // Memberikan style Speech Bubble (Chat) dengan z-index maksimum
-                bubble.className = 'absolute -top-20 -right-4 bg-white brutal-border brutal-shadow-sm px-4 py-2 rounded-[2rem] rounded-bl-none text-4xl animate-bounce flex items-center justify-center z-[9999]';
-                char.appendChild(bubble);
-            }
-
-            // 80% Milestone: Sekolah Glow
-            if (progress === 80) {
-                document.getElementById('school-container').classList.add('glow-yellow');
-            }
-
-            // 5. Cek Sampai
-            if (progress >= 100) {
-                const bubble = document.getElementById('char-bubble');
-                if (bubble) bubble.innerText = '🤩'; // Ekspresi Senang
-
-                // Sembunyikan tombol jalan
-                const moveBtn = document.getElementById('move-btn');
-                if (moveBtn) moveBtn.classList.add('hidden');
-
-                // Efek Bintang
-                for (let i = 0; i < 8; i++) {
-                    const star = document.createElement('div');
-                    star.innerText = '✨';
-                    star.className = 'absolute text-3xl animate-bounce';
-                    star.style.left = (Math.random() * 100 - 50) + 'px';
-                    star.style.top = (Math.random() * -100 - 50) + 'px';
-                    char.appendChild(star);
-                }
-
-                setTimeout(() => {
-                    window.location.href = "{{ route('materi.belajar', ['step' => 1]) }}";
-                }, 1500);
-            }
-        }
-
+        const activePos = {{ $activePos }};
+        const samsul = document.getElementById('animated-samsul');
         let tutorialAnimTimer = null;
 
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hilangkan intro overlay setelah 2 detik
+            setTimeout(() => {
+                const overlay = document.getElementById('intro-overlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.remove();
+                        // Tampilkan tutorial hanya jika ini Pos 1
+                        if (activePos === 1) {
+                            showTutorial();
+                        } else {
+                            // Langsung jalankan animasi pergerakan Samsul
+                            animateSamsulToPos();
+                        }
+                    }, 1000); // Tunggu animasi fade-out selesai
+                }
+            }, 2000);
+        });
+
+        function animateSamsulToPos() {
+            if (!samsul) return;
+
+            // Cari elemen titik pos saat ini
+            const targetDot = document.getElementById('pos-dot-' + activePos);
+
+            if (targetDot) {
+                // Gunakan position top left dari offsetParent (quest-map container)
+                const dotTop = targetDot.offsetTop;
+                const dotLeft = targetDot.offsetLeft;
+
+                // Jika Pos 1, Samsul datang dari langit (atas). Jika Pos > 1, Samsul datang dari pos sebelumnya
+                let startTop = 0;
+                let startLeft = 0;
+
+                if (activePos === 1) {
+                    startTop = dotTop - 300; // Mulai dari atas jauh
+                    startLeft = dotLeft;
+                } else {
+                    const prevDot = document.getElementById('pos-dot-' + (activePos - 1));
+                    if (prevDot) {
+                        startTop = prevDot.offsetTop;
+                        startLeft = prevDot.offsetLeft;
+                    } else {
+                        startTop = dotTop - 300;
+                        startLeft = dotLeft;
+                    }
+                }
+
+                // Atur posisi awal Samsul
+                samsul.style.transition = 'none';
+                samsul.style.top = startTop + 'px';
+                samsul.style.left = startLeft + 'px';
+                // Geser sedikit agar titik tengah bawah gambar pas dengan dot
+                samsul.style.transform = 'translate(-50%, -100%)';
+                samsul.style.opacity = '1';
+
+                // Paksa reflow
+                void samsul.offsetWidth;
+
+                // Mulai Animasi Perjalanan
+                samsul.style.transition = 'top 2s cubic-bezier(0.25, 0.8, 0.25, 1), left 2s cubic-bezier(0.25, 0.8, 0.25, 1)';
+
+                setTimeout(() => {
+                    samsul.style.top = (dotTop + 10) + 'px'; // +10 agar terlihat menapak di titik
+                    samsul.style.left = dotLeft + 'px';
+
+                    // Setelah sampai
+                    setTimeout(() => {
+                        // Tambahkan animasi melayang
+                        samsul.style.transition = 'none';
+                        samsul.classList.add('hover-samsul');
+                        // Tampilkan bubble chat
+                        document.getElementById('samsul-bubble').style.opacity = '1';
+                    }, 2000);
+                }, 100);
+            }
+        }
+
         function runTutorialAnimation() {
-            const samsul = document.getElementById('sim-samsul');
-            const energy = document.getElementById('sim-energy');
-            const btn = document.getElementById('sim-btn');
             const cursor = document.getElementById('sim-cursor');
-            if (!samsul || !energy || !btn || !cursor) return;
+            const samsul = document.getElementById('sim-samsul');
+            const card1 = document.getElementById('sim-card-1');
+            const card2 = document.getElementById('sim-card-2');
 
-            // Reset posisi awal
-            samsul.style.left = '0%';
-            energy.style.width = '0%';
-            energy.style.borderRightColor = 'transparent';
-            btn.className = 'w-full h-14 bg-white brutal-border rounded-xl flex items-center justify-center font-black text-base shadow-sm relative overflow-hidden transition-all duration-150 border-black text-black';
-            cursor.style.top = '78%';
+            if (!cursor || !samsul || !card1 || !card2) return;
 
-            // Tap 1
+            // Reset
+            cursor.style.transition = 'none';
+            cursor.style.top = '100%';
+            cursor.style.left = '50%';
+            cursor.style.opacity = '0';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+
+            samsul.style.transition = 'none';
+            samsul.style.top = '0px';
+
+            card1.className = 'w-3/4 ml-auto bg-[#FFFEFA] border-2 border-black rounded-xl p-2 text-[10px] font-black transition-all duration-300';
+            card1.innerText = 'Pos 1';
+
+            card2.className = 'w-3/4 mr-auto bg-slate-200 border-2 border-dashed border-slate-400 rounded-xl p-2 text-[10px] font-black text-right transition-all duration-300 text-slate-500';
+            card2.innerText = 'Pos 2';
+
+            // Paksa Reflow
+            void cursor.offsetWidth;
+            void samsul.offsetWidth;
+
+            // Kursor Muncul & Bergerak ke Kartu 1
+            setTimeout(() => {
+                cursor.style.transition = 'all 1s ease-out';
+                cursor.style.opacity = '1';
+                cursor.style.top = '30%'; // Menuju kartu 1 (atas)
+                cursor.style.left = '65%'; // Menuju kartu kanan
+            }, 500);
+
+            // Kursor Klik Kartu 1
             setTimeout(() => {
                 cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
-                energy.style.width = '35%';
-                energy.style.borderRightColor = '#000';
-                btn.classList.add('ring-4', 'ring-sky-400');
-            }, 600);
+                card1.classList.add('ring-4', 'ring-sky-400');
+            }, 1600);
+
+            // Kartu 1 Selesai (Ceklis)
             setTimeout(() => {
                 cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            }, 900);
+                card1.classList.replace('bg-[#FFFEFA]', 'bg-[#D4F1BE]');
+                card1.innerText = 'Pos 1 ✓';
 
-            // Tap 2
-            setTimeout(() => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
-                energy.style.width = '70%';
-            }, 1400);
-            setTimeout(() => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            }, 1700);
+                // Cursor menghilang
+                cursor.style.opacity = '0';
+            }, 1900);
 
-            // Tap 3 (Tenaga Penuh!)
+            // Samsul pindah ke Pos 2 & Pos 2 Aktif
             setTimeout(() => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
-                energy.style.width = '100%';
-                btn.classList.replace('bg-white', 'bg-[#D4F1BE]');
-            }, 2200);
+                samsul.style.transition = 'top 1s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                samsul.style.top = '72px'; // Jarak ke pos 2
 
-            // Samsul Melangkah Maju
-            setTimeout(() => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                btn.classList.remove('ring-4', 'ring-sky-400');
-                btn.classList.replace('bg-[#D4F1BE]', 'bg-white');
-                energy.style.width = '0%';
-                energy.style.borderRightColor = 'transparent';
-                samsul.style.left = '70%';
-            }, 2700);
+                card2.className = 'w-3/4 mr-auto bg-[#FFFEFA] border-2 border-black rounded-xl p-2 text-[10px] font-black text-right transition-all duration-300';
+                card2.innerText = 'Pos 2';
+            }, 2500);
         }
 
         function showTutorial() {
@@ -471,20 +423,11 @@
             content.classList.add('scale-90');
 
             clearInterval(tutorialAnimTimer);
-        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Hilangkan intro overlay setelah 2 detik
+            // Setelah tutorial ditutup, jalankan animasi Samsul jalan dari awal
             setTimeout(() => {
-                const overlay = document.getElementById('intro-overlay');
-                if (overlay) {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        overlay.remove();
-                        showTutorial();
-                    }, 1000); // Tunggu animasi fade-out selesai
-                }
-            }, 2000);
-        });
+                animateSamsulToPos();
+            }, 500);
+        }
     </script>
 </x-student-layout>

@@ -3,10 +3,7 @@
         <!-- Progress Bar (Tahap 2) -->
         <div class="w-full mb-12 max-w-3xl">
             <div class="flex justify-between mb-4 items-end">
-                <span class="font-black text-xl tracking-widest uppercase text-black">Tahap 2: Latihan Kuis</span>
-                <span
-                    class="text-xl font-black text-black bg-[#FFF5B8] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-[2px_2px_0_#000]">Soal
-                    {{ $soal_ke }} dari 3</span>
+                <span class="font-black text-xl tracking-widest uppercase text-black">Latihan Kuis</span>
             </div>
             <div class="w-full h-8 bg-white brutal-border brutal-shadow-sm rounded-2xl overflow-hidden p-1">
                 <div class="h-full bg-[#BEE9E8] rounded-xl transition-all duration-1000 border-r-4 border-black"
@@ -75,8 +72,8 @@
                             <div onclick="swapPiece({{ $index }})" id="piece-{{ $index }}" data-correct="{{ $pos }}"
                                 class="puzzle-piece cursor-pointer border-2 border-black/10 transition-all duration-200 rounded-md hover:border-black hover:scale-[0.98]"
                                 style="background-image: url('{{ asset('images/materi/tahap1/' . $quiz->jawaban_benar) }}');
-                                       background-size: 300% 300%;
-                                       background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
+                                                                       background-size: 300% 300%;
+                                                                       background-position: {{ ($pos % 3) * 50 }}% {{ floor($pos / 3) * 50 }}%;">
                             </div>
                         @endforeach
                     </div>

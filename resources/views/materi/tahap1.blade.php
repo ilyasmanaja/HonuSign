@@ -3,10 +3,7 @@
         <!-- Progress Bar (Tahap 1) -->
         <div class="w-full mb-10 max-w-3xl">
             <div class="flex justify-between mb-4 items-end">
-                <span class="font-black text-xl tracking-widest uppercase text-black">Tahap 1: Membaca</span>
-                <span
-                    class="text-xl font-black text-black bg-[#FFD1E3] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-[2px_2px_0_#000]">Misi
-                    1 dari 6</span>
+                <span class="font-black text-xl tracking-widest uppercase text-black">Membaca</span>
             </div>
             <div class="w-full h-8 bg-white brutal-border brutal-shadow-sm rounded-2xl overflow-hidden p-1">
                 <div class="h-full bg-[#BEE9E8] rounded-xl transition-all duration-1000 border-r-4 border-black"
@@ -37,14 +34,29 @@
                         <h3
                             class="font-black text-black uppercase tracking-widest text-xl md:text-2xl flex items-center gap-4">
                             <span
-                                class="p-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl transform -rotate-3 text-3xl">📖</span>
+                                class="p-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl transform -rotate-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="w-8 h-8 text-black">
+                                    <path opacity="0.2"
+                                        d="M12 3v18c-3.333-1-5-1-8-1a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2c3 0 4.667 0 8 0z" />
+                                    <path
+                                        d="M12 3v18c3.333-1 5-1 8-1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2c-3 0-4.667 0-8 0z" />
+                                </svg>
+                            </span>
                             SLB Insan Mutiara Pekanbaru
                         </h3>
 
                         <!-- Tombol Ganti ke Video -->
                         <a href="{{ route('materi.tahap1.video') }}"
                             class="bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover px-6 py-4 md:px-8 md:py-4 rounded-[2rem] font-black text-black text-sm md:text-base uppercase flex items-center gap-3 transform hover:-translate-y-1 transition-all">
-                            <span class="text-2xl">🎥</span> Tonton Isyarat SIBI
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="w-6 h-6 text-black">
+                                    <path opacity="0.2"
+                                        d="M16 7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z" />
+                                    <path d="M22 6.5v11l-5-3.5v-4l5-3.5z" />
+                                </svg>
+                            </span> Tonton Isyarat SIBI
                         </a>
                     </div>
 
@@ -69,11 +81,6 @@
 
                         <!-- Storyboard Character Cards (Grid 3 Kolom) -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10 relative">
-                            <!-- Bintang Hiasan Floating -->
-                            <div class="absolute -top-6 -left-6 text-4xl animate-bounce" style="animation-delay: 0s;">✨
-                            </div>
-                            <div class="absolute -bottom-6 -right-6 text-4xl animate-bounce"
-                                style="animation-delay: 0.5s;">⭐</div>
 
                             <!-- Samsul Card -->
                             <div
@@ -133,11 +140,6 @@
 
                         <!-- Storyboard Character Cards (Grid 3 Kolom) -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10 relative">
-                            <!-- Bintang Hiasan Floating -->
-                            <div class="absolute -top-6 -left-6 text-4xl animate-bounce" style="animation-delay: 0s;">✨
-                            </div>
-                            <div class="absolute -bottom-6 -right-6 text-4xl animate-bounce"
-                                style="animation-delay: 0.5s;">⭐</div>
 
                             <!-- Samsul Card -->
                             <div
@@ -207,11 +209,20 @@
 
         </div>
 
-        <!-- Tombol Aksi (Lanjut) -->
-        <a href="{{ route('materi.belajar', ['step' => 2]) }}" onclick="tandaiSelesai(event, this.href, 1)"
-            class="bg-[#D4F1BE] brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-12 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-xl md:text-2xl mt-4 flex items-center gap-4 text-center transform hover:-translate-y-2">
-            Selesai Membaca, Lanjut! <span class="text-4xl animate-bounce">🚀</span>
-        </a>
+        <!-- Tombol Aksi -->
+        <div class="w-full max-w-5xl flex flex-col md:flex-row justify-between items-center mt-4 gap-6">
+            <!-- Tombol Keluar & Simpan -->
+            <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 1)"
+                class="bg-[#FFB3B3] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-10 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-lg md:text-xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
+                Keluar & Simpan Progres
+            </a>
+
+            <!-- Tombol Lanjut -->
+            <a href="{{ route('materi.belajar', ['step' => 2]) }}" onclick="tandaiSelesai(event, this.href, 1)"
+                class="bg-[#D4F1BE] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-12 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-xl md:text-2xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
+                Selesai Membaca, Lanjut!
+            </a>
+        </div>
     </div>
 
     <script>

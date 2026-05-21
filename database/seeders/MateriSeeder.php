@@ -11,8 +11,8 @@ class MateriSeeder extends Seeder
     {
         $materi_cerita = [
             'order' => 1,
-            'judul' => 'Samsul dan Pakaian Kebanggaannya',
-            'slug' => 'samsul-dan-pakaian-kebanggaannya',
+            'judul' => 'Festival Budaya Kemerdekaan Indonesia',
+            'slug' => 'festival-budaya-kemerdekaan-indonesia',
             // Kita numpang di kolom ini untuk nyimpan nama gambar ilustrasi
             'video_peragaan' => 'kelas.png',
             // Isi paragraf cerita

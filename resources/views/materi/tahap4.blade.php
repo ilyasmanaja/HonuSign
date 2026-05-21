@@ -1,13 +1,10 @@
 <x-student-layout>
     <div class="max-w-5xl w-full px-6 py-12 flex flex-col items-center">
 
-        <!-- Progress Bar (Tahap 4) -->
+        <!-- Progress Bar -->
         <div class="w-full mb-10 max-w-3xl">
             <div class="flex justify-between mb-4 items-end">
-                <span class="font-black text-xl tracking-widest uppercase text-black">Tahap 4: Keberagaman</span>
-                <span
-                    class="text-xl font-black text-black bg-[#E0BBE4] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-[2px_2px_0_#000]">Misi
-                    4 dari 6</span>
+                <span class="font-black text-xl tracking-widest uppercase text-black">Keberagaman</span>
             </div>
             <div class="w-full h-8 bg-white brutal-border brutal-shadow-sm rounded-2xl overflow-hidden p-1">
                 <div class="h-full bg-[#E0BBE4] rounded-xl transition-all duration-1000 border-r-4 border-black"
@@ -93,11 +90,27 @@
             </div>
         </div>
 
-        <!-- Tombol Lanjut -->
-        <a href="{{ route('materi.belajar', ['step' => 5]) }}" onclick="tandaiSelesai(event, this.href, 4)"
-            class="bg-[#D4F1BE] brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-12 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-xl md:text-2xl flex items-center gap-4 text-center">
-            Selesai Membaca, Lanjut! <span class="text-4xl animate-bounce">🚀</span>
-        </a>
+        <!-- Tombol Aksi -->
+        <div class="w-full max-w-5xl flex flex-col md:flex-row justify-between items-center mt-4 gap-6">
+            <!-- Tombol Keluar & Simpan -->
+            <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 4)"
+                class="bg-[#FFB3B3] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-10 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-lg md:text-xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
+                Keluar & Simpan Progres
+            </a>
+
+            <!-- Tombol Lanjut -->
+            <a href="{{ route('materi.belajar', ['step' => 5]) }}" onclick="tandaiSelesai(event, this.href, 4)"
+                class="bg-[#D4F1BE] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-12 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-xl md:text-2xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
+                Selesai Membaca, Lanjut!
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-6 h-6 text-black transform -rotate-90">
+                        <path opacity="0.2" d="M12 20V4l8 8-8 8z" />
+                        <path d="M12 20V4l8 8-8 8z" />
+                    </svg>
+                </span>
+            </a>
+        </div>
     </div>
 
     <script>

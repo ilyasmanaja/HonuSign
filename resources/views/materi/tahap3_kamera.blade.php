@@ -1,10 +1,18 @@
 <x-student-layout>
     <style>
         @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+            }
         }
-        .animate-scan { animation: scan 3s linear infinite; }
+
+        .animate-scan {
+            animation: scan 3s linear infinite;
+        }
     </style>
 
     <div class="max-w-6xl w-full px-6 py-12 flex flex-col items-center">
@@ -44,10 +52,10 @@
                 </div>
 
                 <!-- Card Progress Ejaan -->
-                <div class="bg-[#E0BBE4] brutal-border brutal-shadow-sm rounded-[2.5rem] p-6 flex flex-col items-center justify-center text-center">
+                <div
+                    class="bg-[#E0BBE4] brutal-border brutal-shadow-sm rounded-[2.5rem] p-6 flex flex-col items-center justify-center text-center">
                     <p class="font-black text-black uppercase tracking-widest text-sm mb-2">Kata yang Dieja:</p>
-                    <h1 id="word-progress"
-                        class="text-5xl font-black text-black uppercase tracking-widest mb-2">
+                    <h1 id="word-progress" class="text-5xl font-black text-black uppercase tracking-widest mb-2">
                         -
                     </h1>
                     <p id="word-target-hint" class="text-sm text-slate-500 font-bold"></p>
@@ -55,7 +63,8 @@
 
                 <!-- Input Fallback -->
                 <div class="bg-[#FFFEFA] brutal-border brutal-shadow-sm rounded-2xl p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-3">Ketik jawaban jika kamera tidak muncul:</p>
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-3">Ketik jawaban jika kamera tidak muncul:
+                    </p>
                     <input type="text" id="manual-input" placeholder="Ketik di sini..."
                         class="w-full p-4 rounded-xl brutal-border bg-white outline-none uppercase font-bold text-lg text-slate-800">
                 </div>
@@ -63,7 +72,8 @@
 
             <!-- Panel Kanan: Webcam -->
             <div class="relative">
-                <div class="relative bg-black brutal-border brutal-shadow rounded-[2.5rem] aspect-square overflow-hidden">
+                <div
+                    class="relative bg-black brutal-border brutal-shadow rounded-[2.5rem] aspect-square overflow-hidden">
                     <video id="webcam" autoplay playsinline muted
                         style="width: 100%; height: 100%; object-fit: cover; display: block;">
                     </video>
