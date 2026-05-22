@@ -96,9 +96,12 @@
 
     <!-- Back button -->
     <div class="fixed top-5 left-5 z-[60]">
-        <a href="{{ route('dashboard') }}"
-            class="btn-back bg-[#FFB3B3] text-black bb bs-sm px-5 py-2.5 rounded-2xl font-bold text-sm flex items-center gap-2">
-            Kembali
+        <a href="{{ route('dashboard') }}" aria-label="Kembali"
+            class="btn-back bg-[#FFB3B3] text-black bb bs-sm p-3.5 rounded-2xl font-bold flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
+                <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            </svg>
         </a>
     </div>
 
@@ -154,8 +157,11 @@
                             ke posisi yang tepat!</p>
                     </div>
                     <div
-                        class="play-btn bb bs-sm w-full bg-[#FFF5B8] text-black text-lg py-3 rounded-2xl font-bold uppercase tracking-widest text-center">
-                        Mainkan
+                        class="play-btn bb bs-sm w-full bg-[#FFF5B8] text-black py-3 rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black">
+                            <polygon points="5 3 19 12 5 21" fill="currentColor" class="opacity-20" />
+                            <polygon points="5 3 19 12 5 21" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+                        </svg>
                     </div>
                 </div>
             </a>
@@ -183,8 +189,11 @@
                             tradisional Riau!</p>
                     </div>
                     <div
-                        class="play-btn bb bs-sm w-full bg-[#FFF5B8] text-black text-lg py-3 rounded-2xl font-bold uppercase tracking-widest text-center">
-                        Mainkan
+                        class="play-btn bb bs-sm w-full bg-[#FFF5B8] text-black py-3 rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black">
+                            <polygon points="5 3 19 12 5 21" fill="currentColor" class="opacity-20" />
+                            <polygon points="5 3 19 12 5 21" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+                        </svg>
                     </div>
                 </div>
             </a>
@@ -212,8 +221,11 @@
                             tangan yang sama!</p>
                     </div>
                     <div
-                        class="play-btn bb bs-sm w-full bg-[#BEE9E8] text-black text-lg py-3 rounded-2xl font-bold uppercase tracking-widest text-center">
-                        Mainkan
+                        class="play-btn bb bs-sm w-full bg-[#BEE9E8] text-black py-3 rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black">
+                            <polygon points="5 3 19 12 5 21" fill="currentColor" class="opacity-20" />
+                            <polygon points="5 3 19 12 5 21" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+                        </svg>
                     </div>
                 </div>
             </a>

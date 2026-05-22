@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Quiz;
+use Illuminate\Database\Seeder;
 
 class QuizSeeder extends Seeder
 {
@@ -28,7 +27,7 @@ class QuizSeeder extends Seeder
         Quiz::create([
             'tipe' => 'puzzle',
             'pertanyaan' => 'Susun potongan gambar ini menjadi utuh!',
-            'jawaban_benar' => 'kelas.png', 
+            'jawaban_benar' => 'kelas.png',
         ]);
 
         // Soal 3: Susun Kalimat
@@ -36,9 +35,8 @@ class QuizSeeder extends Seeder
             'tipe' => 'susun_kalimat',
             'pertanyaan' => 'Susun kata-kata berikut menjadi kalimat yang benar!',
             'jawaban_benar' => 'Aku pergi ke Sekolah untuk belajar',
-            'pilihan_data' => json_encode(['pergi', 'belajar', 'Aku', 'Sekolah', 'ke', 'untuk']), 
+            'pilihan_data' => json_encode(['pergi', 'belajar', 'Aku', 'Sekolah', 'ke', 'untuk']),
         ]);
-
 
         // ==========================================
         // TAHAP 3: 5 SOAL CERITA BARU (MENGEJA LEWAT KAMERA AI)

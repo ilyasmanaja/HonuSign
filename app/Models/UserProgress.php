@@ -14,7 +14,7 @@ class UserProgress extends Model
         'materi_id',
         'tahap',
         'score',
-        'is_completed'
+        'is_completed',
     ];
 
     // Relasi balik ke User (Siswa)

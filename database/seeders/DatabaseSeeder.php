@@ -14,12 +14,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Bikin 10 siswa dummy
-        \App\Models\User::factory(10)->create([
+        User::factory(10)->create([
             'role' => 'student',
         ]);
 
         // Bonus: Bikin 1 akun guru buat login kamu sendiri
-        \App\Models\User::factory()->create([
+        User::factory()->create([
             'name' => 'Pak Guru Han',
             'email' => 'guru@honusign.test',
             'password' => bcrypt('password'),

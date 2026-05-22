@@ -41,10 +41,6 @@
             box-shadow: 2px 2px 0px 0px #000000 !important;
         }
 
-        .text-outline {
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 0 #000;
-        }
-
         .puzzle-piece {
             touch-action: none;
             -webkit-user-drag: none;
@@ -265,7 +261,7 @@
                 Drag & Drop Puzzle
             </div>
             <h1
-                class="text-6xl md:text-8xl font-black text-black text-outline transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
+                class="text-6xl md:text-8xl font-black text-black transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
                 Riau Discovery
             </h1>
             <p
@@ -274,17 +270,21 @@
         </div>
     </div>
 
-    <a href="{{ route('general.index') }}" id="btn-back"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black px-5 py-2.5 md:px-7 md:py-3 rounded-2xl font-bold text-sm md:text-base brutal-border brutal-shadow-sm brutal-hover flex items-center gap-2 transition-opacity duration-1000">
-        Kembali
+    <a href="{{ route('general.index') }}" id="btn-back" aria-label="Kembali"
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center transition-opacity duration-1000">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
+            <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+            <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" fill="none" />
+        </svg>
     </a>
 
     <!-- Garis Penunjuk (Hint) -->
     <svg id="guide-svg">
-        <line id="guide-line" x1="0" y1="0" x2="0" y2="0" stroke="black" stroke-width="6" stroke-dasharray="15,15"
-            opacity="0" />
-        <circle id="guide-target" cx="0" cy="0" r="20" fill="#FFF5B8" stroke="black" stroke-width="4" opacity="0"
-            class="drop-shadow-lg" />
+        <line id="guide-line" x1="0" y1="0" x2="0" y2="0" stroke="black"
+            stroke-width="6" stroke-dasharray="15,15" opacity="0" />
+        <circle id="guide-target" cx="0" cy="0" r="20" fill="#FFF5B8" stroke="black" stroke-width="4"
+            opacity="0" class="drop-shadow-lg" />
         <circle id="guide-target-inner" cx="0" cy="0" r="8" fill="black" opacity="0" />
     </svg>
 
@@ -373,9 +373,13 @@
                 </div>
             </div>
 
-            <button onclick="closeTutorial()"
-                class="w-full md:w-auto bg-[#D4F1BE] text-black font-black text-lg md:text-xl px-10 py-4 rounded-3xl brutal-border brutal-shadow-sm brutal-hover">
-                OKE, AKU MENGERTI!
+            <button onclick="closeTutorial()" aria-label="Mengerti"
+                class="w-full md:w-auto bg-[#D4F1BE] text-black p-4 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
+                    <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                    <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round" fill="none" />
+                </svg>
             </button>
         </div>
     </div>
@@ -386,38 +390,61 @@
         <div
             class="modal-animate flex flex-col items-center relative z-10 bg-[#FFFEFA] brutal-border brutal-shadow p-10 rounded-[3rem] transform -rotate-1 max-w-lg w-full">
 
-            <div class="mb-4 animate-bounce">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-20 h-20 shrink-0">
-                    <path
-                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                        fill="#FFD1E3" />
-                    <path
-                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                        fill="none" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" />
-                    <circle cx="9.5" cy="11.5" r="1.5" fill="#000000" />
-                    <circle cx="14.5" cy="11.5" r="1.5" fill="#000000" />
-                    <path d="M10 14.5s1 1 2 1 2-1 2-1" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                        fill="none" />
-                </svg>
+            <div class="flex gap-4 mb-6 animate-bounce">
+                <!-- Smiling Face Icon -->
+                <div
+                    class="relative w-20 h-20 bg-[#BEE9E8] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
+                        <circle cx="12" cy="12" r="10" fill="#FFF5B8" class="opacity-20" />
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor"
+                            stroke-width="2.5" />
+                        <circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" />
+                        <circle cx="15.5" cy="10.5" r="1.5" fill="currentColor" />
+                        <path d="M8 15c1.5 2 4.5 2 6 0" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
+                <!-- Thumbs Up Icon -->
+                <div
+                    class="relative w-20 h-20 bg-[#FFD1E3] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
+                        <path
+                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+                            fill="#BEE9E8" class="opacity-20" />
+                        <path
+                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
             </div>
 
-            <h1
-                class="text-6xl md:text-8xl font-black text-black text-outline mb-2 tracking-tighter transform rotate-1">
-                HORE!
+            <h1 class="text-6xl md:text-7xl font-extrabold text-black mb-2 tracking-tighter transform rotate-1">
+                SELAMAT!
             </h1>
             <p id="result-message"
                 class="text-xl md:text-2xl font-bold text-slate-600 mb-8 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-3 rounded-2xl">
-                Kamu Pintar Sekali!
+                Anda berhasil menyelesaikan permainan ini.
             </p>
 
-            <div class="mt-2 flex flex-col md:flex-row gap-4 w-full justify-center">
-                <button onclick="window.location.reload()"
-                    class="w-full md:w-auto bg-[#FFF5B8] text-black px-10 py-4 rounded-3xl text-xl font-bold brutal-border brutal-shadow-sm brutal-hover">
-                    Ulangi
+            <div class="mt-2 flex gap-6 w-full justify-center">
+                <button onclick="window.location.reload()" aria-label="Ulangi"
+                    class="bg-[#FFF5B8] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
                 </button>
-                <button onclick="window.location.href='{{ route('general.index') }}'"
-                    class="w-full md:w-auto bg-[#FFB3B3] text-black px-10 py-4 rounded-3xl text-xl font-bold brutal-border brutal-shadow-sm brutal-hover">
-                    Keluar
+                <button onclick="window.location.href='{{ route('general.index') }}'" aria-label="Keluar"
+                    class="bg-[#FFB3B3] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
                 </button>
             </div>
         </div>
@@ -433,20 +460,115 @@
         // 3. Kepingan akan kembali ke bawah, TAPI di Console akan muncul pesan berwarna kuning:
         //    "[KALIBRASI] Siak -> targetX: 45.2, targetY: 60.1"
         // 4. Salin angka targetX dan targetY tersebut, lalu ubah di baris kode di bawah ini!
-        const piecesData = [
-            { id: 'rokan_hilir', name: 'Rokan Hilir', src: 'potongan_rokan_hilir.png', targetX: 34.4, targetY: 19.9, labelX: 32.4, labelY: 35.9 },
+        const piecesData = [{
+                id: 'rokan_hilir',
+                name: 'Rokan Hilir',
+                src: 'potongan_rokan_hilir.png',
+                targetX: 34.4,
+                targetY: 19.9,
+                labelX: 32.4,
+                labelY: 35.9
+            },
             // Kepingan dumai ditarik ke atas (dikurangi targetY-nya)
-            { id: 'dumai', name: 'Dumai', src: 'potongan_dumai.png', targetX: 43.9, targetY: 20.8, labelX: 44.0, labelY: 52.1 },
-            { id: 'bengkalis', name: 'Bengkalis', src: 'potongan_bengkalis.png', targetX: 48.2, targetY: 28.5, labelX: 48.2, labelY: 55.5 },
-            { id: 'rokan_hulu', name: 'Rokan Hulu', src: 'potongan_rokan_hulu.png', targetX: 31.0, targetY: 46.0, labelX: 31.0, labelY: 46.0 },
-            { id: 'kepulauan_meranti', name: 'Kepulauan Meranti', src: 'potongan_kepulauan_meranti.png', targetX: 62.1, targetY: 39.3, labelX: 62.1, labelY: 39.3 },
-            { id: 'siak', name: 'Siak', src: 'potongan_siak.png', targetX: 52.2, targetY: 46.4, labelX: 52.2, labelY: 46.4 },
-            { id: 'kampar', name: 'Kampar', src: 'potongan_kampar.png', targetX: 39.3, targetY: 57.9, labelX: 40.3, labelY: 57.9 },
-            { id: 'pekanbaru', name: 'Pekanbaru', src: 'potongan_pekanbaru.png', targetX: 44.7, targetY: 52.3, labelX: 48.7, labelY: 52.3 },
-            { id: 'pelalawan', name: 'Pelalawan', src: 'potongan_pelalawan.png', targetX: 58.2, targetY: 62.6, labelX: 50.2, labelY: 55.0 },
-            { id: 'kuantan_singingi', name: 'Kuantan Singingi', src: 'potongan_kuantan_singingi.png', targetX: 44.6, targetY: 78.6, labelX: 40, labelY: 60 },
-            { id: 'indragiri_hulu', name: 'Indragiri Hulu', src: 'potongan_indragili_hulu.png', targetX: 56.6, targetY: 78.6, labelX: 54.0, labelY: 72.0 },
-            { id: 'indragiri_hilir', name: 'Indragiri Hilir', src: 'potongan_indragili_hilir.png', targetX: 70.0, targetY: 73.7, labelX: 65, labelY: 65.0 }
+            {
+                id: 'dumai',
+                name: 'Dumai',
+                src: 'potongan_dumai.png',
+                targetX: 43.9,
+                targetY: 20.8,
+                labelX: 44.0,
+                labelY: 52.1
+            },
+            {
+                id: 'bengkalis',
+                name: 'Bengkalis',
+                src: 'potongan_bengkalis.png',
+                targetX: 48.2,
+                targetY: 28.5,
+                labelX: 48.2,
+                labelY: 55.5
+            },
+            {
+                id: 'rokan_hulu',
+                name: 'Rokan Hulu',
+                src: 'potongan_rokan_hulu.png',
+                targetX: 31.0,
+                targetY: 46.0,
+                labelX: 31.0,
+                labelY: 46.0
+            },
+            {
+                id: 'kepulauan_meranti',
+                name: 'Kepulauan Meranti',
+                src: 'potongan_kepulauan_meranti.png',
+                targetX: 62.1,
+                targetY: 39.3,
+                labelX: 62.1,
+                labelY: 39.3
+            },
+            {
+                id: 'siak',
+                name: 'Siak',
+                src: 'potongan_siak.png',
+                targetX: 52.2,
+                targetY: 46.4,
+                labelX: 52.2,
+                labelY: 46.4
+            },
+            {
+                id: 'kampar',
+                name: 'Kampar',
+                src: 'potongan_kampar.png',
+                targetX: 39.3,
+                targetY: 57.9,
+                labelX: 40.3,
+                labelY: 57.9
+            },
+            {
+                id: 'pekanbaru',
+                name: 'Pekanbaru',
+                src: 'potongan_pekanbaru.png',
+                targetX: 44.7,
+                targetY: 52.3,
+                labelX: 48.7,
+                labelY: 52.3
+            },
+            {
+                id: 'pelalawan',
+                name: 'Pelalawan',
+                src: 'potongan_pelalawan.png',
+                targetX: 58.2,
+                targetY: 62.6,
+                labelX: 50.2,
+                labelY: 55.0
+            },
+            {
+                id: 'kuantan_singingi',
+                name: 'Kuantan Singingi',
+                src: 'potongan_kuantan_singingi.png',
+                targetX: 44.6,
+                targetY: 78.6,
+                labelX: 40,
+                labelY: 60
+            },
+            {
+                id: 'indragiri_hulu',
+                name: 'Indragiri Hulu',
+                src: 'potongan_indragili_hulu.png',
+                targetX: 56.6,
+                targetY: 78.6,
+                labelX: 54.0,
+                labelY: 72.0
+            },
+            {
+                id: 'indragiri_hilir',
+                name: 'Indragiri Hilir',
+                src: 'potongan_indragili_hilir.png',
+                targetX: 70.0,
+                targetY: 73.7,
+                labelX: 65,
+                labelY: 65.0
+            }
         ];
 
         let lockedCount = 0;
@@ -528,8 +650,12 @@
             img.dataset.slotId = slot.id;
             img.draggable = false;
 
-            img.addEventListener('mousedown', handleStart, { passive: false });
-            img.addEventListener('touchstart', handleStart, { passive: false });
+            img.addEventListener('mousedown', handleStart, {
+                passive: false
+            });
+            img.addEventListener('touchstart', handleStart, {
+                passive: false
+            });
 
             slot.appendChild(img);
             piecesTray.appendChild(slot);
@@ -540,8 +666,12 @@
         endSpacer.className = 'flex-shrink-0 w-2 md:w-4';
         piecesTray.appendChild(endSpacer);
 
-        document.addEventListener('mousemove', handleMove, { passive: false });
-        document.addEventListener('touchmove', handleMove, { passive: false });
+        document.addEventListener('mousemove', handleMove, {
+            passive: false
+        });
+        document.addEventListener('touchmove', handleMove, {
+            passive: false
+        });
 
         document.addEventListener('mouseup', handleEnd);
         document.addEventListener('touchend', handleEnd);
@@ -576,8 +706,7 @@
                 const oldLabel = document.getElementById('label-' + activePiece.id);
                 if (oldLabel) oldLabel.remove();
                 document.body.appendChild(activePiece);
-            }
-            else if (activePiece.parentElement.classList.contains('tray-slot')) {
+            } else if (activePiece.parentElement.classList.contains('tray-slot')) {
                 document.body.appendChild(activePiece);
                 startTimer();
 
@@ -756,7 +885,8 @@
 
             const label = document.createElement('div');
             // Label diganti menjadi warna putih bersih dengan garis biru agar lebih netral & elegan
-            label.className = 'piece-label absolute font-black text-sky-700 bg-white px-3 py-1.5 rounded-full shadow-[0_4px_0_#0284c7] border-2 md:border-4 border-sky-400 text-[11px] md:text-sm lg:text-base cursor-pointer z-[60] text-center uppercase tracking-widest';
+            label.className =
+                'piece-label absolute font-black text-sky-700 bg-white px-3 py-1.5 rounded-full shadow-[0_4px_0_#0284c7] border-2 md:border-4 border-sky-400 text-[11px] md:text-sm lg:text-base cursor-pointer z-[60] text-center uppercase tracking-widest';
             label.innerText = piece.dataset.name;
             label.id = 'label-' + piece.id;
             label.dataset.for = piece.id;
@@ -772,7 +902,9 @@
             label.style.top = `${labelPctTop}%`;
             label.style.transform = 'translate(-50%, -50%)';
 
-            setTimeout(() => { mapContainer.appendChild(label); }, 300);
+            setTimeout(() => {
+                mapContainer.appendChild(label);
+            }, 300);
             showStarsEffect(targetX, targetY);
 
             lockedCount++;
@@ -811,11 +943,11 @@
             const totalSeconds = stopTimer();
             const stars = getStarRating(totalSeconds);
             const resMsg = document.getElementById('result-message');
-            if (resMsg) resMsg.innerText = stars === 3
-                ? 'Wah hebat! Kamu cepat sekali menyelesaikannya!'
-                : stars === 2
-                    ? 'Bagus! Terus latihan biar makin cepat.'
-                    : 'Keren! Ayo coba sekali lagi untuk dapat 3 bintang.';
+            if (resMsg) resMsg.innerText = stars === 3 ?
+                'Anda berhasil menyelesaikan permainan ini dengan sangat cepat.' :
+                stars === 2 ?
+                'Anda berhasil menyelesaikan permainan ini dengan waktu yang baik.' :
+                'Anda berhasil menyelesaikan permainan ini.';
 
             const baseImg = document.getElementById('base-img');
             const fullImg = document.getElementById('full-img');
@@ -872,7 +1004,8 @@
             piece.style.transform = 'translate(0px, 0px) scale(1)';
             piece.style.position = 'relative';
             piece.style.zIndex = '40';
-            piece.className = 'w-16 h-12 bg-[#FFF5B8] brutal-border rounded-lg flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40';
+            piece.className =
+                'w-16 h-12 bg-[#FFF5B8] brutal-border rounded-lg flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40';
             cursor.style.top = '78%';
             cursor.style.left = '25%';
 

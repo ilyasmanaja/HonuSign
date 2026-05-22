@@ -1,9 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
+use App\Models\Materi;
+use App\Models\Quiz;
+use App\Models\User;
 use App\Models\UserProgress;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -14,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if ($request->user()?->role === 'teacher') {
             return redirect()->route('teacher.dashboard');
         }
+
         return view('dashboard');
     })->name('dashboard');
 
@@ -21,11 +25,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('teacher/dashboard', function () {
         // 1. Ambil semua siswa
         // 2. Load relasi progress-nya (Eager Loading agar tidak berat)
-        $students = \App\Models\User::where('role', 'student')
+        $students = User::where('role', 'student')
             ->with([
                 'progress' => function ($query) {
                     $query->orderBy('materi_id')->orderBy('tahap');
-                }
+                },
             ])->get();
 
         return view('teacher.dashboard', compact('students'));
@@ -35,7 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $request->validate([
             'materi_id' => 'required|exists:materis,id',
             'tahap' => 'required|integer',
-            'score' => 'required|numeric'
+            'score' => 'required|numeric',
         ]);
 
         // updateOrCreate: Kalau datanya belum ada, dibuat baru. Kalau sudah ada, di-update.
@@ -47,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ],
             [
                 'score' => $request->score,
-                'is_completed' => true
+                'is_completed' => true,
             ]
         );
 
@@ -63,8 +67,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // 4. Halaman Khusus Video Peragaan SIBI Tahap 1
     Route::get('materi/tahap1/video', function () {
-        $materi = \App\Models\Materi::orderBy('order', 'asc')->first();
-        if (!$materi) return redirect()->route('dashboard');
+        $materi = Materi::orderBy('order', 'asc')->first();
+        if (! $materi) {
+            return redirect()->route('dashboard');
+        }
+
         return view('materi.tahap1video', compact('materi'));
     })->name('materi.tahap1.video');
 
@@ -73,9 +80,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('materi/belajar/{step}/{soal_ke?}', function ($step, $soal_ke = null) {
 
         // 1. Ambil materi utama menggunakan urutan (order) terbaru
-        $materi = \App\Models\Materi::orderBy('order', 'asc')->first();
+        $materi = Materi::orderBy('order', 'asc')->first();
 
-        if (!$materi) {
+        if (! $materi) {
             return redirect()->route('dashboard');
         }
 
@@ -89,13 +96,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             $nomor_soal = $soal_ke ?? 1;
 
             // FIX: Batasi kueri hanya mengambil tipe soal khusus milik Tahap 2 saja
-            $quiz = \App\Models\Quiz::whereIn('tipe', ['susun_huruf', 'puzzle', 'susun_kalimat'])
+            $quiz = Quiz::whereIn('tipe', ['susun_huruf', 'puzzle', 'susun_kalimat'])
                 ->orderBy('id')
                 ->skip($nomor_soal - 1)
                 ->first();
 
             // Jika ke-3 soal Tahap 2 sudah habis, lempar otomatis ke Tahap 3!
-            if (!$quiz) {
+            if (! $quiz) {
                 return redirect()->route('materi.belajar', ['step' => 3]);
             }
 
@@ -103,25 +110,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'materi' => $materi,
                 'step' => $step,
                 'quiz' => $quiz,
-                'soal_ke' => $nomor_soal
+                'soal_ke' => $nomor_soal,
             ]);
         }
 
         // --- LOGIKA TAHAP 3 (Diskusi & Kamera) ---
         if ($step == 3) {
             // Jika belum ada parameter soal_ke, tampilkan halaman BACA materi dulu
-            if (!$soal_ke) {
+            if (! $soal_ke) {
                 return view('materi.tahap3_baca', compact('materi', 'step'));
             }
 
             // FIX: Ubah pencarian tipe dari 'isyarat_kamera' menjadi 'eja_kata' sesuai isi seeder baru
-            $quiz = \App\Models\Quiz::where('tipe', 'eja_kata')
+            $quiz = Quiz::where('tipe', 'eja_kata')
                 ->orderBy('id')
                 ->skip($soal_ke - 1)
                 ->first();
 
             // Jika ke-5 soal cerita eja kata sudah habis, lanjut ke Tahap 4!
-            if (!$quiz) {
+            if (! $quiz) {
                 return redirect()->route('materi.belajar', ['step' => 4]);
             }
 
@@ -148,7 +155,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->middleware(['auth', 'verified'])->name('evaluasi.index');
 
     // 5. Placeholder untuk rute yang lain
-    Route::get('materi/quiz', fn() => "Halaman Quiz Segera Hadir")->name('materi.quiz');
+    Route::get('materi/quiz', fn () => 'Halaman Quiz Segera Hadir')->name('materi.quiz');
 
     Route::get('general', function () {
         return view('general.index');
@@ -166,12 +173,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('general.memory');
     })->name('general.memory');
 
-    Route::post('/logout', function (Illuminate\Http\Request $request) {
+    Route::post('/logout', function (Request $request) {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     })->name('logout');
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

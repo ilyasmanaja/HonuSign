@@ -14,6 +14,6 @@ class Quiz extends Model
         'tipe',
         'pertanyaan',
         'jawaban_benar',
-        'pilihan_data'
+        'pilihan_data',
     ];
 }

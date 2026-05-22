@@ -17,6 +17,15 @@
         body {
             background-color: #FFFEFA !important;
             overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         .brutal-border {
@@ -45,18 +54,12 @@
             box-shadow: 2px 2px 0 #000 !important;
         }
 
-        .text-outline {
-            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000,
-                -2px 2px 0 #000, 2px 2px 0 #000,
-                3px 3px 0 #000;
-        }
-
         /* Card Mechanics */
         .card {
             perspective: 1000px;
             cursor: pointer;
-            aspect-ratio: 3 / 4;
             width: 100%;
+            aspect-ratio: 3 / 4;
         }
 
         .card-inner {
@@ -190,11 +193,31 @@
             }
         }
 
+        .card.matched {
+            pointer-events: none;
+            animation: matched-disappear 0.8s ease-out forwards;
+        }
+
         .card.matched .card-back {
-            animation: match-glow 0.8s ease-out forwards;
             border-color: #D4F1BE;
             background-color: #F0FDF4;
-            /* Hijau super tipis */
+        }
+
+        @keyframes matched-disappear {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            40% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
         }
 
         /* Mismatch Shake */
@@ -270,18 +293,26 @@
             transition: box-shadow 1s ease-in-out;
         }
 
-        /* Tampilan Teks untuk Mode Sedang */
+        /* Tampilan Teks untuk Mode Sulit */
         .letter-text {
-            font-size: 6rem;
+            font-size: clamp(2rem, 8vh, 4.5rem);
             font-weight: 900;
             color: #000;
-            text-shadow: 4px 4px 0px #FFF5B8;
+            text-shadow: 3px 3px 0px #FFF5B8;
+            line-height: 1;
         }
 
-        @media (max-width: 640px) {
-            .letter-text {
-                font-size: 4rem;
+        /* Custom bounce untuk hint scroll */
+        @keyframes scroll-bounce {
+            0%, 100% {
+                transform: translateY(0);
             }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .scroll-bounce {
+            animation: scroll-bounce 1.5s infinite ease-in-out;
         }
     </style>
 </head>
@@ -297,7 +328,7 @@
                 Memory Game
             </div>
             <h1
-                class="text-6xl md:text-8xl font-black text-black text-outline transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
+                class="text-6xl md:text-8xl font-black text-black transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
                 Memori Visual
             </h1>
             <p
@@ -308,42 +339,74 @@
 
     <!-- Header Navigation -->
     <div class="fixed top-0 left-0 right-0 p-4 md:p-6 flex justify-between items-start z-[110] pointer-events-none">
-        <a href="{{ route('general.index') }}"
-            class="bg-[#FFB3B3] text-black px-4 py-2 md:px-6 md:py-3 rounded-2xl font-black text-sm md:text-lg brutal-border brutal-shadow-sm brutal-hover flex items-center gap-2 pointer-events-auto">
-            Kembali
+        <a href="{{ route('general.index') }}" aria-label="Kembali"
+            class="bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center pointer-events-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
+                <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round" fill="none" />
+            </svg>
         </a>
 
-        <!-- Difficulty Toggles -->
-        <div class="flex flex-col md:flex-row gap-3 pointer-events-auto">
-            <button onclick="setMode('easy')" id="btn-easy"
-                class="brutal-border brutal-shadow-sm px-5 py-2 rounded-2xl font-bold text-sm md:text-base transition-all bg-[#FFF5B8] brutal-hover">
-                Mudah
+        <!-- Difficulty Toggles (1 Star vs 3 Stars) -->
+        <div class="flex gap-3 pointer-events-auto">
+            <button onclick="setMode('easy')" id="btn-easy" aria-label="Mudah"
+                class="brutal-border brutal-shadow-sm p-2.5 rounded-2xl transition-all bg-[#FFF5B8] brutal-hover flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black">
+                    <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                    <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        fill="currentColor" />
+                </svg>
             </button>
-            <button onclick="setMode('medium')" id="btn-medium"
-                class="brutal-border brutal-shadow-sm px-5 py-2 rounded-2xl font-bold text-sm md:text-base transition-all bg-[#BEE9E8] brutal-hover">
-                Sedang
+            <button onclick="setMode('hard')" id="btn-hard" aria-label="Sulit"
+                class="brutal-border brutal-shadow-sm p-2.5 rounded-2xl transition-all bg-[#E2E8F0] brutal-hover flex items-center justify-center">
+                <div class="flex gap-0.5">
+                    <!-- Star 1 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 text-black">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                            fill="currentColor" />
+                    </svg>
+                    <!-- Star 2 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 text-black">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                            fill="currentColor" />
+                    </svg>
+                    <!-- Star 3 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 text-black">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                            fill="currentColor" />
+                    </svg>
+                </div>
             </button>
         </div>
     </div>
 
     <!-- Main Board -->
-    <div class="min-h-screen pt-32 pb-12 px-4 md:px-8 flex flex-col items-center justify-center max-w-5xl mx-auto">
+    <div class="flex flex-col items-center justify-center w-full max-w-5xl px-4 md:px-8 mt-24 md:mt-28">
 
         <!-- Mode Banner & Instruction Box -->
-        <div class="mb-8 w-full max-w-2xl flex flex-col items-center gap-5">
+        <div class="mb-6 w-full max-w-2xl flex flex-col items-center gap-4">
             <h2 id="mode-title"
-                class="text-3xl md:text-4xl font-black text-black bg-[#D4F1BE] brutal-border brutal-shadow-sm px-8 py-3 rounded-3xl transform -rotate-1 text-center">
-                Cari Pasangan yang Sama!
+                class="text-2xl md:text-3xl font-black text-black bg-[#D4F1BE] brutal-border brutal-shadow-sm px-6 py-2 rounded-3xl transform -rotate-1 text-center">
+                Cari Pasangan Gambar!
             </h2>
 
             <p id="mode-desc"
-                class="text-base md:text-lg font-bold text-slate-700 bg-[#FFF5B8] brutal-border px-6 py-3 rounded-2xl shadow-sm transform rotate-1 text-center max-w-xl">
+                class="text-sm md:text-base font-bold text-slate-700 bg-[#FFF5B8] brutal-border px-5 py-2.5 rounded-2xl shadow-sm transform rotate-1 text-center max-w-lg">
                 Ingat gambarnya dan <b>cari isyarat tangan</b> yang persis sama!
             </p>
         </div>
 
-        <!-- Kartu 3 Baris x 4 Kolom = 12 Kartu -->
-        <div id="board-container" class="w-full grid grid-cols-3 sm:grid-cols-4 gap-3 md:gap-5">
+        <!-- Kartu 4 Kolom x 4 Baris = 16 Kartu -->
+        <div id="board-container"
+            style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(95vw, 1000px); height: auto; gap: 16px; margin: 0 auto; padding-bottom: 50px;">
             <!-- JS generates cards here -->
         </div>
 
@@ -402,14 +465,19 @@
                 <div class="flex items-start gap-3">
                     <span
                         class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">✔️</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base">Jika gambar <b>sama (benar)</b>, kartu akan
+                    <p class="font-bold text-slate-700 text-sm md:text-base">Jika gambar <b>sama (benar)</b>, kartu
+                        akan
                         berwarna hijau dan menghilang!</p>
                 </div>
             </div>
 
-            <button onclick="closeTutorial()"
-                class="w-full md:w-auto bg-[#D4F1BE] text-black font-black text-lg md:text-xl px-10 py-4 rounded-3xl brutal-border brutal-shadow-sm brutal-hover">
-                OKE, AKU MENGERTI!
+            <button onclick="closeTutorial()" aria-label="Mengerti"
+                class="w-full md:w-auto bg-[#D4F1BE] text-black p-4 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
+                    <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                    <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round" fill="none" />
+                </svg>
             </button>
         </div>
     </div>
@@ -420,44 +488,79 @@
         <div class="bg-[#FFFEFA] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center text-center transform scale-90 opacity-0 transition-all duration-500 relative"
             id="win-modal-content">
 
-            <div class="mb-4 animate-bounce">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-20 h-20 shrink-0">
-                    <path
-                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                        fill="#FFD1E3" />
-                    <path
-                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                        fill="none" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" />
-                    <circle cx="9.5" cy="11.5" r="1.5" fill="#000000" />
-                    <circle cx="14.5" cy="11.5" r="1.5" fill="#000000" />
-                    <path d="M10 14.5s1 1 2 1 2-1 2-1" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                        fill="none" />
-                </svg>
+            <div class="flex gap-4 mb-6 animate-bounce">
+                <!-- Smiling Face Icon -->
+                <div
+                    class="relative w-20 h-20 bg-[#BEE9E8] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
+                        <circle cx="12" cy="12" r="10" fill="#FFF5B8" class="opacity-20" />
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor"
+                            stroke-width="2.5" />
+                        <circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" />
+                        <circle cx="15.5" cy="10.5" r="1.5" fill="currentColor" />
+                        <path d="M8 15c1.5 2 4.5 2 6 0" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
+                <!-- Thumbs Up Icon -->
+                <div
+                    class="relative w-20 h-20 bg-[#FFD1E3] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
+                        <path
+                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+                            fill="#BEE9E8" class="opacity-20" />
+                        <path
+                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
             </div>
-            <h2 class="text-5xl md:text-7xl font-black text-[#D4F1BE] text-outline mb-3 transform -rotate-2">
-                HEBAT!
+            <h2 class="text-5xl md:text-7xl font-black text-black mb-3 transform -rotate-2">
+                SELAMAT!
             </h2>
             <p
                 class="text-xl font-bold text-slate-600 mb-8 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-3 rounded-2xl">
-                Ingatan kamu luar biasa!
+                Anda berhasil menyelesaikan permainan ini dengan sangat baik.
             </p>
 
-            <div class="flex gap-4">
-                <button onclick="initGame()"
-                    class="bg-[#D4F1BE] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-bold text-lg">
-                    Main Lagi
+            <div class="flex gap-4 justify-center">
+                <button onclick="initGame()" aria-label="Main Lagi"
+                    class="bg-[#D4F1BE] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
                 </button>
-                <button onclick="window.location.href='{{ route('general.index') }}'"
-                    class="bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover px-8 py-4 rounded-3xl font-bold text-lg">
-                    Keluar
+                <button onclick="window.location.href='{{ route('general.index') }}'" aria-label="Keluar"
+                    class="bg-[#FFB3B3] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- Floating Scroll Hint for Kids -->
+    <div id="scroll-hint"
+        class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[100] pointer-events-none transition-all duration-500 opacity-0 scale-90">
+        <div class="bg-[#FFF5B8] brutal-border brutal-shadow-sm p-3.5 rounded-full border-black scroll-bounce flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black fill-none stroke-current" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+        </div>
+    </div>
+
     <script>
         const allLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
-        let currentMode = 'easy'; // 'easy' or 'medium'
+        let currentMode = 'easy'; // 'easy' or 'hard'
         let cardsData = [];
         let flippedCards = [];
         let lockBoard = false;
@@ -465,20 +568,24 @@
 
         const board = document.getElementById('board-container');
         const btnEasy = document.getElementById('btn-easy');
-        const btnMedium = document.getElementById('btn-medium');
+        const btnHard = document.getElementById('btn-hard');
         const modeTitle = document.getElementById('mode-title');
         const modeDesc = document.getElementById('mode-desc');
 
         function setMode(mode) {
             currentMode = mode;
             if (mode === 'easy') {
-                btnEasy.classList.replace('bg-[#E2E8F0]', 'bg-[#FFF5B8]');
-                btnMedium.classList.replace('bg-[#FFF5B8]', 'bg-[#E2E8F0]');
+                btnEasy.classList.remove('bg-[#E2E8F0]');
+                btnEasy.classList.add('bg-[#FFF5B8]');
+                btnHard.classList.remove('bg-[#FFF5B8]');
+                btnHard.classList.add('bg-[#E2E8F0]');
                 modeTitle.innerText = "Cari Pasangan Gambar!";
                 modeDesc.innerHTML = "Ingat gambarnya dan <b>cari isyarat tangan</b> yang persis sama!";
             } else {
-                btnMedium.classList.replace('bg-[#E2E8F0]', 'bg-[#FFF5B8]');
-                btnEasy.classList.replace('bg-[#FFF5B8]', 'bg-[#E2E8F0]');
+                btnHard.classList.remove('bg-[#E2E8F0]');
+                btnHard.classList.add('bg-[#FFF5B8]');
+                btnEasy.classList.remove('bg-[#FFF5B8]');
+                btnEasy.classList.add('bg-[#E2E8F0]');
                 modeTitle.innerText = "Pasangkan Gambar & Huruf!";
                 modeDesc.innerHTML = "Ingat gambarnya dan cocokkan dengan <b>Huruf Abjadnya</b>!";
             }
@@ -495,6 +602,14 @@
             flippedCards = [];
             lockBoard = false;
             clearTimeout(hintTimer);
+            if (typeof scrollHintTimeout !== 'undefined') {
+                clearTimeout(scrollHintTimeout);
+            }
+            const scrollHintEl = document.getElementById('scroll-hint');
+            if (scrollHintEl) {
+                scrollHintEl.classList.remove('opacity-100', 'scale-100');
+                scrollHintEl.classList.add('opacity-0', 'scale-90');
+            }
             board.innerHTML = '';
             document.body.classList.remove('victory-glow');
 
@@ -502,9 +617,9 @@
             winModal.classList.add('hidden');
             winModal.classList.remove('flex');
 
-            // Generate Data: 6 Pasang (12 Kartu)
+            // Generate Data: 8 Pasang (16 Kartu)
             cardsData = [];
-            const selectedLetters = getRandomLetters(6);
+            const selectedLetters = getRandomLetters(8);
 
             selectedLetters.forEach(letter => {
                 // Card 1: Gambar Isyarat
@@ -541,7 +656,8 @@
             // Render
             cardsData.forEach(data => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'card w-full';
+                card.style.aspectRatio = '3/4';
                 card.dataset.matchId = data.matchId;
 
                 const inner = document.createElement('div');
@@ -567,6 +683,9 @@
                 card.addEventListener('click', () => handleCardClick(card));
                 board.appendChild(card);
             });
+
+            // Cek scroll hint setelah render selesai (langsung tampil jika ada overflow)
+            setTimeout(() => checkScrollHint(true), 150);
         }
 
         function handleCardClick(card) {
@@ -586,7 +705,8 @@
                     const matchId = card.dataset.matchId;
                     const allCards = document.querySelectorAll('.card');
                     allCards.forEach(c => {
-                        if (c !== card && c.dataset.matchId === matchId && !c.classList.contains('matched')) {
+                        if (c !== card && c.dataset.matchId === matchId && !c.classList.contains(
+                                'matched')) {
                             c.classList.add('hint');
                         }
                     });
@@ -628,8 +748,62 @@
             spawnStar(flippedCards[0]);
             spawnStar(flippedCards[1]);
 
+            const card1 = flippedCards[0];
+            const card2 = flippedCards[1];
+
             flippedCards = [];
             lockBoard = false;
+
+            // Sembunyikan kartu setelah animasi matched-disappear (800ms) selesai
+            // agar sisa kartu di grid bergeser mengisi tempat kosong dengan animasi FLIP
+            setTimeout(() => {
+                // Ambil semua kartu yang belum dicocokkan (yang masih aktif di layar)
+                const remainingCards = Array.from(document.querySelectorAll('.card')).filter(card => {
+                    return card !== card1 && card !== card2 && card.style.display !== 'none';
+                });
+
+                // 1. FIRST: Catat posisi awal semua kartu lain sebelum card1 & card2 disembunyikan
+                const firstRects = new Map();
+                remainingCards.forEach(card => {
+                    firstRects.set(card, card.getBoundingClientRect());
+                });
+
+                // Sembunyikan kartu yang cocok
+                card1.style.display = 'none';
+                card2.style.display = 'none';
+
+                // 2. LAST & INVERT: Catat posisi baru dan langsung tarik kembali secara instan
+                remainingCards.forEach(card => {
+                    const firstRect = firstRects.get(card);
+                    const lastRect = card.getBoundingClientRect();
+
+                    const deltaX = firstRect.left - lastRect.left;
+                    const deltaY = firstRect.top - lastRect.top;
+
+                    if (deltaX !== 0 || deltaY !== 0) {
+                        card.style.transition = 'none';
+                        card.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                    }
+                });
+
+                // 3. PLAY: Luncurkan animasi bergeser secara halus ke posisi baru (menggunakan elastic/bouncy cubic-bezier)
+                setTimeout(() => {
+                    remainingCards.forEach(card => {
+                        card.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        card.style.transform = 'translate(0, 0)';
+                    });
+                }, 20);
+
+                // Hapus inline style transition & transform setelah animasi selesai (700ms)
+                setTimeout(() => {
+                    remainingCards.forEach(card => {
+                        card.style.transition = '';
+                        card.style.transform = '';
+                    });
+                }, 700);
+
+                checkScrollHint(true);
+            }, 800);
 
             // Cek Menang
             if (document.querySelectorAll('.card.matched').length === cardsData.length) {
@@ -699,7 +873,8 @@
             if (!card1 || !card2 || !card3 || !cursor) return;
 
             // Reset semua kartu ke posisi tertutup (Punggung Kartu Pink)
-            const closedClass = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFB3B3] text-transparent select-none border-black';
+            const closedClass =
+                'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFB3B3] text-transparent select-none border-black';
             card1.className = closedClass;
             card2.className = closedClass;
             card3.className = closedClass;
@@ -716,7 +891,8 @@
             // 2. Klik Kartu 1 (Terbuka jadi Kuning)
             setTimeout(() => {
                 cursor.style.transform = 'scale(0.8)';
-                card1.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+                card1.className =
+                    'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
             }, 1300);
 
             // 3. Cursor meluncur ke Kartu 2 (B)
@@ -729,13 +905,15 @@
             // 4. Klik Kartu 2 (Terbuka jadi Kuning)
             setTimeout(() => {
                 cursor.style.transform = 'scale(0.8)';
-                card2.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+                card2.className =
+                    'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
             }, 2600);
 
             // 5. SALAH! Kedua kartu menjadi Merah & Bergetar
             setTimeout(() => {
                 cursor.style.transform = 'scale(1)';
-                const wrongClass = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-300 shadow-sm bg-red-400 text-white select-none border-red-700 animate-pulse';
+                const wrongClass =
+                    'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-300 shadow-sm bg-red-400 text-white select-none border-red-700 animate-pulse';
                 card1.className = wrongClass;
                 card2.className = wrongClass;
             }, 3300);
@@ -756,7 +934,8 @@
             // 8. Klik Kartu 1 (Terbuka jadi Kuning)
             setTimeout(() => {
                 cursor.style.transform = 'scale(0.8)';
-                card1.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+                card1.className =
+                    'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
             }, 5600);
 
             // 9. Cursor meluncur ke Kartu 3 (A)
@@ -769,13 +948,15 @@
             // 10. Klik Kartu 3 (Terbuka jadi Kuning)
             setTimeout(() => {
                 cursor.style.transform = 'scale(0.8)';
-                card3.className = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
+                card3.className =
+                    'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#FFF5B8] text-black select-none ring-4 ring-sky-400';
             }, 6900);
 
             // 11. BENAR! Kedua kartu menjadi Hijau Kemenangan
             setTimeout(() => {
                 cursor.style.transform = 'scale(1)';
-                const rightClass = 'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#D4F1BE] text-black select-none border-green-600 animate-bounce';
+                const rightClass =
+                    'brutal-border rounded-xl flex items-center justify-center font-black text-2xl transition-all duration-500 shadow-sm bg-[#D4F1BE] text-black select-none border-green-600 animate-bounce';
                 card1.className = rightClass;
                 card3.className = rightClass;
             }, 7600);
@@ -807,7 +988,56 @@
             content.classList.add('scale-90');
 
             clearInterval(tutorialAnimTimer);
+            checkScrollHint(true);
         }
+
+        let scrollHintTimeout = null;
+        const scrollHint = document.getElementById('scroll-hint');
+
+        function checkScrollHint(immediate = false) {
+            if (!scrollHint) return;
+
+            // Cek apakah masih ada konten di bawah viewport saat ini
+            const hasMoreBelow = document.documentElement.scrollHeight > window.innerHeight + window.scrollY + 50;
+
+            if (hasMoreBelow) {
+                if (immediate) {
+                    // Muncul langsung tanpa delay
+                    clearTimeout(scrollHintTimeout);
+                    scrollHint.classList.remove('opacity-0', 'scale-90');
+                    scrollHint.classList.add('opacity-100', 'scale-100');
+                } else {
+                    // Sembunyikan langsung saat sedang bergerak
+                    scrollHint.classList.remove('opacity-100', 'scale-100');
+                    scrollHint.classList.add('opacity-0', 'scale-90');
+
+                    // Tampilkan kembali setelah 2.5 detik diam
+                    clearTimeout(scrollHintTimeout);
+                    scrollHintTimeout = setTimeout(() => {
+                        const stillHasMore = document.documentElement.scrollHeight > window.innerHeight + window.scrollY + 50;
+                        if (stillHasMore) {
+                            scrollHint.classList.remove('opacity-0', 'scale-90');
+                            scrollHint.classList.add('opacity-100', 'scale-100');
+                        }
+                    }, 2500);
+                }
+            } else {
+                // Sembunyikan jika sudah di paling bawah / tidak ada scrollbar
+                clearTimeout(scrollHintTimeout);
+                scrollHint.classList.remove('opacity-100', 'scale-100');
+                scrollHint.classList.add('opacity-0', 'scale-90');
+            }
+        }
+
+        // Sembunyikan instan begitu mendeteksi scroll baru, jadwalkan ulang cek
+        window.addEventListener('scroll', () => {
+            if (scrollHint) {
+                scrollHint.classList.remove('opacity-100', 'scale-100');
+                scrollHint.classList.add('opacity-0', 'scale-90');
+            }
+            checkScrollHint(false);
+        });
+        window.addEventListener('resize', () => checkScrollHint(true));
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
@@ -825,7 +1055,6 @@
                 }
             }, 2500);
         });
-
     </script>
 </body>
 

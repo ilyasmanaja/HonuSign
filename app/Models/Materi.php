@@ -11,7 +11,7 @@ class Materi extends Model
 
     /**
      * 1. $fillable (Mass Assignment)
-     * Ini mendaftarkan kolom apa saja yang diizinkan untuk diisi 
+     * Ini mendaftarkan kolom apa saja yang diizinkan untuk diisi
      * secara otomatis melalui form atau seeder.
      */
     protected $fillable = [
@@ -20,7 +20,7 @@ class Materi extends Model
         'slug',
         'video_peragaan',     // Menggunakan nama baru pengganti 'gambar'
         'deskripsi',
-        'deskripsi_tambahan'  // Untuk kebutuhan tahap 3/5
+        'deskripsi_tambahan',  // Untuk kebutuhan tahap 3/5
     ];
 
     /**
