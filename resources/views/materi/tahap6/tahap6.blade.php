@@ -75,45 +75,99 @@
             </div>
         </div>
 
-        <div class="mt-10 flex flex-wrap justify-center gap-4 w-full max-w-7xl">
+        <div class="mt-10 flex flex-wrap justify-center gap-6 w-full max-w-7xl">
+            <!-- Hapus Semua -->
             <button id="clear-btn" onclick="clearCanvas()"
-                class="px-8 py-4 rounded-[3rem] font-bold text-black bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover uppercase text-sm tracking-wider cursor-pointer">
-                Hapus Semua
+                class="w-20 h-20 flex items-center justify-center rounded-full font-bold text-black bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover cursor-pointer transform hover:-translate-y-2 transition-transform"
+                title="Hapus Semua">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                    <path opacity="0.2" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12z" fill="currentColor" />
+                    <path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-9h8v9H8v-9z" fill="currentColor" />
+                </svg>
             </button>
 
+            <!-- Tampilkan Hasil! -->
             <button id="show-result-btn" onclick="enablePresentationMode()"
-                class="bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover cursor-pointer text-black px-12 py-4 rounded-[3rem] font-black uppercase text-lg flex items-center gap-3">
-                Tampilkan Hasil!
-                <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-6 h-6 text-black">
-                        <path opacity="0.2"
-                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                        <path
-                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                            stroke="black" stroke-width="2" stroke-linejoin="round" />
-                    </svg>
-                </span>
+                class="bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover cursor-pointer text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform"
+                title="Tampilkan Hasil">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-black">
+                    <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" />
+                </svg>
             </button>
 
+            <!-- Kembali Edit -->
             <button id="back-edit-btn" onclick="disablePresentationMode()"
-                class="hidden px-8 py-4 cursor-pointer rounded-[3rem] font-bold text-black bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover uppercase text-sm tracking-wider">
-                Kembali Edit
+                class="hidden w-20 h-20 flex items-center justify-center rounded-full cursor-pointer font-bold text-black bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-transform"
+                title="Kembali Edit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                    <path opacity="0.2" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor" />
+                    <path d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19z" fill="currentColor" />
+                </svg>
             </button>
 
+            <!-- Selesai & Ke Dashboard -->
             <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)"
-                class="hidden bg-[#FFD1E3] brutal-border brutal-shadow brutal-hover text-black px-12 py-4 rounded-[3rem] font-black uppercase text-lg flex items-center gap-3">
-                Selesai &amp; Ke Dashboard
-                <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-6 h-6 text-black">
-                        <path opacity="0.2"
-                            d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
-                        <path
-                            d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zm-2 5.82A2.99 2.99 0 0 1 12 14a2.99 2.99 0 0 1-5-3.18V7h10v3.82zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
-                    </svg>
-                </span>
+                class="hidden bg-[#FFD1E3] brutal-border brutal-shadow brutal-hover text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform"
+                title="Selesai &amp; Ke Dashboard">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
+                    <path opacity="0.2" d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" fill="currentColor" />
+                    <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zm-2 5.82A2.99 2.99 0 0 1 12 14a2.99 2.99 0 0 1-5-3.18V7h10v3.82zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" fill="currentColor" />
+                </svg>
             </a>
+        </div>
+    </div>
+
+    <!-- Modal Sukses Kustom -->
+    <div id="success-modal"
+        class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
+        <div class="bg-[#BEE9E8] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center max-w-lg mx-4 transform scale-90 transition-transform duration-500 relative"
+            id="success-modal-content">
+            <button onclick="closeSuccessModal()"
+                class="absolute top-4 right-4 bg-white brutal-border brutal-shadow-sm w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#FFB3B3] hover:text-black transition-all transform hover:rotate-90 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="currentColor" />
+                </svg>
+            </button>
+
+            <!-- Standardized Indonesian congrats + Smiling Face and Thumbs Up Duotone Icons -->
+            <div class="flex items-center justify-center gap-6 mb-6">
+                <!-- Smiling Face Icon -->
+                <div class="p-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl animate-bounce" style="animation-delay: 0.1s">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16 text-black">
+                        <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
+                        <circle cx="9" cy="9.5" r="1.5" fill="currentColor" />
+                        <circle cx="15" cy="9.5" r="1.5" fill="currentColor" />
+                        <path d="M12 18c2.28 0 4.22-1.24 5-3H7c.78 1.76 2.72 3 5 3z" fill="currentColor" />
+                    </svg>
+                </div>
+                <!-- Thumbs Up Icon -->
+                <div class="p-4 bg-[#D4F1BE] brutal-border brutal-shadow-sm rounded-2xl animate-bounce" style="animation-delay: 0.3s">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16 text-black">
+                        <path opacity="0.2" d="M21 10a2 2 0 0 0-2-2h-5.07l.76-3.65c.18-.89-.17-1.81-.9-2.35L13 2H9v11h4l1.63 5.48c.32 1.07 1.3 1.8 2.42 1.8h.07a2 2 0 0 0 1.94-1.51L21 10z" />
+                        <path d="M4 11h3v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm15-3h-5.07l.76-3.65A2.39 2.39 0 0 0 13.8 2H9v11h4l1.63 5.48A2.5 2.5 0 0 0 17 20h.07a2 2 0 0 0 1.94-1.51L21 10a2 2 0 0 0-2-2zM9 11v8h8.07l-1.63-5.48L13.8 8H19l-2 10H9v-7z" fill="currentColor" />
+                    </svg>
+                </div>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-black text-white text-outline uppercase tracking-tighter text-center mb-2 transform -rotate-2 drop-shadow-[0_4px_0_#000]"
+                id="modal-title">
+                SELAMAT!
+            </h2>
+            <p class="text-xl md:text-2xl font-bold text-slate-800 text-center mb-10 bg-[#FFF5B8] px-4 py-2 rounded-xl brutal-border"
+                id="modal-desc">
+                Hasil karyamu sangat indah!
+            </p>
+
+            <!-- Visual-only close/check button in success modal -->
+            <button onclick="closeSuccessModal()"
+                class="bg-[#D4F1BE] text-black w-24 h-24 flex items-center justify-center rounded-full brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-all cursor-pointer"
+                title="Lanjut">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-14 h-14">
+                    <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
+                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="currentColor" />
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -177,6 +231,35 @@
 
         function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
+        function showSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const content = document.getElementById('success-modal-content');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Trigger reflow untuk animasi transisi
+            void modal.offsetWidth;
+
+            modal.classList.remove('opacity-0');
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const content = document.getElementById('success-modal-content');
+
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-90');
+
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
         function enablePresentationMode() {
             document.getElementById('toolbar').classList.add('hidden');
             document.getElementById('clear-btn').classList.add('hidden');
@@ -193,9 +276,8 @@
             </span>`;
             canvas.style.pointerEvents = 'none';
             container.classList.remove('border-white');
-            // PERUBAHAN 2: Scale dinaikkan jadi 110% agar lebih nge-zoom saat presentasi
-            container.classList.add('border-emerald-400');
-            alert("Mode Presentasi Aktif! Ayo ceritakan gambarmu!");
+            container.classList.add('border-emerald-400', 'scale-110');
+            showSuccessModal();
         }
 
         function disablePresentationMode() {

@@ -58,6 +58,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return response()->json(['message' => 'Nilai berhasil disimpan ke database!']);
     })->name('materi.save_progress');
 
+    Route::post('materi/reset-progress', function () {
+        UserProgress::where('user_id', auth()->id())->delete();
+
+        return response()->json(['message' => 'Progress berhasil direset!']);
+    })->name('materi.reset_progress');
+
     // --- FITUR MATERI (STUDY) ---
 
     // 3. Halaman Game: Klik Karakter ke Sekolah
@@ -72,7 +78,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return redirect()->route('dashboard');
         }
 
-        return view('materi.tahap1video', compact('materi'));
+        return view('materi.tahap1.tahap1video', compact('materi'));
     })->name('materi.tahap1.video');
 
     // 5. Halaman Pembelajaran Linear (Linear Progression)
@@ -88,28 +94,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // --- LOGIKA TAHAP 1 (Membaca Cerita) ---
         if ($step == 1) {
-            return view('materi.tahap1', compact('materi', 'step'));
+            return view('materi.tahap1.tahap1', compact('materi', 'step'));
         }
 
         // --- LOGIKA TAHAP 2 (Menjawab 3 Jenis Kuis) ---
         if ($step == 2) {
             $nomor_soal = $soal_ke ?? 1;
 
-            // FIX: Batasi kueri hanya mengambil tipe soal khusus milik Tahap 2 saja
-            $quiz = Quiz::whereIn('tipe', ['susun_huruf', 'puzzle', 'susun_kalimat'])
-                ->orderBy('id')
-                ->skip($nomor_soal - 1)
-                ->first();
-
             // Jika ke-3 soal Tahap 2 sudah habis, lempar otomatis ke Tahap 3!
-            if (! $quiz) {
+            if ($nomor_soal > 3) {
                 return redirect()->route('materi.belajar', ['step' => 3]);
             }
 
-            return view('materi.tahap2', [
+            return view("materi.tahap2.soal{$nomor_soal}", [
                 'materi' => $materi,
                 'step' => $step,
-                'quiz' => $quiz,
                 'soal_ke' => $nomor_soal,
             ]);
         }
@@ -118,7 +117,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if ($step == 3) {
             // Jika belum ada parameter soal_ke, tampilkan halaman BACA materi dulu
             if (! $soal_ke) {
-                return view('materi.tahap3_baca', compact('materi', 'step'));
+                return view('materi.tahap3.tahap3_baca', compact('materi', 'step'));
             }
 
             // FIX: Ubah pencarian tipe dari 'isyarat_kamera' menjadi 'eja_kata' sesuai isi seeder baru
@@ -132,19 +131,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 return redirect()->route('materi.belajar', ['step' => 4]);
             }
 
-            return view('materi.tahap3_kamera', compact('materi', 'step', 'quiz', 'soal_ke'));
+            return view('materi.tahap3.tahap3_kamera', compact('materi', 'step', 'quiz', 'soal_ke'));
         }
 
         if ($step == 4) {
-            return view('materi.tahap4', compact('materi', 'step'));
+            return view('materi.tahap4.tahap4', compact('materi', 'step'));
         }
 
         if ($step == 5) {
-            return view('materi.tahap5', compact('materi', 'step'));
+            return view('materi.tahap5.tahap5', compact('materi', 'step'));
         }
 
         if ($step == 6) {
-            return view('materi.tahap6', compact('materi', 'step'));
+            return view('materi.tahap6.tahap6', compact('materi', 'step'));
         }
 
         return "Tahap $step sedang dalam pembangunan!";

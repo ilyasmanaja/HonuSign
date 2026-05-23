@@ -15,7 +15,7 @@
         <div class="text-center mb-10">
             <h1
                 class="text-4xl md:text-6xl font-black text-[#FFF5B8] text-outline uppercase tracking-tighter transform -rotate-1 drop-shadow-[0_6px_0_#000]">
-                {{ $materi->judul }}
+                Festival Budaya Kemerdekaan Indonesia
             </h1>
         </div>
 
@@ -29,8 +29,7 @@
                     class="bg-[#FFFEFA] brutal-border brutal-shadow-sm rounded-[2rem] p-6 md:p-10 flex-grow flex flex-col relative">
 
                     <!-- Header Card & Tombol Video -->
-                    <div
-                        class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6 border-b-4 border-slate-200 pb-6">
+                    <div class="flex justify-between items-center mb-10 gap-6 border-b-4 border-slate-200 pb-6">
                         <h3
                             class="font-black text-black uppercase tracking-widest text-xl md:text-2xl flex items-center gap-4">
                             <span
@@ -46,23 +45,26 @@
                             SLB Insan Mutiara Pekanbaru
                         </h3>
 
-                        <!-- Tombol Ganti ke Video -->
+                        <!-- Tombol Ganti ke Video (Visual-Only TV Icon) -->
                         <a href="{{ route('materi.tahap1.video') }}"
-                            class="bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover px-6 py-4 md:px-8 md:py-4 rounded-[2rem] font-black text-black text-sm md:text-base uppercase flex items-center gap-3 transform hover:-translate-y-1 transition-all">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="w-6 h-6 text-black">
-                                    <path opacity="0.2"
-                                        d="M16 7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z" />
-                                    <path d="M22 6.5v11l-5-3.5v-4l5-3.5z" />
-                                </svg>
-                            </span> Tonton Isyarat SIBI
+                            class="bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover p-4 rounded-2xl flex items-center justify-center transform hover:-translate-y-1 transition-all"
+                            title="Tonton Isyarat SIBI">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-9 h-9 text-black">
+                                <rect x="2" y="7" width="20" height="13" rx="3" opacity="0.2"
+                                    fill="currentColor" />
+                                <path d="M8.5 3L12 7M15.5 3L12 7" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" />
+                                <rect x="2" y="7" width="20" height="13" rx="3" fill="none"
+                                    stroke="currentColor" stroke-width="2.5" />
+                                <path d="M10.5 11v5l4-2.5-4-2.5z" fill="currentColor" />
+                            </svg>
                         </a>
                     </div>
 
                     <div class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold flex-grow space-y-6">
 
-                        <!-- Membersihkan Kelas) -->
+                        <!-- Membersihkan Kelas -->
                         <div class="my-10 flex justify-center transform -rotate-1">
                             <div
                                 class="bg-white p-4 brutal-border brutal-shadow-sm rounded-[2.5rem] inline-block hover:scale-105 transition-transform duration-300">
@@ -72,14 +74,12 @@
                             </div>
                         </div>
 
-                        <!-- Paragraf 1 -->
-                        <p>
-                            Di kelas 4 SLB Insan Mutiara Pekanbaru, Samsul dan teman-temannya bersiap mengikuti festival
-                            budaya untuk merayakan Hari Kemerdekaan 17 Agustus. Sebelum festival, mereka gotong royong
-                            membersihkan kelas.
-                        </p>
+                        <!-- Paragraf 1 (Justified) -->
+                        <p class="text-justify">
+                            Di kelas 4 SLB Insan Mutiara Pekanbaru, Samsul dan teman-temannya mengikuti festival budaya
+                            Hari Kemerdekaan 17 Agustus. Sebelum festival, mereka bersama-sama membersihkan kelas.
 
-                        <!-- Storyboard Character Cards (Grid 3 Kolom) -->
+                            <!-- Storyboard Character Cards (Grid 3 Kolom) -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10 relative">
 
                             <!-- Samsul Card -->
@@ -133,9 +133,9 @@
                             </div>
                         </div>
 
-                        <!-- Paragraf 2 -->
-                        <p>
-                            Saat festival, mereka memakai pakaian adat yang berbeda-beda.
+                        <!-- Paragraf 2 (Justified) -->
+                        <p class="text-justify">
+                            Saat festival, mereka memakai baju adat yang berbeda-beda.
                         </p>
 
                         <!-- Storyboard Character Cards (Grid 3 Kolom) -->
@@ -147,11 +147,11 @@
                                 <div
                                     class="bg-white p-3 brutal-border brutal-shadow-sm rounded-3xl mb-6 transform rotate-2 hover:rotate-0 transition-transform">
                                     <img src="{{ asset('images/materi/tahap1/samsul_teluk_belangga.png') }}"
-                                        alt="Samsul menyusun kursi"
+                                        alt="Samsul memakai baju Riau"
                                         class="w-full max-w-[200px] rounded-2xl brutal-border">
                                 </div>
                                 <p class="text-xl md:text-2xl font-black text-black">
-                                    Samsul memakai teluk belanga.
+                                    Samsul memakai baju Riau
                                 </p>
                             </div>
 
@@ -161,11 +161,11 @@
                                 <div
                                     class="bg-white p-3 brutal-border brutal-shadow-sm rounded-3xl mb-6 transform -rotate-2 hover:rotate-0 transition-transform">
                                     <img src="{{ asset('images/materi/tahap1/abdul_kanigaran.png') }}"
-                                        alt="Abdul mengelap kaca"
+                                        alt="Abdul memakai baju Jawa"
                                         class="w-full max-w-[200px] rounded-2xl brutal-border">
                                 </div>
                                 <p class="text-xl md:text-2xl font-black text-black">
-                                    Abdul memakai kanigaran.
+                                    Abdul memakai baju Jawa
                                 </p>
                             </div>
 
@@ -175,19 +175,23 @@
                                 <div
                                     class="bg-white p-3 brutal-border brutal-shadow-sm rounded-3xl mb-6 transform rotate-1 hover:rotate-0 transition-transform">
                                     <img src="{{ asset('images/materi/tahap1/siti_bundo_kanduang.png') }}"
-                                        alt="Siti menyapu" class="w-full max-w-[200px] rounded-2xl brutal-border">
+                                        alt="Siti memakai baju Minang"
+                                        class="w-full max-w-[200px] rounded-2xl brutal-border">
                                 </div>
                                 <p class="text-xl md:text-2xl font-black text-black">
-                                    Siti memakai bundo kanduang
+                                    Siti memakai baju Minang
                                 </p>
                             </div>
                         </div>
-                        <p>
-                            Awalnya beberapa anak berbicara
-                            dengan bahasa daerah, tetapi tidak semua teman mengerti. Guru kemudian mengingatkan untuk
-                            memakai Bahasa Indonesia agar semua bisa saling memahami. Mereka berjalan bersama dengan
-                            rapi dan terlihat kompak.
+
+                        <!-- Paragraf 3 (Justified) -->
+                        <p class="text-justify">
+                            Mereka berjalan bersama dengan semangat. Pada tanggal 17 Agustus, kelas 4 SLB Insan Mutiara
+                            menjadi juara kelas terbersih karena anak-anaknya rajin membersihkan kelas. Samsul dan
+                            teman-temannya merasa senang sekali.
                         </p>
+
+                        <!-- Penghargaan -->
                         <div class="my-10 flex justify-center transform rotate-1">
                             <div
                                 class="bg-white p-4 brutal-border brutal-shadow-sm rounded-[2.5rem] inline-block hover:scale-105 transition-transform duration-300">
@@ -195,12 +199,6 @@
                                     alt="Penghargaan kelas terbersih" class="w-full max-w-lg rounded-3xl brutal-border">
                             </div>
                         </div>
-                        <p>
-                            Pada acara 17 Agustus, kelas 4 SLB Insan Mutiara diumumkan sebagai
-                            kelas terbersih karena mereka rajin bekerja sama membersihkan kelas. Samsul dan
-                            teman-temannya
-                            merasa senang dan bangga.
-                        </p>
 
                     </div>
 
@@ -209,18 +207,27 @@
 
         </div>
 
-        <!-- Tombol Aksi -->
-        <div class="w-full max-w-5xl flex flex-col md:flex-row justify-between items-center mt-4 gap-6">
-            <!-- Tombol Keluar & Simpan -->
+        <!-- Tombol Aksi (Visual-Only - Centered for better UX) -->
+        <div class="w-full max-w-5xl flex justify-center gap-12 items-center mt-8 px-4">
+            <!-- Tombol Keluar & Simpan (Visual House Icon) -->
             <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 1)"
-                class="bg-[#FFB3B3] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-10 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-lg md:text-xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
-                Keluar & Simpan Progres
+                class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
+                title="Keluar & Simpan">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                    <path opacity="0.2" d="M12 3L2 12h3v8h14v-8h3L12 3z" />
+                    <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.83L18.17 12H17v6H7v-6H5.83L12 5.83z"
+                        fill="currentColor" />
+                </svg>
             </a>
 
-            <!-- Tombol Lanjut -->
+            <!-- Tombol Lanjut (Visual Right Chevron Play Icon) -->
             <a href="{{ route('materi.belajar', ['step' => 2]) }}" onclick="tandaiSelesai(event, this.href, 1)"
-                class="bg-[#D4F1BE] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-12 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-xl md:text-2xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
-                Selesai Membaca, Lanjut!
+                class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
+                title="Lanjut">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
+                    <circle cx="12" cy="12" r="10" opacity="0.2" />
+                    <path d="M10 17V7l7 5-7 5z" fill="currentColor" />
+                </svg>
             </a>
         </div>
     </div>

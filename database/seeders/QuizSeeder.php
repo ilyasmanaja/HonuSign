@@ -42,39 +42,44 @@ class QuizSeeder extends Seeder
         // TAHAP 3: 5 SOAL CERITA BARU (MENGEJA LEWAT KAMERA AI)
         // ==========================================
 
-        // Soal Cerita 1 (LMANIK)
+        // Soal Cerita 1 (L.Manik)
         Quiz::create([
             'tipe' => 'eja_kata',
-            'pertanyaan' => "Di kelas inklusi, Made, Samsul, dan Udin bersama teman-temannya sedang mengikuti pelajaran seni musik. Mereka semua berdiri rapi menyanyikan lagu wajib nasional berjudul 'Satu Nusa Satu Bangsa' dengan penuh khidmat.\n\nPertanyaan: Lagu satu nusa, satu bangsa diciptakan oleh...",
+            'pertanyaan' => 'Lagu satu nusa,satu bangsa diciptakan oleh...',
             'jawaban_benar' => 'LMANIK',
+            'pilihan_data' => json_encode(['LMANIK', 'MANIK']),
         ]);
 
-        // Soal Cerita 2 (MENOLONG)
+        // Soal Cerita 2 (Bantu/Tolong)
         Quiz::create([
             'tipe' => 'eja_kata',
-            'pertanyaan' => "Ketika bel istirahat berbunyi, anak-anak berlarian ke arah lapangan sekolah. Tiba-tiba Siti tersandung akar pohon dan terjatuh hingga lututnya terluka. Melihat hal itu, Udin yang berada di dekatnya langsung berlari menghampiri Siti.\n\nPertanyaan: Saat siti terjatuh apa yang dilakukan oleh Udin?",
+            'pertanyaan' => 'Saat siti terjatuh apa yang dilakukan oleh Udin....',
             'jawaban_benar' => 'MEMBANTU',
+            'pilihan_data' => json_encode(['TOLONG', 'MENOLONG', 'BANTU', 'MEMBANTU']),
         ]);
 
-        // Soal Cerita 3 (MELAYU)
+        // Soal Cerita 3 (Melayu)
         Quiz::create([
             'tipe' => 'eja_kata',
-            'pertanyaan' => "Saat hari kebudayaan tiba, setiap siswa mengenakan pakaian adat khas daerah masing-masing. Made memakai baju adat Bali, Udin memakai baju adat Jawa, sedangkan Samsul tampil gagah mengenakan baju kurung lengkap dengan kain samping songket.\n\nPertanyaan: Samsul berasal dari suku...",
+            'pertanyaan' => 'Samsul berasal dari suku….',
             'jawaban_benar' => 'MELAYU',
+            'pilihan_data' => json_encode(['MELAYU']),
         ]);
 
-        // Soal Cerita 4 (BERKUMPUL)
+        // Soal Cerita 4 (Berkumpul)
         Quiz::create([
             'tipe' => 'eja_kata',
-            'pertanyaan' => "Suara tepuk tangan menggema setelah kelompok paduan suara selesai menampilkan performa terbaik mereka. Setelah merapikan kembali ruang musik, Made, Samsul, Udin, serta teman-teman yang lain langsung menuju ke tengah lapangan terbuka.\n\nPertanyaan: Selesai Paduan suara apa yang dilakukan oleh made, samsul dan udin serta teman-temannya yang lain di lapangan?",
+            'pertanyaan' => 'Selesai Paduan suara apa yang dilakukan oleh made, samsul dan udin serta teman-temannya yang lain di lapangan…',
             'jawaban_benar' => 'BERKUMPUL',
+            'pilihan_data' => json_encode(['BERKUMPUL', 'KUMPUL']),
         ]);
 
-        // Soal Cerita 5 (DUMAI)
+        // Soal Cerita 5 (Pekanbaru)
         Quiz::create([
             'tipe' => 'eja_kata',
-            'pertanyaan' => "Sekolah tempat Made, Samsul, dan Udin belajar terletak di sebuah kota pelabuhan yang sangat strategis di Provinsi Riau. Kota ini terkenal sebagai salah satu kota industri minyak terbesar dan menghadap langsung ke Selat Malaka.\n\nPertanyaan: Di manakah lokasi sekolah made, samsul, dan udin?",
-            'jawaban_benar' => 'DUMAI',
+            'pertanyaan' => 'Di manakah lokasi sekolah made, samsul, dan udin...',
+            'jawaban_benar' => 'PEKANBARU',
+            'pilihan_data' => json_encode(['PEKANBARU']),
         ]);
     }
 }

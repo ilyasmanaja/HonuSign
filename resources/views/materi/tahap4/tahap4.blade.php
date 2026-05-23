@@ -24,7 +24,7 @@
             <div class="bg-[#FFFEFA] brutal-border brutal-shadow-sm rounded-[2rem] p-6 md:p-10">
 
                 <!-- Intro Paragraph -->
-                <p class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold mb-10">
+                <p class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold mb-10 text-justify">
                     Indonesia adalah negara yang memiliki banyak keberagaman. Keberagaman ini disebut keberagaman sosial
                     dan budaya, yaitu perbedaan dalam kehidupan masyarakat yang meliputi aspek sosial seperti pekerjaan
                     dan agama, serta aspek budaya seperti adat istiadat, bahasa, dan kesenian. Bentuk keberagaman sosial
@@ -65,7 +65,7 @@
                 </div>
 
                 <!-- Paragraf Sumpah Pemuda -->
-                <div class="text-xl text-slate-700 leading-relaxed font-bold space-y-6">
+                <div class="text-xl text-slate-700 leading-relaxed font-bold space-y-6 text-justify">
                     <p>
                         Semua keberagaman tersebut membuat Indonesia menjadi bangsa yang kaya budaya. Namun, perbedaan
                         ini juga bisa membuat masyarakat sulit saling memahami jika tidak ada alat pemersatu. Karena
@@ -91,24 +91,25 @@
         </div>
 
         <!-- Tombol Aksi -->
-        <div class="w-full max-w-5xl flex flex-col md:flex-row justify-between items-center mt-4 gap-6">
-            <!-- Tombol Keluar & Simpan -->
+        <div class="w-full max-w-5xl flex justify-between items-center mt-4 px-4">
+            <!-- Tombol Keluar & Simpan (Visual House Icon) -->
             <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 4)"
-                class="bg-[#FFB3B3] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-10 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-lg md:text-xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
-                Keluar & Simpan Progres
+                class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
+                title="Keluar & Simpan">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                    <path opacity="0.2" d="M12 3L2 12h3v8h14v-8h3L12 3z" />
+                    <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.83L18.17 12H17v6H7v-6H5.83L12 5.83z" fill="currentColor" />
+                </svg>
             </a>
 
-            <!-- Tombol Lanjut -->
+            <!-- Tombol Lanjut (Visual Right Chevron Play Icon) -->
             <a href="{{ route('materi.belajar', ['step' => 5]) }}" onclick="tandaiSelesai(event, this.href, 4)"
-                class="bg-[#D4F1BE] w-full md:w-auto justify-center brutal-border brutal-shadow-sm brutal-hover text-black px-8 py-5 md:px-12 md:py-6 rounded-[3rem] font-black uppercase tracking-widest text-xl md:text-2xl flex items-center gap-4 text-center transform hover:-translate-y-2 transition-transform">
-                Selesai Membaca, Lanjut!
-                <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-6 h-6 text-black transform -rotate-90">
-                        <path opacity="0.2" d="M12 20V4l8 8-8 8z" />
-                        <path d="M12 20V4l8 8-8 8z" />
-                    </svg>
-                </span>
+                class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
+                title="Lanjut">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
+                    <circle cx="12" cy="12" r="10" opacity="0.2" />
+                    <path d="M10 17V7l7 5-7 5z" fill="currentColor" />
+                </svg>
             </a>
         </div>
     </div>
