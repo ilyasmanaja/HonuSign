@@ -1,5 +1,54 @@
-<x-student-layout>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>HonuSign - Susun Kalimat</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #FFD1E3 !important; /* Soft Pink */
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .brutal-border {
+            border: 4px solid #000000 !important;
+        }
+
+        .brutal-shadow {
+            box-shadow: 6px 6px 0px 0px #000000 !important;
+        }
+
+        .brutal-shadow-sm {
+            box-shadow: 3px 3px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover {
+            transition: all 0.2s ease-in-out !important;
+        }
+
+        .brutal-hover:hover {
+            transform: translate(-3px, -3px) !important;
+            box-shadow: 9px 9px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover:active {
+            transform: translate(2px, 2px) !important;
+            box-shadow: 2px 2px 0px 0px #000000 !important;
+        }
+
         @keyframes fly-in {
             0% {
                 opacity: 0;
@@ -20,90 +69,34 @@
             animation: fly-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
     </style>
+</head>
 
-    <!-- Main Card Container filling 80-85% viewport, zero scrolling -->
-    <div
-        class="w-full max-w-6xl h-[calc(100vh-3rem)] bg-[#FFFEFA] brutal-border brutal-shadow rounded-[3rem] p-6 flex flex-col justify-between overflow-hidden relative">
+<body class="selection:bg-transparent transition-transform">
 
-        <!-- Header (Menu Bar with Home button on left, Reset & Mute on right) -->
-        <header class="w-full flex items-center justify-between pb-3 border-b-4 border-black mb-2">
-            <!-- Left side: Home button to return to Peta Belajar -->
-            <a href="{{ route('materi.index') }}"
-                class="w-12 h-12 bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center rounded-2xl cursor-pointer text-black"
-                title="Keluar & Simpan">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                    <path opacity="0.2" d="M12 3L2 12h3v8h14v-8h3L12 3z" />
-                    <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.83L18.17 12H17v6H7v-6H5.83L12 5.83z"
-                        fill="currentColor" />
-                </svg>
-            </a>
+    <!-- Back to Study Page -->
+    <a href="{{ route('materi.index') }}" aria-label="Kembali"
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
+            <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+            <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" fill="none" />
+        </svg>
+    </a>
 
-            <!-- Center status info -->
-            <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded-full bg-[#FFF5B8] brutal-border"></div>
-                <span class="font-black text-black uppercase tracking-wider text-xs md:text-sm">Susun Kalimat (Soal
-                    3/3)</span>
-            </div>
+    <!-- Title Header -->
+    <div class="pt-16 md:pt-20 px-4 flex justify-center max-w-7xl mx-auto">
+        <h1
+            class="mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-8 py-3 rounded-2xl text-2xl md:text-3xl font-black uppercase tracking-widest text-center transform -rotate-1 min-w-[220px] shadow-sm">
+            Susun Kalimat (Soal 3/3)
+        </h1>
+    </div>
 
-            <!-- Right side system controls -->
-            <div class="flex items-center gap-3">
-                <!-- Reset Button -->
-                <button onclick="resetGame()"
-                    class="w-12 h-12 bg-white brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center rounded-2xl cursor-pointer text-black"
-                    title="Ulangi">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <circle cx="12" cy="12" r="10" opacity="0.2" />
-                        <path
-                            d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
-                            fill="currentColor" />
-                    </svg>
-                </button>
-                <!-- Sound/Mute Button -->
-                <button onclick="toggleMute()" id="btn-sound"
-                    class="w-12 h-12 bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center rounded-2xl cursor-pointer text-black"
-                    title="Suara">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-6 h-6 text-black" id="sound-icon">
-                        <path opacity="0.2" d="M3 9v6h4l5 5V4L7 9H3z" />
-                        <path
-                            d="M3 9v6h4l5 5V4L7 9H3zm7-.17v6.34L7.83 13H5v-2h2.83L10 8.83zM16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zm2.5 0a8.94 8.94 0 0 0-2.07-5.78l-1.42 1.42A6.94 6.94 0 0 1 17 12a6.94 6.94 0 0 1-1.49 4.36l1.42 1.42A8.94 8.94 0 0 0 19 12z"
-                            fill="currentColor" />
-                    </svg>
-                </button>
-            </div>
-        </header>
-
-        <!-- Top Section: Visual Clue (Samsul image & mascot pointing to letters) -->
-        <div class="w-full flex flex-col md:flex-row gap-6 items-stretch flex-grow max-h-[35%] min-h-[140px] mb-2">
-            <!-- Left Side: Samsul Image Card -->
-            <div
-                class="w-full md:w-1/2 bg-[#D4F1BE] brutal-border brutal-shadow rounded-[2rem] p-3 flex items-center justify-center relative overflow-hidden">
-                <div
-                    class="bg-white p-2 brutal-border brutal-shadow-sm rounded-[1.5rem] transform -rotate-1 hover:rotate-0 transition-transform duration-300">
-                    <img src="{{ asset('images/materi/tahap1/samsul_teluk_belangga.png') }}" alt="Samsul Baju Riau"
-                        class="h-20 md:h-24 w-auto rounded-xl brutal-border object-contain">
-                </div>
-            </div>
-
-            <!-- Right Side: Mascot Visual Clue -->
-            <div
-                class="w-full md:w-1/2 bg-[#E0BBE4] brutal-border brutal-shadow p-4 rounded-[2rem] flex items-center justify-center">
-                <div class="flex items-center gap-6 justify-center">
-                    <img src="{{ asset('images/keSekolah/samsul.png') }}"
-                        class="h-20 md:h-24 w-auto object-contain animate-bounce" alt="Samsul Maskot">
-                    <div class="bg-white p-2.5 rounded-2xl brutal-border brutal-shadow-sm flex items-center gap-2">
-                        <span class="text-2xl">📝</span>
-                        <span class="text-xl font-black text-black">➔</span>
-                        <span
-                            class="text-2xl font-black bg-[#D4F1BE] px-2.5 py-0.5 rounded-lg brutal-border text-black">ABC</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Middle Section: Word Options (Primary Focus - Oversized) -->
-        <div
-            class="w-full bg-[#FFF5B8] brutal-border brutal-shadow rounded-[2rem] p-6 flex flex-col justify-center items-center flex-grow max-h-[40%] mb-2">
+    <!-- Main Game Layout (Stacked vertically, centered and large) -->
+    <div class="pb-8 px-4 md:px-8 flex flex-col gap-6 max-w-4xl w-full mx-auto">
+        
+        <!-- Word Options Card -->
+        <div class="w-full bg-[#FFF5B8] brutal-border brutal-shadow rounded-[2rem] p-8 flex flex-col justify-center items-center">
+            <h2 class="text-xl font-black uppercase tracking-widest mb-6 text-slate-800">Pilih Kata</h2>
             <div id="word-options" class="flex flex-wrap justify-center gap-5">
                 @php
                     $words = ['Samsul', 'Menggunakan', 'Baju', 'Riau'];
@@ -119,77 +112,74 @@
             </div>
         </div>
 
-        <!-- Bottom Section: Sentence Slots -->
-        <div class="w-full max-h-[18%]">
+        <!-- Sentence Slots Card -->
+        <div class="w-full bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-8 flex flex-col justify-center">
+            <h2 class="text-xl font-black uppercase tracking-widest mb-6 text-slate-800 text-center">Kalimat Susunanmu</h2>
             <div id="sentence-slots"
-                class="flex flex-wrap justify-center items-center gap-4 min-h-[75px] w-full p-3 bg-[#FFFEFA] rounded-[1.5rem] brutal-border shadow-inner overflow-y-auto">
+                class="flex flex-wrap justify-center items-center gap-4 min-h-[120px] w-full p-6 bg-[#FFF9F0] rounded-2xl border-4 border-dashed border-black shadow-inner overflow-y-auto">
                 <!-- Words will appear here -->
             </div>
         </div>
 
-        <!-- Next Play Button (Hidden until correct, displayed at bottom center) -->
-        <div class="absolute bottom-4 right-6">
-            <a href="{{ route('materi.belajar', ['step' => 3]) }}" id="next-btn"
-                class="hidden bg-[#D4F1BE] text-black w-14 h-14 flex items-center justify-center rounded-full brutal-border brutal-shadow-sm brutal-hover transform transition-all animate-bounce"
-                title="Lanjut">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" />
-                    <path d="M10 17V7l7 5-7 5z" fill="currentColor" />
-                </svg>
-            </a>
+    </div>
+
+    <!-- Victory Modal (using selamat.png) -->
+    <div id="success-modal"
+        class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none"
+            id="success-modal-content">
+
+            <!-- Main Image -->
+            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!"
+                class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
+
+            <!-- Interactive Buttons Overlaid over pre-rendered spots -->
+            <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
+                <!-- Replay Button -->
+                <button onclick="resetGame()" aria-label="Ulangi"
+                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
+                    </svg>
+                </button>
+                <!-- Next Button (Lanjut ke Tahap 3) -->
+                <a href="{{ route('materi.belajar', ['step' => 3]) }}" aria-label="Lanjut"
+                    class="bg-[#D4F1BE] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- Modal Sukses Kustom (Smiling Face + Thumbs Up - No Close Button) -->
-    <div id="success-modal"
+    <!-- Failure Modal (using gagal.png) -->
+    <div id="failure-modal"
         class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
-        <div class="bg-[#BEE9E8] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center max-w-lg mx-4 transform scale-90 transition-transform duration-500 relative"
-            id="success-modal-content">
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none"
+            id="failure-modal-content">
 
-            <div class="flex items-center justify-center gap-6 mb-6">
-                <!-- Smiling Face -->
-                <div class="p-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl animate-bounce"
-                    style="animation-delay: 0.1s">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-16 h-16 text-black">
-                        <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                        <circle cx="9" cy="9.5" r="1.5" fill="currentColor" />
-                        <circle cx="15" cy="9.5" r="1.5" fill="currentColor" />
-                        <path d="M12 18c2.28 0 4.22-1.24 5-3H7c.78 1.76 2.72 3 5 3z" fill="currentColor" />
+            <!-- Main Image -->
+            <img src="{{ asset('images/gagal.png') }}" alt="Gagal!"
+                class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
+
+            <!-- Replay Button Overlay -->
+            <div class="absolute bottom-[9%] left-0 right-0 flex justify-center">
+                <!-- Replay Button -->
+                <button onclick="hideFailureModal()" aria-label="Ulangi"
+                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
                     </svg>
-                </div>
-                <!-- Thumbs Up -->
-                <div class="p-4 bg-[#D4F1BE] brutal-border brutal-shadow-sm rounded-2xl animate-bounce"
-                    style="animation-delay: 0.3s">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-16 h-16 text-black">
-                        <path opacity="0.2"
-                            d="M21 10a2 2 0 0 0-2-2h-5.07l.76-3.65c.18-.89-.17-1.81-.9-2.35L13 2H9v11h4l1.63 5.48c.32 1.07 1.3 1.8 2.42 1.8h.07a2 2 0 0 0 1.94-1.51L21 10z" />
-                        <path
-                            d="M4 11h3v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm15-3h-5.07l.76-3.65A2.39 2.39 0 0 0 13.8 2H9v11h4l1.63 5.48A2.5 2.5 0 0 0 17 20h.07a2 2 0 0 0 1.94-1.51L21 10a2 2 0 0 0-2-2zM9 11v8h8.07l-1.63-5.48L13.8 8H19l-2 10H9v-7z"
-                            fill="currentColor" />
-                    </svg>
-                </div>
+                </button>
             </div>
-
-            <h2
-                class="text-4xl md:text-5xl font-black text-white text-outline uppercase tracking-tighter text-center mb-2 transform -rotate-2 drop-shadow-[0_4px_0_#000]">
-                SELAMAT!
-            </h2>
-            <p class="text-xl md:text-2xl font-bold text-slate-800 text-center mb-10 bg-[#FFF5B8] px-4 py-2 rounded-xl brutal-border"
-                id="modal-desc">
-                Kalimatnya sudah benar!
-            </p>
-
-            <!-- Lanjut ke Tahap 3 -->
-            <a href="{{ route('materi.belajar', ['step' => 3]) }}"
-                class="bg-[#D4F1BE] text-black w-24 h-24 flex items-center justify-center rounded-full brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-all"
-                title="Lanjut ke Tahap 3">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-14 h-14">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                    <path d="M10 17V7l7 5-7 5z" fill="currentColor" />
-                </svg>
-            </a>
         </div>
     </div>
 
@@ -220,8 +210,7 @@
             }
         }
 
-        function showSuccessModal(title, desc) {
-            document.getElementById('modal-desc').innerText = desc;
+        function showSuccessModal() {
             const modal = document.getElementById('success-modal');
             const content = document.getElementById('success-modal-content');
             modal.classList.remove('hidden');
@@ -230,6 +219,32 @@
             modal.classList.remove('opacity-0');
             content.classList.remove('scale-90');
             content.classList.add('scale-100');
+        }
+
+        function showFailureModal() {
+            const modal = document.getElementById('failure-modal');
+            const content = document.getElementById('failure-modal-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+        }
+
+        function hideFailureModal() {
+            const modal = document.getElementById('failure-modal');
+            const content = document.getElementById('failure-modal-content');
+            if (modal) {
+                content.classList.remove('scale-100');
+                content.classList.add('scale-90');
+                modal.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.remove('flex');
+                    modal.classList.add('hidden');
+                    resetGame();
+                }, 300);
+            }
         }
 
         function saveProgress(tahap, nilai) {
@@ -280,13 +295,11 @@
             const totalWords = correctSentence.split(' ').length;
             if (currentSentence.length === totalWords) {
                 if (currentSentence.join(' ') === correctSentence) {
-                    showSuccessModal("LUAR BIASA!", "Kalimatnya sudah benar!");
+                    showSuccessModal();
                     saveProgress(2, 0);
-                    document.getElementById('next-btn').classList.remove('hidden');
                 } else {
                     setTimeout(() => {
-                        alert('Yah, susunan kalimatnya masih keliru. Yuk coba lagi!');
-                        resetGame();
+                        showFailureModal();
                     }, 500);
                 }
             }
@@ -301,10 +314,19 @@
             const wordOptions = document.querySelectorAll('#word-options button');
             wordOptions.forEach(opt => opt.classList.remove('opacity-0', 'pointer-events-none'));
 
-            const nextBtn = document.getElementById('next-btn');
-            if (nextBtn && !nextBtn.classList.contains('hidden')) {
-                nextBtn.classList.add('hidden');
+            const successModal = document.getElementById('success-modal');
+            const successContent = document.getElementById('success-modal-content');
+            if (successModal && !successModal.classList.contains('hidden')) {
+                successContent.classList.remove('scale-100');
+                successContent.classList.add('scale-90');
+                successModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    successModal.classList.remove('flex');
+                    successModal.classList.add('hidden');
+                }, 300);
             }
         }
     </script>
-</x-student-layout>
+</body>
+
+</html>

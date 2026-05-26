@@ -1,5 +1,54 @@
-<x-student-layout>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>HonuSign - Ejaan Kamera SIBI</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #FFF9F0 !important; /* Soft Cream */
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .brutal-border {
+            border: 4px solid #000000 !important;
+        }
+
+        .brutal-shadow {
+            box-shadow: 6px 6px 0px 0px #000000 !important;
+        }
+
+        .brutal-shadow-sm {
+            box-shadow: 3px 3px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover {
+            transition: all 0.2s ease-in-out !important;
+        }
+
+        .brutal-hover:hover {
+            transform: translate(-3px, -3px) !important;
+            box-shadow: 9px 9px 0px 0px #000000 !important;
+        }
+
+        .brutal-hover:active {
+            transform: translate(2px, 2px) !important;
+            box-shadow: 2px 2px 0px 0px #000000 !important;
+        }
+
         @keyframes scan {
             0% {
                 top: 0;
@@ -13,7 +62,56 @@
         .animate-scan {
             animation: scan 3s linear infinite;
         }
+
+        /* Letter twitching animation for detected character */
+        @keyframes twitch {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                transform: scale(1.15) rotate(3deg);
+            }
+            50% {
+                transform: scale(0.95) rotate(-3deg);
+            }
+            75% {
+                transform: scale(1.1) rotate(1.5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .animate-twitch {
+            animation: twitch 1.2s ease-in-out infinite;
+        }
     </style>
+</head>
+
+<body class="selection:bg-transparent transition-transform">
+
+    <!-- Back to Study Page -->
+    <a href="{{ route('materi.index') }}" aria-label="Kembali"
+        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
+            <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
+            <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" fill="none" />
+        </svg>
+    </a>
+
+
+    <!-- Title Header -->
+    <div class="pt-16 md:pt-20 px-4 flex flex-col items-center max-w-7xl mx-auto">
+        <div class="flex items-center gap-4 mb-2">
+            <span class="text-xl font-black text-black bg-[#BEE9E8] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-sm">Soal {{ $soal_ke }} dari 5</span>
+        </div>
+        <h1
+            class="mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-8 py-3 rounded-2xl text-2xl md:text-3xl font-black uppercase tracking-widest text-center transform -rotate-1 min-w-[220px] shadow-sm">
+            Ejaan Kamera SIBI
+        </h1>
+    </div>
+
     <!-- Interactive Visual Tutorial Overlay -->
     <div id="tutorial-overlay"
         class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[5000] flex items-center justify-center p-4 transition-opacity duration-500 opacity-0 pointer-events-none">
@@ -33,7 +131,6 @@
             <div class="relative w-64 h-64 bg-slate-900 brutal-border rounded-3xl p-4 flex flex-col items-center justify-center mb-8 mx-auto overflow-hidden shadow-inner">
                 <!-- Outer camera frame -->
                 <div class="absolute inset-4 border-2 border-dashed border-slate-500 rounded-2xl flex flex-col items-center justify-center">
-                    <!-- Silhouette of Hand/Body -->
                     <span class="text-6xl animate-pulse opacity-40">👤</span>
                     <span class="text-5xl animate-bounce mt-2">🖐️</span>
                 </div>
@@ -70,195 +167,89 @@
         </div>
     </div>
 
-    <script>
-        function showTutorial() {
-            const overlay = document.getElementById('tutorial-overlay');
-            const content = document.getElementById('tutorial-modal-content');
-            if (overlay && content) {
-                overlay.classList.remove('opacity-0', 'pointer-events-none');
-                overlay.classList.add('opacity-100', 'pointer-events-auto');
-                content.classList.remove('scale-90');
-                content.classList.add('scale-100');
-            }
-        }
-
-        function closeTutorial() {
-            const overlay = document.getElementById('tutorial-overlay');
-            const content = document.getElementById('tutorial-modal-content');
-            if (overlay && content) {
-                overlay.classList.add('opacity-0', 'pointer-events-none');
-                overlay.classList.remove('opacity-100', 'pointer-events-auto');
-                content.classList.add('scale-90');
-                content.classList.remove('scale-100');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            showTutorial();
-        });
-    </script>
-
-    <div class="max-w-6xl w-full px-6 py-12 flex flex-col items-center">
-
-        <!-- Progress Bar (Tahap 3) -->
-        <div class="w-full mb-8 max-w-3xl">
-            <div class="flex justify-between mb-4 items-end">
-                <span class="font-black text-xl tracking-widest uppercase text-black">Tahap 3: Peragakan!</span>
-                <span
-                    class="text-xl font-black text-black bg-[#BEE9E8] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-[2px_2px_0_#000]">Soal
-                    {{ $soal_ke }} dari 5</span>
-            </div>
-            <div class="w-full h-8 bg-white brutal-border brutal-shadow-sm rounded-2xl overflow-hidden p-1">
-                <div class="h-full bg-[#BEE9E8] rounded-xl transition-all duration-1000 border-r-4 border-black"
-                    style="width: {{ ($soal_ke / 5) * 100 }}%"></div>
-            </div>
-        </div>
-
-        <!-- Header Judul -->
-        <div class="text-center mb-8">
-            <h2 class="text-3xl md:text-4xl font-black text-black uppercase tracking-tighter transform -rotate-1">
-                Peragakan <span class="text-[#BEE9E8] text-outline drop-shadow-[0_4px_0_#000]">Isyarat</span> Cerita!
+    <!-- Question Card (Full Width - Top) -->
+    <div class="w-full max-w-6xl mx-auto px-4 md:px-8 mb-6">
+        <div class="bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-6 text-center md:text-left">
+            <span class="inline-block px-4 py-1.5 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-3">Pertanyaan Cerita</span>
+            <h2 class="text-2xl md:text-3xl font-black text-black leading-snug">
+                {!! nl2br(e($quiz->pertanyaan)) !!}
             </h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-start">
-
-            <!-- Panel Kiri: Pertanyaan + Progress -->
-            <div class="flex flex-col gap-6">
-
-                <!-- Card Pertanyaan -->
-                <div class="bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-[2.5rem] p-8">
-                    <p class="font-black text-black uppercase tracking-widest text-sm mb-3">Pertanyaan Cerita:</p>
-                    <div class="text-slate-700 font-bold text-lg leading-relaxed whitespace-pre-line">
-                        {!! nl2br(e($quiz->pertanyaan)) !!}
-                    </div>
-                </div>
-
-                <!-- Card Progress Ejaan -->
-                <div
-                    class="bg-[#E0BBE4] brutal-border brutal-shadow-sm rounded-[2.5rem] p-6 flex flex-col items-center justify-center text-center">
-                    <p class="font-black text-black uppercase tracking-widest text-sm mb-2">Kata yang Dieja:</p>
-                    <h1 id="word-progress" class="text-5xl font-black text-black uppercase tracking-widest mb-2">
-                        -
-                    </h1>
-                    <p id="word-target-hint" class="text-sm text-slate-500 font-bold"></p>
-                </div>
-
-                <!-- Input Fallback -->
-                <div class="bg-[#FFFEFA] brutal-border brutal-shadow-sm rounded-2xl p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-3">Ketik jawaban jika kamera tidak muncul:
-                    </p>
-                    <input type="text" id="manual-input" placeholder="Ketik di sini..."
-                        class="w-full p-4 rounded-xl brutal-border bg-white outline-none uppercase font-bold text-lg text-slate-800">
-                </div>
-            </div>
-
-            <!-- Panel Kanan: Webcam -->
-            <div class="relative">
-                <div
-                    class="relative bg-black brutal-border brutal-shadow rounded-[2.5rem] aspect-square overflow-hidden">
-                    <video id="webcam" autoplay playsinline muted
-                        style="width: 100%; height: 100%; object-fit: cover; display: block;">
-                    </video>
-
-                    <div id="scanner-line"
-                        class="absolute inset-0 border-4 border-[#BEE9E8]/70 rounded-[2rem] pointer-events-none">
-                        <div class="w-full h-1 bg-[#BEE9E8] absolute top-0 animate-scan"></div>
-                    </div>
-
-                    <div id="ai-status"
-                        class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md text-white px-5 py-3 rounded-full text-sm font-bold flex items-center gap-3 whitespace-nowrap">
-                        <span id="status-ping" class="w-3 h-3 bg-yellow-400 rounded-full animate-ping"></span>
-                        <span id="status-text">Mengunduh Sistem AI...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tombol Aksi (Visual-Only) -->
-        <div class="mt-10 flex items-center justify-center gap-6">
-            <!-- Tombol Keluar (Visual House Icon) -->
-            <a href="{{ route('materi.index') }}"
-                class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
-                title="Keluar & Simpan">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <path opacity="0.2" d="M12 3L2 12h3v8h14v-8h3L12 3z" />
-                    <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.83L18.17 12H17v6H7v-6H5.83L12 5.83z"
-                        fill="currentColor" />
-                </svg>
-            </a>
-
-            <!-- Tombol Bypass (Visual Skip Icon) -->
-            <button onclick="simulateAI()"
-                class="bg-[#FFF5B8] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform cursor-pointer"
-                title="Lewati (Dev Mode)">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                    <path d="M6 18l8.5-6L6 6v12zm9-12v12h2V6h-2z" fill="currentColor" />
-                </svg>
-            </button>
         </div>
     </div>
 
-    <!-- Modal Sukses Kustom -->
-    <div id="success-modal"
-        class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
-        <div class="bg-[#BEE9E8] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center max-w-lg mx-4 transform scale-90 transition-transform duration-500 relative"
-            id="success-modal-content">
-            <button onclick="closeSuccessModal()"
-                class="absolute top-4 right-4 bg-white brutal-border brutal-shadow-sm w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#FFB3B3] hover:text-black transition-all transform hover:rotate-90 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                    <path
-                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
-                        fill="currentColor" />
-                </svg>
-            </button>
+    <!-- Main Game Section (Webcam + Progress side-by-side) -->
+    <div class="pb-8 px-4 md:px-8 flex flex-col md:flex-row items-center md:items-stretch justify-center gap-6 md:gap-8 max-w-6xl w-full mx-auto">
+        
+        <!-- Left: Webcam Container (occupies 50vh viewport height) -->
+        <div class="w-full md:w-2/3 relative bg-black brutal-border brutal-shadow rounded-[2.5rem] h-[50vh] min-h-[320px] max-h-[480px] overflow-hidden">
+            <!-- Video feed -->
+            <video id="webcam" autoplay playsinline muted
+                class="w-full h-full object-cover block">
+            </video>
 
-            <!-- Standardized Indonesian congrats + Smiling Face and Thumbs Up Duotone Icons -->
-            <div class="flex items-center justify-center gap-6 mb-6">
-                <!-- Smiling Face Icon -->
-                <div class="p-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl animate-bounce"
-                    style="animation-delay: 0.1s">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-16 h-16 text-black">
-                        <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                        <circle cx="9" cy="9.5" r="1.5" fill="currentColor" />
-                        <circle cx="15" cy="9.5" r="1.5" fill="currentColor" />
-                        <path d="M12 18c2.28 0 4.22-1.24 5-3H7c.78 1.76 2.72 3 5 3z" fill="currentColor" />
-                    </svg>
-                </div>
-                <!-- Thumbs Up Icon -->
-                <div class="p-4 bg-[#D4F1BE] brutal-border brutal-shadow-sm rounded-2xl animate-bounce"
-                    style="animation-delay: 0.3s">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-16 h-16 text-black">
-                        <path opacity="0.2"
-                            d="M21 10a2 2 0 0 0-2-2h-5.07l.76-3.65c.18-.89-.17-1.81-.9-2.35L13 2H9v11h4l1.63 5.48c.32 1.07 1.3 1.8 2.42 1.8h.07a2 2 0 0 0 1.94-1.51L21 10z" />
-                        <path
-                            d="M4 11h3v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm15-3h-5.07l.76-3.65A2.39 2.39 0 0 0 13.8 2H9v11h4l1.63 5.48A2.5 2.5 0 0 0 17 20h.07a2 2 0 0 0 1.94-1.51L21 10a2 2 0 0 0-2-2zM9 11v8h8.07l-1.63-5.48L13.8 8H19l-2 10H9v-7z"
-                            fill="currentColor" />
-                    </svg>
-                </div>
+            <!-- Scanning overlay line -->
+            <div id="scanner-line"
+                class="absolute inset-0 border-4 border-[#BEE9E8]/70 rounded-[2.3rem] pointer-events-none">
+                <div class="w-full h-1 bg-[#BEE9E8] absolute top-0 animate-scan"></div>
             </div>
 
-            <h2 class="text-4xl md:text-5xl font-black text-white text-outline uppercase tracking-tighter text-center mb-2 transform -rotate-2 drop-shadow-[0_4px_0_#000]"
-                id="modal-title">
-                SELAMAT!
-            </h2>
-            <p class="text-xl md:text-2xl font-bold text-slate-800 text-center mb-10 bg-[#FFF5B8] px-4 py-2 rounded-xl brutal-border"
-                id="modal-desc">
-                Peragaan isyarat kamu benar sekali!
-            </p>
+            <!-- AI Detected Letter Card (Positioned top-right, twitches/pulses continuously) -->
+            <div id="ai-detected-char" class="absolute top-6 right-6 bg-[#FFD1E3] brutal-border brutal-shadow-sm rounded-2xl p-4 flex items-center justify-center min-w-[80px] min-h-[80px] z-50 animate-twitch">
+                <span id="detected-char-text" class="text-5xl font-black text-black uppercase">-</span>
+            </div>
 
-            <!-- Visual-only next button in success modal -->
-            <a href="{{ route('materi.belajar', ['step' => 3, 'soal_ke' => $soal_ke + 1]) }}"
-                class="bg-[#D4F1BE] text-black w-24 h-24 flex items-center justify-center rounded-full brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-all"
-                title="Lanjut">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-14 h-14">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                    <path d="M10 17V7l7 5-7 5z" fill="currentColor" />
-                </svg>
-            </a>
+            <!-- Status panel overlay -->
+            <div id="ai-status"
+                class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md text-white px-5 py-3 rounded-full text-sm font-bold flex items-center gap-3 whitespace-nowrap">
+                <span id="status-ping" class="w-3 h-3 bg-yellow-400 rounded-full animate-ping"></span>
+                <span id="status-text">Mengunduh Sistem AI...</span>
+            </div>
+        </div>
+
+        <!-- Right: Spelling Progress Card (placed next to camera) -->
+        <div class="w-full md:w-1/3 flex flex-col justify-center items-center text-center bg-[#E0BBE4] brutal-border brutal-shadow rounded-[2.5rem] p-8">
+            <span class="inline-block px-4 py-1.5 bg-white brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-4">Progres Ejaan</span>
+            <p class="font-black text-slate-800 uppercase tracking-widest text-sm mb-4">Kata yang Dieja:</p>
+            <h1 id="word-progress" class="text-5xl font-black text-black uppercase tracking-widest mb-4">
+                -
+            </h1>
+            <p id="word-target-hint" class="text-sm text-slate-700 font-bold">Total: {{ strlen($quiz->jawaban_benar) }} Huruf</p>
+        </div>
+
+    </div>
+
+    <!-- Victory Modal (using selamat.png) -->
+    <div id="success-modal"
+        class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none"
+            id="success-modal-content">
+
+            <!-- Main Image -->
+            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!"
+                class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
+
+            <!-- Interactive Buttons Overlaid over pre-rendered spots -->
+            <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
+                <!-- Replay Button -->
+                <button onclick="window.location.reload()" aria-label="Ulangi"
+                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
+                    </svg>
+                </button>
+                <!-- Next Button -->
+                <a href="{{ route('materi.belajar', ['step' => 3, 'soal_ke' => $soal_ke + 1]) }}" aria-label="Lanjut"
+                    class="bg-[#D4F1BE] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -289,7 +280,6 @@
         const MEDIAPIPE_TASK_PATH =
             "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task";
 
-        // KUNCI UTAMA: Ambil target kata utuh dari database seeder (Contoh: "ADI" atau "SAMSUL")
         const TARGET_WORD = "{{ $quiz->jawaban_benar }}".toUpperCase().trim();
         const ALPHABET_MAP = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
             'U', 'V', 'W', 'X', 'Y'
@@ -300,36 +290,63 @@
         const statusPing = document.getElementById('status-ping');
         const progressDisplay = document.getElementById('word-progress');
         const hintDisplay = document.getElementById('word-target-hint');
-        const btnNext = document.getElementById('btn-next');
 
         let handLandmarker;
         let tfliteModel;
         let isMisiSelesai = false;
-        let lastVideoTime = -1;
         let frameCounter = 0;
 
-        // STATE LOGIKA MENGEJA KATA
         let currentLetterIdx = 0;
         let akumulasiJawaban = "";
 
-        // Fungsi pembantu untuk merender tampilan ejaan di layar (Contoh hasil: A D _ )
         function updateProgressUI() {
             let htmlOutput = "";
             for (let i = 0; i < TARGET_WORD.length; i++) {
                 if (i < currentLetterIdx) {
-                    // Huruf yang sudah sukses diisi (Warna Hijau)
                     htmlOutput += `<span class="text-green-600 dark:text-green-400 font-black">${TARGET_WORD[i]}</span> `;
                 } else if (i === currentLetterIdx) {
-                    // Huruf aktif yang sedang ditargetkan oleh AI saat ini (Warna Ungu Kedip)
                     htmlOutput +=
-                        `<span class="text-purple-600 dark:text-purple-400 font-black underline animate-pulse">[${TARGET_WORD[i]}]</span> `;
+                        `<span class="text-purple-600 dark:text-purple-400 font-black underline animate-pulse active-slot">[${TARGET_WORD[i]}]</span> `;
                 } else {
-                    // Huruf yang belum terbuka (Warna Abu-abu / Underscore)
                     htmlOutput += `<span class="text-slate-300 dark:text-slate-600 font-bold">_</span> `;
                 }
             }
             progressDisplay.innerHTML = htmlOutput;
             hintDisplay.textContent = `Total: ${TARGET_WORD.length} Huruf`;
+        }
+
+        // Flying letter animation
+        function animateFlyingLetter(letter) {
+            const startEl = document.getElementById('ai-detected-char');
+            const endEl = document.querySelector('#word-progress .active-slot') || document.getElementById('word-progress');
+
+            if (!startEl || !endEl) return;
+
+            const startRect = startEl.getBoundingClientRect();
+            const endRect = endEl.getBoundingClientRect();
+
+            // Create flyer node
+            const flyer = document.createElement('div');
+            flyer.innerText = letter;
+            flyer.className = "fixed z-[9999] bg-[#FFD1E3] brutal-border brutal-shadow-sm rounded-xl font-black text-3xl text-black flex items-center justify-center w-14 h-14 pointer-events-none transition-all duration-700 ease-in-out";
+            
+            // Set starting position
+            flyer.style.left = `${startRect.left}px`;
+            flyer.style.top = `${startRect.top}px`;
+            document.body.appendChild(flyer);
+
+            // Reflow to apply initial styles
+            void flyer.offsetWidth;
+
+            // Set destination position & effect
+            flyer.style.left = `${endRect.left}px`;
+            flyer.style.top = `${endRect.top}px`;
+            flyer.style.transform = "scale(0.6)";
+
+            // Cleanup when transition is done
+            flyer.addEventListener('transitionend', () => {
+                flyer.remove();
+            });
         }
 
         async function initEngine() {
@@ -407,9 +424,6 @@
                     const activeLandmarks = detections.landmarks || detections.handLandmarks;
 
                     frameCounter++;
-                    if (frameCounter % 30 === 0) {
-                        console.log(`[FRAME ${frameCounter}] Tangan terdeteksi: ${activeLandmarks?.length || 0}`);
-                    }
 
                     if (activeLandmarks && activeLandmarks.length > 0) {
                         const landmarks = activeLandmarks[0];
@@ -423,35 +437,37 @@
                         const detectedLetter = ALPHABET_MAP[maxIdx];
                         const confidence = predictionArray[maxIdx];
 
-                        // Dapatkan huruf target ke-N yang dicari saat ini
+                        // Update text in detected letter bubble
+                        document.getElementById('detected-char-text').innerText = detectedLetter;
+
                         const expectedLetter = TARGET_WORD[currentLetterIdx];
 
                         statusText.textContent =
                             `Mengeja: ${akumulasiJawaban}[${expectedLetter}]... (AI Melihat: ${detectedLetter})`;
                         statusPing.style.background = 'purple';
 
-                        // LOGIKA VALIDASI: COCOKKAN HASIL TEBAKAN DENGAN TARGET HURUF AKTIF
+                        // Match logic
                         if (detectedLetter === expectedLetter && confidence > 0.82) {
-                            akumulasiJawaban += expectedLetter;
-                            currentLetterIdx++; // Naikkan indeks untuk mengejar huruf selanjutnya
+                            // Run the flying letter animation
+                            animateFlyingLetter(expectedLetter);
 
-                            updateProgressUI();
-                            console.log(`✅ Huruf '${expectedLetter}' Benar!`);
-
-                            // Bersihkan memori tensor saat ini
+                            // Clean up
                             inputTensor.dispose();
                             prediction.dispose();
 
-                            // CEK APAKAH SELURUH KATA UTUH SUDAH BERHASIL DIEJA
-                            if (currentLetterIdx >= TARGET_WORD.length) {
-                                triggerMisiBerhasil();
-                                return;
-                            }
-
-                            // INTERCEPT DEBOUNCE TIMER: Berikan jeda 1.5 detik agar user bisa mengganti bentuk isyarat jarinya
+                            // Slight delay for visual fly path appreciation before progress advances
                             setTimeout(() => {
+                                akumulasiJawaban += expectedLetter;
+                                currentLetterIdx++;
+                                updateProgressUI();
+
+                                if (currentLetterIdx >= TARGET_WORD.length) {
+                                    triggerMisiBerhasil();
+                                    return;
+                                }
+
                                 requestAnimationFrame(predictLoop);
-                            }, 1500);
+                            }, 700);
                             return;
                         }
 
@@ -461,6 +477,7 @@
                         const expectedLetter = TARGET_WORD[currentLetterIdx];
                         statusText.textContent = `Peragakan huruf "${expectedLetter}" untuk melanjutkan kata!`;
                         statusPing.style.background = 'rgb(250, 204, 21)';
+                        document.getElementById('detected-char-text').innerText = "-";
                     }
                 }
             } catch (loopError) {
@@ -504,10 +521,7 @@
                 document.getElementById('scanner-line').classList.add('hidden');
             }
 
-            // Save user progress
             saveProgress(3, 0);
-
-            // Show success modal
             window.showSuccessModal();
 
             const audio = new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3');
@@ -521,7 +535,6 @@
             triggerMisiBerhasil();
         }
 
-        // Save progress to database
         function saveProgress(tahap, nilai) {
             fetch('{{ route('materi.save_progress') }}', {
                     method: 'POST',
@@ -552,64 +565,21 @@
                 });
         }
 
-        // Global Success Modal Triggers
         window.showSuccessModal = function() {
             const modal = document.getElementById('success-modal');
             const content = document.getElementById('success-modal-content');
             if (modal && content) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
-                void modal.offsetWidth; // force reflow
+                void modal.offsetWidth;
                 modal.classList.remove('opacity-0');
                 content.classList.remove('scale-90');
                 content.classList.add('scale-100');
             }
         }
 
-        window.closeSuccessModal = function() {
-            const modal = document.getElementById('success-modal');
-            const content = document.getElementById('success-modal-content');
-            if (modal && content) {
-                modal.classList.add('opacity-0');
-                content.classList.remove('scale-100');
-                content.classList.add('scale-90');
-                setTimeout(() => {
-                    modal.classList.remove('flex');
-                    modal.classList.add('hidden');
-                }, 300);
-            }
-        }
-
-        // Manual Input Fallback Listener
-        const manualInput = document.getElementById('manual-input');
-        if (manualInput) {
-            manualInput.addEventListener('input', (e) => {
-                const val = e.target.value.toUpperCase().trim();
-                if (val === TARGET_WORD) {
-                    currentLetterIdx = TARGET_WORD.length;
-                    akumulasiJawaban = TARGET_WORD;
-                    updateProgressUI();
-                    triggerMisiBerhasil();
-                }
-            });
-        }
-
         initEngine();
     </script>
+</body>
 
-    <style>
-        @keyframes scan {
-            0% {
-                top: 0;
-            }
-
-            100% {
-                top: 100%;
-            }
-        }
-
-        .animate-scan {
-            animation: scan 3s linear infinite;
-        }
-    </style>
-</x-student-layout>
+</html>

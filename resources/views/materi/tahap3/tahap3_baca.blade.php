@@ -7,7 +7,7 @@
 
             <div
                 class="bg-[#FFF5B8] px-6 py-2 rounded-2xl brutal-border brutal-shadow-sm font-black text-sm mb-6 -rotate-2 text-black">
-                TUTORIAL SINGKAT
+                AKTIVITAS KELAS
             </div>
 
             <h2 class="text-3xl md:text-4xl font-black text-black tracking-tight mb-6">
@@ -45,11 +45,11 @@
             <div class="flex flex-col gap-4 text-left w-full bg-[#F8FAFC] brutal-border p-6 rounded-2xl mb-8 shadow-sm">
                 <div class="flex items-start gap-3">
                     <span class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">1</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Perhatikan Guru</b>: Dengarkan dan perhatikan penjelasan guru dengan seksama.</p>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Bersama Guru</b>: Sesi diskusi isyarat ini dilakukan bersama guru di dalam kelas.</p>
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">2</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Diskusi Isyarat</b>: Ini adalah sesi diskusi isyarat untuk memahami makna cerita bersama-sama.</p>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Perhatikan Isyarat</b>: Perhatikan dan tirukan penjelasan gerakan isyarat dari guru bersama-sama.</p>
                 </div>
             </div>
 

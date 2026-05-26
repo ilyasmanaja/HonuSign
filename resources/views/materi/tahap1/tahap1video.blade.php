@@ -140,8 +140,8 @@
             </div>
         </div>
 
-        <!-- Tombol Aksi (Visual-Only) -->
-        <div class="w-full max-w-5xl flex justify-between items-center mt-10 px-4">
+        <!-- Tombol Aksi (Visual-Only - Centered for better UX) -->
+        <div class="w-full max-w-5xl flex justify-center gap-12 items-center mt-8 px-4">
             <!-- Tombol Keluar & Simpan (Visual House Icon) -->
             <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 1)"
                 class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"

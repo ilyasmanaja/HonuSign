@@ -387,63 +387,27 @@
     <div id="win-modal"
         class="hidden fixed inset-0 bg-[#BEE9E8]/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
 
-        <div
-            class="modal-animate flex flex-col items-center relative z-10 bg-[#FFFEFA] brutal-border brutal-shadow p-10 rounded-[3rem] transform -rotate-1 max-w-lg w-full">
+        <div id="win-modal-content"
+            class="modal-animate relative w-full max-w-[480px] aspect-square select-none z-10">
+            
+            <!-- Main Image -->
+            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!" class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
 
-            <div class="flex gap-4 mb-6 animate-bounce">
-                <!-- Smiling Face Icon -->
-                <div
-                    class="relative w-20 h-20 bg-[#BEE9E8] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
-                        <circle cx="12" cy="12" r="10" fill="#FFF5B8" class="opacity-20" />
-                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor"
-                            stroke-width="2.5" />
-                        <circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" />
-                        <circle cx="15.5" cy="10.5" r="1.5" fill="currentColor" />
-                        <path d="M8 15c1.5 2 4.5 2 6 0" fill="none" stroke="currentColor" stroke-width="2.5"
-                            stroke-linecap="round" />
-                    </svg>
-                </div>
-                <!-- Thumbs Up Icon -->
-                <div
-                    class="relative w-20 h-20 bg-[#FFD1E3] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
-                        <path
-                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
-                            fill="#BEE9E8" class="opacity-20" />
-                        <path
-                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
-                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"
-                            stroke-linecap="round" />
-                    </svg>
-                </div>
-            </div>
-
-            <h1 class="text-6xl md:text-7xl font-extrabold text-black mb-2 tracking-tighter transform rotate-1">
-                SELAMAT!
-            </h1>
-            <p id="result-message"
-                class="text-xl md:text-2xl font-bold text-slate-600 mb-8 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-3 rounded-2xl">
-                Anda berhasil menyelesaikan permainan ini.
-            </p>
-
-            <div class="mt-2 flex gap-6 w-full justify-center">
+            <!-- Interactive Buttons Overlaid over pre-rendered spots -->
+            <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
+                <!-- Replay Button -->
                 <button onclick="window.location.reload()" aria-label="Ulangi"
-                    class="bg-[#FFF5B8] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
-                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
                     </svg>
                 </button>
+                <!-- Home Button -->
                 <button onclick="window.location.href='{{ route('general.index') }}'" aria-label="Keluar"
-                    class="bg-[#FFB3B3] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
-                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                        <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="3"
-                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    class="bg-[#FFB3B3] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
                     </svg>
                 </button>
             </div>

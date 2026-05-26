@@ -686,3 +686,80 @@ maka elemen tersebut harus disederhanakan.
 "Visual is Communication."
 
 Semua elemen UI harus membantu pengguna memahami, merasa nyaman, dan menikmati proses belajar tanpa bergantung pada audio.
+
+---
+
+# XXI. READING MATERIAL (MATERI MEMBACA) LAYOUT SYSTEM
+
+## Layout Structure
+Layout materi membaca dirancang dengan prinsip **fokus tunggal**, **minim distraksi**, dan **terstruktur secara visual (storyboard)**. Gunakan layout dari [tahap1.blade.php](file:///c:/Users/M S I/Downloads/HonuSign/resources/views/materi/tahap1/tahap1.blade.php) sebagai referensi utama.
+
+### 1. Progress Bar & Header
+- **Judul Tahap**: Menggunakan teks uppercase tebal (`font-black text-xl tracking-widest text-black`).
+- **Progress Track**: Menggunakan container `bg-white brutal-border brutal-shadow-sm rounded-2xl p-1 h-8`.
+- **Progress Indicator**: Menggunakan warna Soft Blue (`#BEE9E8`) dengan border pemisah di sisi kanan (`border-r-4 border-black`).
+- **Judul Materi**: Centered, menggunakan font Fredoka tebal, ber-outline hitam tebal, rotasi sedikit (`-rotate-1`), dan drop shadow tegas (`drop-shadow-[0_6px_0_#000]`).
+
+### 2. Layered Paper Container (Card Utama)
+- **Outer Frame Card**: Menggunakan warna pastel cerah (misal: Soft Pink `#FFD1E3`), dibungkus dengan `brutal-border brutal-shadow rounded-[3rem] p-6 md:p-8`.
+- **Inner Paper Card (Surface)**: Kertas putih bersih (`#FFFEFA`), rounded besar (`rounded-[2rem]`), padding lega (`p-6 md:p-10`), bertindak sebagai permukaan bacaan utama.
+
+### 3. Story Elements & Storyboard Cards
+- **Header Cerita**: Judul instansi/sumber cerita dengan ikon duotone (Solar Icons) di dalam kotak kecil yang terotasi (`p-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl transform -rotate-3`).
+- **Tombol Video Isyarat**: Tombol pintas cepat berbentuk ikon TV (`bg-[#BEE9E8] brutal-border brutal-shadow-sm brutal-hover p-4 rounded-2xl`) diletakkan di sebelah kanan header cerita.
+- **Ilustrasi Utama**: Gambar diposisikan di tengah (centered) di dalam bingkai putih terotasi: `bg-white p-4 brutal-border brutal-shadow-sm rounded-[2.5rem] transform rotate-1 / -rotate-1 hover:scale-105 transition-transform duration-300`.
+- **Storyboard Character Grid (Kartu Karakter)**:
+  - Gunakan layout grid 3 kolom (`grid grid-cols-1 md:grid-cols-3 gap-6`).
+  - Setiap kartu memiliki warna pastel yang berbeda secara berselingan (`#D4F1BE`, `#BEE9E8`, `#FFF5B8`).
+  - Gunakan rounded corner besar (`rounded-[2.5rem]`) dan rotasi dinamis (`rotate-2`, `-rotate-2`, `rotate-1`).
+  - Animasi hover: `hover:-translate-y-2 transition-transform duration-300`.
+  - Pola Floating: Kartu kolom tengah memiliki efek mengapung lebih tinggi pada layar desktop menggunakan offset top (`md:-translate-y-6`).
+
+### 4. Navigation Actions
+- Tombol aksi navigasi ("Keluar", "Kembali", atau "Lanjut") dipusatkan di bagian bawah halaman.
+- Berbentuk lingkaran besar (`w-20 h-20 rounded-full`), menggunakan warna pastel fungsional (misal: Merah `#FFB3B3` untuk keluar, Hijau `#D4F1BE` untuk lanjut).
+- Memiliki `brutal-border brutal-shadow-sm brutal-hover` dengan transisi naik saat dihover (`hover:-translate-y-2`).
+
+---
+
+# XXII. GAME LAYOUT & INTERACTIVE FLOW SYSTEM
+
+UI Game di HonuSign menggunakan prinsip **visual-first feedback**, **interaktivitas tanpa teks rumit**, dan **edutainment yang ramah anak**. Ambil contoh implementasi dari [memory.blade.php](file:///c:/Users/M S I/Downloads/HonuSign/resources/views/general/memory.blade.php), [puzzle_instrument.blade.php](file:///c:/Users/M S I/Downloads/HonuSign/resources/views/general/puzzle_instrument.blade.php), dan [puzzle.blade.php](file:///c:/Users/M S I/Downloads/HonuSign/resources/views/general/puzzle.blade.php).
+
+### 1. Game Intro Splash Screen
+- Overlay pembuka full-screen (`fixed inset-0 bg-[#FFFEFA] z-[9999]`) yang menutupi board saat halaman dimuat.
+- Menampilkan badge kategori game (misal: "Sliding Puzzle", "Memory Game", "Drag & Drop") dan Judul Game yang memantul (`animate-bounce`).
+- Otomatis memudar secara perlahan setelah 2.5 detik (`transition-opacity duration-1000`).
+
+### 2. Game Navigation & Difficulty
+- **Tombol Kembali (Back)**: Terletak di kiri atas, berwarna merah lembut (`bg-[#FFB3B3]`), dilengkapi ikon panah kembali bersih (`brutal-border brutal-shadow-sm brutal-hover`).
+- **Pilihan Tingkat Kesulitan**:
+  - Menggunakan ikon bintang (1 bintang untuk Mudah, 3 bintang untuk Sulit).
+  - Mode aktif berwarna kuning pastel (`bg-[#FFF5B8]`), mode tidak aktif berwarna abu-abu (`bg-[#E2E8F0]`).
+
+### 3. Interactive Visual Tutorial Overlay
+- **Tanpa Teks Panjang**: Anak-anak (terutama anak tunarungu) belajar lebih cepat dengan visual. Wajib menyediakan tutorial animasi interaktif.
+- **Tampilan Overlay**: Latar belakang hitam transparan dengan blur (`bg-slate-900/80 backdrop-blur-md`).
+- **Simulasi Animasi**: Tampilkan simulasi interaksi gameplay menggunakan gambar tangan penunjuk (`👆`) yang bergerak secara otomatis (misal: memperagakan klik kartu, menukar kotak puzzle, atau menarik potongan peta) lengkap dengan indikator sukses (warna hijau/glow) dan salah (warna merah/shake).
+
+### 4. Soundless Visual Feedback System
+Karena anak tunarungu tidak bisa mendengar audio cue, feedback visual harus sangat responsif dan jelas:
+- **Sukses / Benar (Correct)**:
+  - Element/kartu memancarkan glow hijau (`#D4F1BE`) atau langsung menghilang/bergabung.
+  - Memancarkan efek partikel bintang terbang (`victory-star`) dengan timing cepat (1.5 detik) yang dibuat menggunakan CSS clip-path polygon bintang.
+- **Gagal / Salah (Incorrect)**:
+  - Screen-shake / Goyangan layar cepat (`screen-shake` animation).
+  - Elemen berubah warna menjadi merah (`#FF6B6B`), bergetar (`mismatch-shake` animation), lalu kembali ke posisi semula.
+  - Memunculkan balon teks popup kecil yang lucu ("Oops, coba lagi ya 😊") di sekitar area kesalahan.
+- **Fitur Bantuan (Hint)**:
+  - Jika anak terdiam selama 4 detik tanpa melakukan aksi, kartu target atau pilihan yang benar harus mulai bergoyang lembut (`hint-shake` / jiggle animation) untuk memandu pandangan mata anak.
+
+### 5. Game Boards & Mechanics
+- **Memory Card**: Card Grid 4x4. Punggung kartu menggunakan motif pola lingkaran pastel (`#BEE9E8` & `#FFF5B8`). Putaran kartu menggunakan CSS 3D transform (`perspective: 1000px`, `backface-visibility: hidden`).
+- **Sliding Puzzle**: Board 3x3 dengan sistem tukar koordinat. Potongan gambar diatur menggunakan `background-position` secara persentase berdasarkan posisi grid.
+- **Drag & Drop Map**: Rak penampung kepingan (`#pieces-tray`) berada di bawah dengan overflow horizontal yang smooth. Potongan peta ditarik menggunakan event mouse/touch, dengan garis putus-putus bantuan (`guide-line`) ke target koordinat sesungguhnya, dan menggunakan jarak toleransi piksel (threshold) untuk efek menempel otomatis.
+
+### 6. Victory Overlay (Pop Up Menang)
+- Modal kemenangan dengan transisi pop-out yang lembut (`transform scale-90 opacity-0 transition-all`).
+- Menampilkan ilustrasi maskot emosi ceria: wajah tersenyum (`#BEE9E8`) dan jempol (`#FFD1E3`).
+- Menyediakan tombol aksi yang jelas: Ulangi (kuning), Lanjut/Berikutnya (hijau), dan Kembali ke Menu (merah).

@@ -182,8 +182,8 @@
                         1 => ['left' => '15%', 'top' => '22%'],
                         2 => ['left' => '50%', 'top' => '18%'],
                         3 => ['left' => '82%', 'top' => '28%'],
-                        4 => ['left' => '78%', 'top' => '62%'],
-                        5 => ['left' => '46%', 'top' => '52%'],
+                        4 => ['left' => '82%', 'top' => '48%'],
+                        5 => ['left' => '48%', 'top' => '48%'],
                         6 => ['left' => '15%', 'top' => '72%'],
                     ][$index];
 
@@ -223,9 +223,9 @@
                 </div>
             @endforeach
 
-            <!-- Finish Node (SLB School building) -->
+            <!-- Finish Node (Checkered Flag) -->
             <div class="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10"
-                style="left: 82%; top: 76%;">
+                style="left: 82%; top: 78%;">
                 <!-- Finish Anchor Dot -->
                 <div id="finish-dot" class="absolute w-1 h-1" style="top: 3.5rem; left: 3.5rem;"></div>
 
@@ -235,13 +235,12 @@
                         class="absolute -top-3 -right-3 w-8 h-8 rounded-full border-4 border-black bg-white flex items-center justify-center font-black text-black text-sm">
                         🏁
                     </span>
-                    <img src="{{ asset('images/keSekolah/SLB.png') }}"
-                        class="w-20 h-auto drop-shadow-md group-hover:scale-110 transition-transform" alt="Sekolah SLB">
+                    <span class="text-5xl group-hover:scale-110 transition-transform select-none">🏁</span>
                 </div>
 
                 <div
                     class="mt-2 text-[10px] md:text-xs font-black text-black bg-white px-3 py-1 rounded-xl brutal-border brutal-shadow-sm text-center whitespace-nowrap uppercase tracking-wider">
-                    Sekolah
+                    Garis Finish
                 </div>
             </div>
 

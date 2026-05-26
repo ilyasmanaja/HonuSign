@@ -1,4 +1,70 @@
 <x-student-layout>
+    <!-- Interactive Visual Tutorial Overlay -->
+    <div id="tutorial-overlay"
+        class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[5000] flex items-center justify-center p-4 transition-opacity duration-500 opacity-0 pointer-events-none">
+        <div class="bg-[#FFFEFA] brutal-border brutal-shadow p-8 md:p-12 rounded-[3rem] max-w-xl w-full flex flex-col items-center text-center relative transform scale-90 transition-transform duration-500"
+            id="tutorial-modal-content">
+
+            <div
+                class="bg-[#FFF5B8] px-6 py-2 rounded-2xl brutal-border brutal-shadow-sm font-black text-sm mb-6 -rotate-2 text-black">
+                AKTIVITAS KELAS
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-black text-black tracking-tight mb-6">
+                Membaca Bersama
+            </h2>
+
+            <!-- Animasi Guru Menjelaskan & Murid Mendengarkan -->
+            <div class="relative w-full max-w-sm h-64 bg-[#BEE9E8] brutal-border rounded-[2rem] p-4 flex items-center justify-between mb-8 mx-auto overflow-hidden shadow-inner">
+                <!-- Guru (Left) -->
+                <div class="flex flex-col items-center z-10 w-1/3">
+                    <span class="text-5xl animate-bounce">👩‍🏫</span>
+                    <span class="text-xs font-black text-black bg-[#FFF5B8] px-3 py-1 rounded-xl brutal-border mt-3 shadow-[2px_2px_0_#000]">Guru</span>
+                </div>
+
+                <!-- Speech Wave / Bubbles (Center) -->
+                <div class="flex gap-1.5 items-center justify-center flex-grow px-2 z-10 h-24">
+                    <span class="w-2.5 h-10 bg-black rounded-full animate-pulse" style="animation-delay: 0.1s"></span>
+                    <span class="w-2.5 h-16 bg-black rounded-full animate-pulse" style="animation-delay: 0.3s"></span>
+                    <span class="w-2.5 h-8 bg-black rounded-full animate-pulse" style="animation-delay: 0.5s"></span>
+                </div>
+
+                <!-- Murid (Right) -->
+                <div class="flex flex-col items-center z-10 w-1/3">
+                    <span class="text-5xl animate-pulse">👦</span>
+                    <span class="text-xs font-black text-black bg-[#D4F1BE] px-3 py-1 rounded-xl brutal-border mt-3 shadow-[2px_2px_0_#000]">Murid</span>
+                </div>
+
+                <!-- Big Ear / listening focus indicator -->
+                <div class="absolute right-4 top-4 text-3xl animate-ping opacity-75">
+                    👂
+                </div>
+            </div>
+
+            <!-- Penjelasan Teks -->
+            <div class="flex flex-col gap-4 text-left w-full bg-[#F8FAFC] brutal-border p-6 rounded-2xl mb-8 shadow-sm">
+                <div class="flex items-start gap-3">
+                    <span class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">1</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Bersama Guru</b>: Aktivitas membaca ini dilakukan bersama guru di dalam kelas.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">2</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Perhatikan Cerita</b>: Perhatikan gambar dan baca teks cerita dengan tertib.</p>
+                </div>
+            </div>
+
+            <!-- Confirm Button (Visual Icon Ok / Checklist) -->
+            <button onclick="closeTutorial()"
+                class="w-20 h-20 bg-[#D4F1BE] text-black rounded-full brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer animate-pulse"
+                title="Mengerti">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                    <circle cx="12" cy="12" r="10" opacity="0.2" />
+                    <path d="M10 15.172l-3.5-3.5-1.414 1.414 4.914 4.914 9.9-9.9-1.414-1.414z" fill="currentColor" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <div class="max-w-5xl w-full px-6 py-12 flex flex-col items-center">
         <!-- Progress Bar (Tahap 1) -->
         <div class="w-full mb-10 max-w-3xl">
@@ -233,6 +299,32 @@
     </div>
 
     <script>
+        function showTutorial() {
+            const overlay = document.getElementById('tutorial-overlay');
+            const content = document.getElementById('tutorial-modal-content');
+            if (overlay && content) {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                overlay.classList.add('opacity-100', 'pointer-events-auto');
+                content.classList.remove('scale-90');
+                content.classList.add('scale-100');
+            }
+        }
+
+        function closeTutorial() {
+            const overlay = document.getElementById('tutorial-overlay');
+            const content = document.getElementById('tutorial-modal-content');
+            if (overlay && content) {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                content.classList.add('scale-90');
+                content.classList.remove('scale-100');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            showTutorial();
+        });
+
         function tandaiSelesai(event, nextUrl, tahapKe) {
             event.preventDefault(); // Tahan dulu, jangan langsung pindah halaman
 

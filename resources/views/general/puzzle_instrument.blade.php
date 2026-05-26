@@ -228,7 +228,7 @@
 
     <!-- Intro Overlay -->
     <div id="intro-overlay"
-        class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
+        class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out">
         <div class="text-center px-6">
             <div
                 class="inline-block px-6 py-2 bg-[#E0BBE4] brutal-border brutal-shadow-sm rounded-2xl text-sm font-bold mb-6 -rotate-2">
@@ -420,72 +420,38 @@
     <!-- Victory Modal -->
     <div id="win-modal"
         class="hidden fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex-col items-center justify-center p-4">
-        <div class="bg-[#FFFEFA] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center text-center transform scale-90 opacity-0 transition-all duration-500"
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 opacity-0 transition-all duration-500 select-none"
             id="win-modal-content">
+            
+            <!-- Main Image -->
+            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!" class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
 
-            <div class="flex gap-4 mb-6 animate-bounce">
-                <!-- Smiling Face Icon -->
-                <div
-                    class="relative w-20 h-20 bg-[#BEE9E8] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
-                        <circle cx="12" cy="12" r="10" fill="#FFF5B8" class="opacity-20" />
-                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor"
-                            stroke-width="2.5" />
-                        <circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" />
-                        <circle cx="15.5" cy="10.5" r="1.5" fill="currentColor" />
-                        <path d="M8 15c1.5 2 4.5 2 6 0" fill="none" stroke="currentColor" stroke-width="2.5"
-                            stroke-linecap="round" />
-                    </svg>
+            <!-- Interactive Buttons Overlaid over pre-rendered spots -->
+            <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
+                <!-- Left Slot: Replay OR Lanjut -->
+                <div class="w-[18%] aspect-square relative">
+                    <!-- Button Lanjut (Next) -->
+                    <button id="btn-lanjut" onclick="initGame()" aria-label="Lanjut"
+                        class="hidden bg-[#D4F1BE] text-black w-full h-full rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                    <!-- Button Ulangi (Replay) -->
+                    <button id="btn-ulangi" onclick="initGame()" aria-label="Main Lagi"
+                        class="hidden bg-[#FFF5B8] text-black w-full h-full rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
+                        </svg>
+                    </button>
                 </div>
-                <!-- Thumbs Up Icon -->
-                <div
-                    class="relative w-20 h-20 bg-[#FFD1E3] rounded-full brutal-border brutal-shadow-sm flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black">
-                        <path
-                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
-                            fill="#BEE9E8" class="opacity-20" />
-                        <path
-                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
-                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"
-                            stroke-linecap="round" />
-                    </svg>
-                </div>
-            </div>
-
-            <h2 class="text-5xl md:text-7xl font-black text-black mb-3 transform -rotate-2">SELAMAT!</h2>
-            <p class="text-xl font-bold text-slate-600 mb-4 max-w-md">Anda berhasil menyusun gambar alat musik ini
-                dengan sangat baik.</p>
-            <h3 id="win-instrument-name"
-                class="text-3xl md:text-4xl font-black text-black mb-8 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl transform rotate-1">
-                Nama Alat</h3>
-
-            <div class="flex justify-center gap-4">
-                <button id="btn-lanjut" onclick="initGame()" aria-label="Lanjut"
-                    class="hidden bg-[#D4F1BE] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
-                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-                        <polyline points="12 8 16 12 12 16" stroke="currentColor" stroke-width="3"
-                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                        <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" fill="none" />
-                    </svg>
-                </button>
-                <button id="btn-ulangi" onclick="initGame()" aria-label="Main Lagi"
-                    class="hidden bg-[#FFF5B8] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
-                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                    </svg>
-                </button>
+                <!-- Right Slot: Home -->
                 <button onclick="window.location.href='{{ route('general.index') }}'" aria-label="Keluar"
-                    class="bg-[#FFB3B3] text-black p-5 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
-                        <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                        <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="3"
-                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    class="bg-[#FFB3B3] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
                     </svg>
                 </button>
             </div>
@@ -563,8 +529,11 @@
             document.getElementById('puzzle-title').innerText = inst.name;
             document.title = `HonuSign - ${inst.name}`;
 
-            // Set Instrument name for victory modal
-            document.getElementById('win-instrument-name').innerText = inst.name;
+            // Set Instrument name for victory modal if element exists
+            const winInstrumentNameEl = document.getElementById('win-instrument-name');
+            if (winInstrumentNameEl) {
+                winInstrumentNameEl.innerText = inst.name;
+            }
 
             // Create Tiles
             tiles = [];
@@ -882,9 +851,9 @@
                     setTimeout(() => {
                         overlay.remove();
                         showTutorial();
-                    }, 1000);
+                    }, 500);
                 }
-            }, 2500);
+            }, 1000);
         });
     </script>
 </body>
