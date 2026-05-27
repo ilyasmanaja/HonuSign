@@ -1,4 +1,60 @@
 <x-student-layout>
+    <style>
+        /* Custom range slider styling */
+        #brush-size-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+        #brush-size-slider::-webkit-slider-runnable-track {
+            background: #f1f5f9;
+            height: 12px;
+            border-radius: 6px;
+            border: 2px solid #000;
+        }
+        #brush-size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            background: #FFF5B8;
+            border: 3px solid #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: -6px; /* Center the thumb vertically */
+            box-shadow: 2px 2px 0px #000;
+            transition: transform 0.1s ease;
+        }
+        #brush-size-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        #brush-size-slider::-moz-range-track {
+            background: #f1f5f9;
+            height: 12px;
+            border-radius: 6px;
+            border: 2px solid #000;
+        }
+        #brush-size-slider::-moz-range-thumb {
+            background: #FFF5B8;
+            border: 3px solid #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px #000;
+            transition: transform 0.1s ease;
+        }
+        #brush-size-slider::-moz-range-thumb:hover {
+            transform: scale(1.1);
+        }
+        #toolbar {
+            max-height: 90vh;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+        #toolbar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+    </style>
     <div class="max-w-8xl w-full px-10 py-12 flex flex-col items-center">
 
         <!-- Progress Bar -->
@@ -29,49 +85,114 @@
                 </svg>
             </span>
         </h1>
-        <p id="sub-title"
-            class="text-lg font-bold text-slate-500 bg-[#FFFEFA] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl mb-10 text-center">
-            Gunakan kuas di bawah untuk memberi warna pada gambar ini.</p>
 
-        <div class="flex flex-col lg:flex-row gap-8 w-full items-start justify-center">
-            <div id="toolbar"
-                class="bg-[#FFFEFA] brutal-border brutal-shadow-sm p-6 rounded-[2.5rem] flex lg:flex-col gap-4 w-full lg:w-auto overflow-x-auto">
-                @php
-                    $colors = [
-                        ['bg-red-400', '#ef4444'],
-                        ['bg-blue-400', '#3b82f6'],
-                        ['bg-green-400', '#22c55e'],
-                        ['bg-yellow-400', '#facc15'],
-                        ['bg-purple-400', '#a855f7'],
-                        ['bg-pink-400', '#ec4899'],
-                        ['bg-orange-400', '#f97316'],
-                        ['bg-black', '#000000']
-                    ];
-                @endphp
 
-                @foreach($colors as $color)
-                    <button onclick="changeColor('{{ $color[1] }}')" title="Warna"
-                        class="w-10 h-10 flex-shrink-0 rounded-full {{ $color[0] }} brutal-border hover:scale-125 transition-all"></button>
-                @endforeach
-
-                <hr class="hidden lg:block border-black/20 my-2">
-
-                <button onclick="useEraser()"
-                    class="bg-[#FFF5B8] brutal-border brutal-shadow-sm p-3 rounded-2xl hover:scale-110 transition-all"
-                    title="Hapus">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                </button>
+        <!-- Sidebar Toolbar (Fixed Left Drawer) -->
+        <div id="toolbar"
+            class="fixed left-0 top-20 bottom-20 bg-[#FFFEFA] brutal-border brutal-shadow p-6 rounded-r-[2.5rem] flex flex-col gap-6 w-72 z-50 transition-all duration-300 ease-in-out"
+            style="transform: translateX(0);">
+            
+            <!-- Toggle Button inside toolbar, but positioned absolutely outside the right edge -->
+            <button id="toolbar-toggle" onclick="toggleToolbar()"
+                class="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#FFF5B8] brutal-border brutal-shadow w-12 h-20 rounded-r-2xl flex items-center justify-center cursor-pointer hover:scale-105 transition-all z-50"
+                title="Buka/Tutup Alat">
+                <svg id="toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black transition-transform duration-300">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            
+            <!-- Section 1: Alat Mewarnai -->
+            <div>
+                <h3 class="font-black text-black uppercase text-sm tracking-wider mb-3">Pilih Alat:</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Pensil -->
+                    <button onclick="selectTool('pencil')" id="btn-tool-pencil"
+                        class="bg-[#FFF5B8] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1"
+                        title="Pensil">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8">
+                            <path d="M6 18L18 6l3 3L9 21H6v-3z" fill="#facc15" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M18 6l3 3 1.5-1.5a1.5 1.5 0 0 0 0-2.12l-.88-.88a1.5 1.5 0 0 0-2.12 0L18 6z" fill="#f472b6" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M6 18v3h3l-3-3z" fill="#374151" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+                            <line x1="10" y1="14" x2="14" y2="10" stroke="#000" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <!-- Penghapus -->
+                    <button onclick="selectTool('eraser')" id="btn-tool-eraser"
+                        class="bg-[#FFFEFA] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1"
+                        title="Penghapus">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8">
+                            <!-- Eraser pink wedge -->
+                            <path d="M4 16v4h6l10-10-4-4L6 14l-2 2z" fill="#f472b6" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+                            <!-- Blue cardboard sleeve -->
+                            <path d="M8 12l4-4 4 4-4 4-4-4z" fill="#60a5fa" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+                            <!-- White sleeve accent -->
+                            <path d="M10 10l2-2 2 2-2 2-2-2z" fill="#ffffff" stroke="#000" stroke-width="1.5" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
-            <div class="relative bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden cursor-crosshair w-full flex justify-center items-center transition-all duration-500 ease-in-out"
-                id="canvas-container">
+            <hr class="border-black/20">
+
+            <!-- Section 1.5: Ukuran Kuas -->
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-black text-black uppercase text-sm tracking-wider">Ukuran Kuas:</h3>
+                    <div class="w-14 h-14 bg-white brutal-border rounded-xl flex items-center justify-center overflow-hidden shrink-0" title="Pratinjau Ukuran">
+                        <div id="brush-size-preview" class="rounded-full transition-all duration-75 border border-black/30" style="width: 12px; height: 12px; background-color: #ef4444;"></div>
+                    </div>
+                </div>
+                <input type="range" id="brush-size-slider" min="4" max="50" value="12" oninput="updateBrushSize(this.value)"
+                    class="w-full h-8 cursor-pointer outline-none">
+            </div>
+
+            <hr class="border-black/20">
+
+            <!-- Section 2: Pilihan Warna -->
+            <div>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-black text-black uppercase text-sm tracking-wider">Pilihan Warna:</h3>
+                    <!-- Selected Color Indicator -->
+                    <div id="selected-color-indicator" class="w-6 h-6 rounded-full brutal-border bg-[#ef4444]"></div>
+                </div>
+                <div class="grid grid-cols-4 gap-3">
+                    @php
+                        $colors = [
+                            ['bg-[#ef4444]', '#ef4444', 'Merah'],
+                            ['bg-[#FFB3B3]', '#FFB3B3', 'Merah Muda Pucat'],
+                            ['bg-[#f97316]', '#f97316', 'Jingga'],
+                            ['bg-[#FFD8A8]', '#FFD8A8', 'Krem Jingga'],
+                            ['bg-[#facc15]', '#facc15', 'Kuning'],
+                            ['bg-[#FFF5B8]', '#FFF5B8', 'Kuning Lembut'],
+                            ['bg-[#22c55e]', '#22c55e', 'Hijau'],
+                            ['bg-[#D4F1BE]', '#D4F1BE', 'Hijau Mint'],
+                            ['bg-[#3b82f6]', '#3b82f6', 'Biru'],
+                            ['bg-[#BEE9E8]', '#BEE9E8', 'Biru Lembut'],
+                            ['bg-[#8b5cf6]', '#8b5cf6', 'Ungu'],
+                            ['bg-[#E0BBE4]', '#E0BBE4', 'Ungu Muda'],
+                            ['bg-[#ec4899]', '#ec4899', 'Merah Muda'],
+                            ['bg-[#FFD1E3]', '#FFD1E3', 'Pink Lembut'],
+                            ['bg-[#000000]', '#000000', 'Hitam'],
+                            ['bg-[#ffffff]', '#ffffff', 'Putih']
+                        ];
+                    @endphp
+
+                    @foreach($colors as $color)
+                        <button onclick="changeColor('{{ $color[1] }}')" title="{{ $color[2] }}"
+                            class="w-10 h-10 flex-shrink-0 rounded-full {{ $color[0] }} brutal-border cursor-pointer hover:scale-110 active:scale-95 transition-all"></button>
+                    @endforeach
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Canvas Container Wrapper (Centered) -->
+        <div class="w-full flex justify-center items-center">
+            <div class="relative bg-white brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden transition-all duration-500 ease-in-out"
+                id="canvas-container" style="width: 1000px; max-width: 100%; aspect-ratio: 1000 / 564; height: auto; max-height: 65vh; margin: 0 auto;">
+                <canvas id="coloringCanvas" class="absolute inset-0 w-full h-full z-10 cursor-crosshair"></canvas>
                 <img id="coloring-image" src="{{ asset('images/mewarnai.png') }}"
-                    class="absolute inset-0 w-full h-full object-contain pointer-events-none p-6 z-0" alt="Mewarnai">
-                <canvas id="coloringCanvas" class="relative z-10 w-full h-full"></canvas>
+                    class="absolute inset-0 w-full h-full pointer-events-none z-20 mix-blend-multiply block" alt="Mewarnai">
             </div>
         </div>
 
@@ -118,56 +239,24 @@
         </div>
     </div>
 
-    <!-- Modal Sukses Kustom -->
+    <!-- Victory Success Modal (using selamat.png) -->
     <div id="success-modal"
-        class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
-        <div class="bg-[#BEE9E8] p-8 md:p-12 rounded-[3rem] brutal-border brutal-shadow flex flex-col items-center max-w-lg mx-4 transform scale-90 transition-transform duration-500 relative"
+        class="fixed inset-0 z-[9999] bg-slate-900/80 backdrop-blur-md hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none mx-4"
             id="success-modal-content">
-            <button onclick="closeSuccessModal()"
-                class="absolute top-4 right-4 bg-white brutal-border brutal-shadow-sm w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#FFB3B3] hover:text-black transition-all transform hover:rotate-90 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="currentColor" />
-                </svg>
-            </button>
 
-            <!-- Standardized Indonesian congrats + Smiling Face and Thumbs Up Duotone Icons -->
-            <div class="flex items-center justify-center gap-6 mb-6">
-                <!-- Smiling Face Icon -->
-                <div class="p-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-2xl animate-bounce" style="animation-delay: 0.1s">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16 text-black">
-                        <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                        <circle cx="9" cy="9.5" r="1.5" fill="currentColor" />
-                        <circle cx="15" cy="9.5" r="1.5" fill="currentColor" />
-                        <path d="M12 18c2.28 0 4.22-1.24 5-3H7c.78 1.76 2.72 3 5 3z" fill="currentColor" />
-                    </svg>
-                </div>
-                <!-- Thumbs Up Icon -->
-                <div class="p-4 bg-[#D4F1BE] brutal-border brutal-shadow-sm rounded-2xl animate-bounce" style="animation-delay: 0.3s">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16 text-black">
-                        <path opacity="0.2" d="M21 10a2 2 0 0 0-2-2h-5.07l.76-3.65c.18-.89-.17-1.81-.9-2.35L13 2H9v11h4l1.63 5.48c.32 1.07 1.3 1.8 2.42 1.8h.07a2 2 0 0 0 1.94-1.51L21 10z" />
-                        <path d="M4 11h3v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm15-3h-5.07l.76-3.65A2.39 2.39 0 0 0 13.8 2H9v11h4l1.63 5.48A2.5 2.5 0 0 0 17 20h.07a2 2 0 0 0 1.94-1.51L21 10a2 2 0 0 0-2-2zM9 11v8h8.07l-1.63-5.48L13.8 8H19l-2 10H9v-7z" fill="currentColor" />
-                    </svg>
-                </div>
+            <!-- Main Image -->
+            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!"
+                class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
+
+            <!-- Centered Tampilkan Button -->
+            <div class="absolute bottom-[9%] left-0 right-0 flex justify-center">
+                <button onclick="closeSuccessModal()" aria-label="Tampilkan"
+                    class="bg-[#D4F1BE] text-black px-8 py-3 rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer font-black uppercase text-sm"
+                    title="Tampilkan Hasil">
+                    Tampilkan
+                </button>
             </div>
-
-            <h2 class="text-4xl md:text-5xl font-black text-white text-outline uppercase tracking-tighter text-center mb-2 transform -rotate-2 drop-shadow-[0_4px_0_#000]"
-                id="modal-title">
-                SELAMAT!
-            </h2>
-            <p class="text-xl md:text-2xl font-bold text-slate-800 text-center mb-10 bg-[#FFF5B8] px-4 py-2 rounded-xl brutal-border"
-                id="modal-desc">
-                Hasil karyamu sangat indah!
-            </p>
-
-            <!-- Visual-only close/check button in success modal -->
-            <button onclick="closeSuccessModal()"
-                class="bg-[#D4F1BE] text-black w-24 h-24 flex items-center justify-center rounded-full brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-all cursor-pointer"
-                title="Lanjut">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-14 h-14">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="currentColor" />
-                </svg>
-            </button>
         </div>
     </div>
 
@@ -178,33 +267,98 @@
 
         let painting = false;
         let color = '#ef4444';
-        let brushSize = 12; // Ukuran kuas sedikit diperbesar menyesuaikan canvas besar
+        
+        let pencilSize = 12;
+        let eraserSize = 24;
+        let brushSize = pencilSize;
+        let currentTool = 'pencil';
 
-        function initCanvas() {
-            // Biarkan CSS menangani lebar, JS menangani tinggi berdasarkan aspect ratio
-            canvas.width = container.offsetWidth;
-            canvas.height = container.offsetWidth * 0.50; // Sedikit lebih ceper agar tidak terlalu panjang ke bawah
+        canvas.width = 1000;
+        canvas.height = 564;
+
+        const offscreenCanvas = document.createElement('canvas');
+        const offscreenCtx = offscreenCanvas.getContext('2d');
+        let outlineLoaded = false;
+        const outlineImg = new Image();
+        outlineImg.onload = () => {
+            outlineLoaded = true;
+            setupCanvasDimensions();
+        };
+        outlineImg.src = "{{ asset('images/mewarnai.png') }}";
+
+        function setupCanvasDimensions() {
+            // Save current drawing content
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width || 1000;
+            tempCanvas.height = canvas.height || 564;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(canvas, 0, 0);
+
+            // Compute target dimensions matching natural size of outline image
+            const targetWidth = outlineImg.naturalWidth || 1000;
+            const targetHeight = outlineImg.naturalHeight || 564;
+
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+
+            // Set container aspect ratio dynamically to match image proportions exactly
+            if (container) {
+                container.style.aspectRatio = `${targetWidth} / ${targetHeight}`;
+            }
+
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
-            ctx.globalCompositeOperation = 'multiply';
+            
+            // Restore drawing content
+            ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+
+            // Redraw outline on offscreen canvas
+            offscreenCanvas.width = targetWidth;
+            offscreenCanvas.height = targetHeight;
+            if (outlineLoaded) {
+                offscreenCtx.drawImage(outlineImg, 0, 0, targetWidth, targetHeight);
+            }
+
+            selectTool(currentTool);
         }
 
-        // Paksa reload canvas saat window di resize agar ukuran tetap sinkron
-        window.addEventListener('load', initCanvas);
-        window.addEventListener('resize', initCanvas);
+        window.addEventListener('load', setupCanvasDimensions);
 
-        function startPosition(e) { painting = true; draw(e); }
-        function finishedPosition() { painting = false; ctx.beginPath(); }
+        let toolbarOpen = true;
+        function toggleToolbar() {
+            const tb = document.getElementById('toolbar');
+            const icon = document.getElementById('toggle-icon');
+            if (toolbarOpen) {
+                tb.style.transform = 'translateX(-100%)';
+                icon.style.transform = 'rotate(180deg)';
+                toolbarOpen = false;
+            } else {
+                tb.style.transform = 'translateX(0)';
+                icon.style.transform = 'rotate(0deg)';
+                toolbarOpen = true;
+            }
+        }
+
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+
+        function finishedPosition() {
+            painting = false;
+            ctx.beginPath();
+        }
 
         function draw(e) {
-            if (!painting) return;
+            if (!painting) {
+                return;
+            }
             const rect = canvas.getBoundingClientRect();
-            // Penyesuaian koordinat touch/mouse yang lebih akurat untuk canvas besar
             const x = ((e.clientX || (e.touches && e.touches[0].clientX)) - rect.left) * (canvas.width / rect.width);
             const y = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) * (canvas.height / rect.height);
 
             ctx.lineWidth = brushSize;
-            ctx.strokeStyle = color;
+            ctx.strokeStyle = currentTool === 'eraser' ? 'rgba(0,0,0,1)' : color;
             ctx.lineTo(x, y);
             ctx.stroke();
             ctx.beginPath();
@@ -214,33 +368,93 @@
         canvas.addEventListener('mousedown', startPosition);
         canvas.addEventListener('mouseup', finishedPosition);
         canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPosition(e); });
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPosition(e); }, { passive: false });
         canvas.addEventListener('touchend', finishedPosition);
-        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, { passive: false });
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function updateBrushPreviewColor() {
+            const preview = document.getElementById('brush-size-preview');
+            if (preview) {
+                if (currentTool === 'pencil') {
+                    preview.style.backgroundColor = color;
+                } else if (currentTool === 'eraser') {
+                    preview.style.backgroundColor = '#f472b6'; // Eraser pink color
+                }
+            }
+        }
 
         function changeColor(newColor) {
             color = newColor;
-            ctx.globalCompositeOperation = 'multiply';
-            brushSize = 12; // Ukuran kuas normal
+            document.getElementById('selected-color-indicator').style.backgroundColor = newColor;
+
+            if (currentTool === 'eraser') {
+                selectTool('pencil');
+            } else {
+                updateBrushPreviewColor();
+            }
         }
 
-        function useEraser() {
-            ctx.globalCompositeOperation = 'destination-out';
-            brushSize = 40; // Penghapus lebih besar
+        function updateBrushSize(val) {
+            const num = parseInt(val, 10);
+            brushSize = num;
+            if (currentTool === 'pencil') {
+                pencilSize = num;
+            } else if (currentTool === 'eraser') {
+                eraserSize = num;
+            }
+            
+            const preview = document.getElementById('brush-size-preview');
+            if (preview) {
+                preview.style.width = num + 'px';
+                preview.style.height = num + 'px';
+            }
         }
 
-        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+        function selectTool(tool) {
+            currentTool = tool;
+
+            document.getElementById('btn-tool-pencil').classList.remove('bg-[#FFF5B8]');
+            document.getElementById('btn-tool-pencil').classList.add('bg-[#FFFEFA]');
+            document.getElementById('btn-tool-eraser').classList.remove('bg-[#FFF5B8]');
+            document.getElementById('btn-tool-eraser').classList.add('bg-[#FFFEFA]');
+
+            document.getElementById(`btn-tool-${tool}`).classList.remove('bg-[#FFFEFA]');
+            document.getElementById(`btn-tool-${tool}`).classList.add('bg-[#FFF5B8]');
+
+            // Sync brush size to active tool size
+            const activeSize = tool === 'pencil' ? pencilSize : eraserSize;
+            brushSize = activeSize;
+            
+            const slider = document.getElementById('brush-size-slider');
+            if (slider) {
+                slider.value = activeSize;
+            }
+            
+            const preview = document.getElementById('brush-size-preview');
+            if (preview) {
+                preview.style.width = activeSize + 'px';
+                preview.style.height = activeSize + 'px';
+            }
+            
+            updateBrushPreviewColor();
+
+            if (tool === 'pencil') {
+                ctx.globalCompositeOperation = 'source-over';
+            } else if (tool === 'eraser') {
+                ctx.globalCompositeOperation = 'destination-out';
+            }
+        }
 
         function showSuccessModal() {
             const modal = document.getElementById('success-modal');
             const content = document.getElementById('success-modal-content');
-
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-
-            // Trigger reflow untuk animasi transisi
             void modal.offsetWidth;
-
             modal.classList.remove('opacity-0');
             content.classList.remove('scale-90');
             content.classList.add('scale-100');
@@ -249,11 +463,9 @@
         function closeSuccessModal() {
             const modal = document.getElementById('success-modal');
             const content = document.getElementById('success-modal-content');
-
             modal.classList.add('opacity-0');
             content.classList.remove('scale-100');
             content.classList.add('scale-90');
-
             setTimeout(() => {
                 modal.classList.remove('flex');
                 modal.classList.add('hidden');
@@ -264,7 +476,6 @@
             document.getElementById('toolbar').classList.add('hidden');
             document.getElementById('clear-btn').classList.add('hidden');
             document.getElementById('show-result-btn').classList.add('hidden');
-            document.getElementById('sub-title').classList.add('hidden');
             document.getElementById('back-edit-btn').classList.remove('hidden');
             document.getElementById('final-dashboard-btn').classList.remove('hidden');
             document.getElementById('main-title').innerHTML = `Karya Indahku! 
@@ -275,8 +486,7 @@
                 </svg>
             </span>`;
             canvas.style.pointerEvents = 'none';
-            container.classList.remove('border-white');
-            container.classList.add('border-emerald-400', 'scale-110');
+            container.classList.add('scale-105');
             showSuccessModal();
         }
 
@@ -284,7 +494,6 @@
             document.getElementById('toolbar').classList.remove('hidden');
             document.getElementById('clear-btn').classList.remove('hidden');
             document.getElementById('show-result-btn').classList.remove('hidden');
-            document.getElementById('sub-title').classList.remove('hidden');
             document.getElementById('back-edit-btn').classList.add('hidden');
             document.getElementById('final-dashboard-btn').classList.add('hidden');
             document.getElementById('main-title').innerHTML = `Warnai Gambarmu!
@@ -299,8 +508,7 @@
                 </svg>
             </span>`;
             canvas.style.pointerEvents = 'auto';
-            container.classList.add('border-white');
-            container.classList.remove('border-emerald-400', 'scale-110');
+            container.classList.remove('scale-105');
         }
 
         function finishGame(event, nextUrl) {
