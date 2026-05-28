@@ -40,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'materi_id' => 'required|exists:materis,id',
             'tahap' => 'required|integer',
             'score' => 'required|numeric',
+            'answers' => 'nullable|array',
         ]);
 
         // updateOrCreate: Kalau datanya belum ada, dibuat baru. Kalau sudah ada, di-update.
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ],
             [
                 'score' => $request->score,
+                'answers' => $request->answers,
                 'is_completed' => true,
             ]
         );
@@ -150,8 +152,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('materi.belajar');
 
     Route::get('evaluasi', function () {
-        return view('evaluasi.index');
+        return redirect()->route('evaluasi.soal', ['soal' => 1]);
     })->middleware(['auth', 'verified'])->name('evaluasi.index');
+
+    Route::get('evaluasi/{soal}', function ($soal) {
+        if ($soal < 1 || $soal > 10) {
+            return redirect()->route('evaluasi.soal', ['soal' => 1]);
+        }
+
+        return view("evaluasi.soal{$soal}", compact('soal'));
+    })->middleware(['auth', 'verified'])->name('evaluasi.soal');
 
     // 5. Placeholder untuk rute yang lain
     Route::get('materi/quiz', fn () => 'Halaman Quiz Segera Hadir')->name('materi.quiz');

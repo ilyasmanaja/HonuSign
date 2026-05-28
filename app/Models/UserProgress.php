@@ -15,6 +15,11 @@ class UserProgress extends Model
         'tahap',
         'score',
         'is_completed',
+        'answers',
+    ];
+
+    protected $casts = [
+        'answers' => 'array',
     ];
 
     // Relasi balik ke User (Siswa)
