@@ -1,102 +1,103 @@
 <x-student-layout>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
- 
+
         .dashboard-container {
             font-family: 'Fredoka', sans-serif;
         }
- 
+
         .dashboard-container * {
             font-family: 'Fredoka', sans-serif;
         }
- 
+
         body {
             background-color: #FFFEFA;
         }
- 
+
         /* ── Brutalism core ── */
         .bb {
             border: 4px solid #000;
         }
- 
+
         .bs {
             box-shadow: 6px 6px 0 #000;
         }
- 
+
         .bs-sm {
             box-shadow: 3px 3px 0 #000;
         }
- 
+
         .bh {
             transition: all 0.15s ease-in-out;
         }
- 
+
         /* Large card hover/active */
         .bs.bh:hover {
             transform: translate(-4px, -4px);
             box-shadow: 10px 10px 0 #000;
         }
- 
+
         .bs.bh:active {
             transform: translate(2px, 2px);
             box-shadow: 4px 4px 0 #000;
         }
- 
+
         /* Small element hover/active */
         .bs-sm.bh:hover {
             transform: translate(-2px, -2px);
             box-shadow: 5px 5px 0 #000;
         }
- 
+
         .bs-sm.bh:active {
             transform: translate(1px, 1px);
             box-shadow: 2px 2px 0 #000;
         }
- 
+
         /* Elevated card hover/active adjustments */
         @media (min-width: 768px) {
             .menu-card.md\:-translate-y-5.bh:hover {
                 transform: translateY(-24px) translateX(-4px);
                 box-shadow: 10px 10px 0 #000;
             }
+
             .menu-card.md\:-translate-y-5.bh:active {
                 transform: translateY(-18px) translateX(2px);
                 box-shadow: 4px 4px 0 #000;
             }
         }
- 
+
         .text-stamp {
             text-shadow: -2px -2px 0 #000, 2px -2px 0 #000,
                 -2px 2px 0 #000, 2px 2px 0 #000,
                 3px 3px 0 #000;
         }
- 
+
         /* Card image zoom */
         .card-img {
             transition: transform 0.4s ease;
         }
- 
+
         .menu-card:hover .card-img {
             transform: scale(1.08);
         }
- 
+
         /* Floating animation */
         @keyframes float-y {
- 
+
             0%,
             100% {
                 transform: translateY(0) rotate(var(--r, 0deg));
             }
- 
+
             50% {
                 transform: translateY(-10px) rotate(var(--r, 0deg));
             }
         }
- 
+
         .float {
             animation: float-y 4s ease-in-out infinite;
         }
- 
+
         /* Greeting highlight */
         .greeting-tag {
             display: inline-block;
@@ -108,7 +109,7 @@
             transform: rotate(-2deg);
         }
     </style>
- 
+
     <div class="dashboard-container">
         <!-- ── Top-left: Logout Button ── -->
         <div class="fixed top-5 left-5 z-[60] group/tooltip">
@@ -117,7 +118,8 @@
                 <button type="submit"
                     class="btn-logout w-12 h-12 bg-[#FFB3B3] text-black bb bs-sm bh rounded-xl flex items-center justify-center"
                     aria-label="Keluar">
-                    <svg class="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                         <polyline points="16 17 21 12 16 7" />
                         <line x1="21" y1="12" x2="9" y2="12" />
@@ -125,14 +127,16 @@
                 </button>
             </form>
             <!-- Neobrutalist Tooltip -->
-            <div class="pointer-events-none absolute left-14 top-1/2 -translate-y-1/2 bg-[#FFF5B8] bb bs-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+            <div
+                class="pointer-events-none absolute left-14 top-1/2 -translate-y-1/2 bg-[#FFF5B8] bb bs-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
                 Keluar
             </div>
         </div>
- 
+
         <!-- ── Page Container ── -->
-        <div class="min-h-screen md:h-screen md:overflow-hidden w-full flex flex-col items-center justify-center md:justify-evenly py-16 md:py-8 px-6">
- 
+        <div
+            class="min-h-screen md:h-screen md:overflow-hidden w-full flex flex-col items-center justify-center md:justify-evenly py-16 md:py-8 px-6">
+
             <!-- Decorative floating blobs -->
             <div class="pointer-events-none fixed top-20 right-10 w-24 h-24 rounded-full bg-[#FFD1E3] bb opacity-40 float"
                 style="--r:-8deg;animation-delay:0s;"></div>
@@ -140,14 +144,11 @@
                 style="--r:6deg;animation-delay:1.5s;"></div>
             <div class="pointer-events-none fixed top-1/2 left-14  w-10 h-10 rounded-full bg-[#FFF5B8] bb opacity-50 float"
                 style="--r:-5deg;animation-delay:0.8s;"></div>
- 
+
             <!-- ── Greeting Header ── -->
             <div class="text-center md:mb-6 md:mt-2">
                 <!-- Avatar circle -->
-                <!-- <div class="w-20 h-20 rounded-full bg-[#E0BBE4] bb bs-sm mx-auto mb-6 flex items-center justify-center text-4xl">
-                    🐢
-                </div> -->
- 
+
                 <h1 class="text-4xl md:text-5xl font-bold text-black tracking-tight leading-tight mb-4">
                     Halo,
                     <span class="greeting-tag text-black">{{ auth()->user()->name }}</span>
@@ -159,85 +160,86 @@
                 <p class="text-lg font-bold text-slate-900 mt-2">Pilih menu di bawah untuk memulai aktivitasmu.</p>
             </div>
 
-        <!-- ── Main Menu Grid ── -->
-        <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+            <!-- ── Main Menu Grid ── -->
+            <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
 
-            <!-- ── Card 1: Fun & Play ── -->
-            <a href="{{ route('general.index') }}"
-                class="menu-card bh block bg-[#FFD1E3] bb bs rounded-[2.5rem] overflow-hidden group">
+                <!-- ── Card 1: Fun & Play ── -->
+                <a href="{{ route('general.index') }}"
+                    class="menu-card bh block bg-[#FFD1E3] bb bs rounded-[2.5rem] overflow-hidden group">
 
-                <!-- Image -->
-                <div class="h-52 overflow-hidden bg-[#FFFEFA] bb border-t-0 border-l-0 border-r-0 relative">
-                    <img src="{{ asset('images/page/fun&play.png') }}" alt="Fun & Play"
-                        class="card-img w-full h-full object-cover"
-                        onerror="this.src='https://via.placeholder.com/400x300?text=Fun+%26+Play'" />
-                    <!-- Overlay badge -->
-                    <div
-                        class="absolute text-black top-4 right-4 bg-[#FFD1E3] bb bs-sm px-3 py-1 rounded-xl text-sm font-bold">
-                        Game
+                    <!-- Image -->
+                    <div class="h-52 overflow-hidden bg-[#FFFEFA] bb border-t-0 border-l-0 border-r-0 relative">
+                        <img src="{{ asset('images/page/fun&play.png') }}" alt="Fun & Play"
+                            class="card-img w-full h-full object-cover"
+                            onerror="this.src='https://via.placeholder.com/400x300?text=Fun+%26+Play'" />
+                        <!-- Overlay badge -->
+                        <div
+                            class="absolute text-black top-4 right-4 bg-[#FFD1E3] bb bs-sm px-3 py-1 rounded-xl text-sm font-bold">
+                            Game
+                        </div>
                     </div>
-                </div>
 
-                <!-- Label -->
-                <div class="p-7 text-center">
-                    <span class="text-3xl font-bold text-black uppercase tracking-tight">Bermain</span>
-                    <p class="text-base font-medium text-black/60 mt-2">Main game seru sambil belajar!</p>
-                </div>
-            </a>
-
-            <!-- ── Card 2: Study (elevated) ── -->
-            <a href="{{ route('materi.index') }}"
-                class="menu-card bh block bg-[#D4F1BE] bb bs rounded-[2.5rem] overflow-hidden group md:-translate-y-5">
-
-                <!-- Image -->
-                <div class="h-52 overflow-hidden bg-[#FFFEFA] bb border-t-0 border-l-0 border-r-0 relative">
-                    <img src="{{ asset('images/page/studies.png') }}" alt="Study"
-                        class="card-img w-full h-full object-cover"
-                        onerror="this.src='https://via.placeholder.com/400x300?text=Study'" />
-                    <!-- Overlay badge -->
-                    <div
-                        class="absolute text-black top-4 right-4 bg-[#D4F1BE] bb bs-sm px-3 py-1 rounded-xl text-sm font-bold">
-                        Materi
+                    <!-- Label -->
+                    <div class="p-7 text-center">
+                        <span class="text-3xl font-bold text-black uppercase tracking-tight">Bermain</span>
+                        <p class="text-base font-medium text-black/60 mt-2">Main game seru sambil belajar!</p>
                     </div>
-                </div>
+                </a>
 
-                <!-- Label -->
-                <div class="p-7 text-center">
-                    <span class="text-3xl font-bold text-black uppercase tracking-tight">Belajar</span>
-                    <p class="text-base font-medium text-black/60 mt-2">Pelajari isyarat SIBI langkah demi langkah.</p>
-                </div>
-            </a>
+                <!-- ── Card 2: Study (elevated) ── -->
+                <a href="{{ route('materi.index') }}"
+                    class="menu-card bh block bg-[#D4F1BE] bb bs rounded-[2.5rem] overflow-hidden group md:-translate-y-5">
 
-            <!-- ── Card 3: Evaluasi ── -->
-            <a href="{{ route('evaluasi.index') }}"
-                class="menu-card bh block bg-[#E0BBE4] bb bs rounded-[2.5rem] overflow-hidden group">
-
-                <!-- Image -->
-                <div class="h-52 overflow-hidden bg-[#FFFEFA] bb border-t-0 border-l-0 border-r-0 relative">
-                    <img src="{{ asset('images/page/evaluasi.png') }}" alt="Evaluasi"
-                        class="card-img w-full h-full object-cover"
-                        onerror="this.src='https://via.placeholder.com/400x300?text=Evaluasi'" />
-                    <!-- Overlay badge -->
-                    <div
-                        class="absolute text-black top-4 right-4 bg-[#E0BBE4] bb bs-sm px-3 py-1 rounded-xl text-sm font-bold">
-                        Kuis
+                    <!-- Image -->
+                    <div class="h-52 overflow-hidden bg-[#FFFEFA] bb border-t-0 border-l-0 border-r-0 relative">
+                        <img src="{{ asset('images/page/studies.png') }}" alt="Study"
+                            class="card-img w-full h-full object-cover"
+                            onerror="this.src='https://via.placeholder.com/400x300?text=Study'" />
+                        <!-- Overlay badge -->
+                        <div
+                            class="absolute text-black top-4 right-4 bg-[#D4F1BE] bb bs-sm px-3 py-1 rounded-xl text-sm font-bold">
+                            Materi
+                        </div>
                     </div>
-                </div>
 
-                <!-- Label -->
-                <div class="p-7 text-center">
-                    <span class="text-3xl font-bold text-black uppercase tracking-tight">Evaluasi</span>
-                    <p class="text-base font-medium text-black/60 mt-2">Uji kemampuan bahasa isyaratmu!</p>
-                </div>
-            </a>
-        </div>
+                    <!-- Label -->
+                    <div class="p-7 text-center">
+                        <span class="text-3xl font-bold text-black uppercase tracking-tight">Belajar</span>
+                        <p class="text-base font-medium text-black/60 mt-2">Pelajari isyarat SIBI langkah demi langkah.
+                        </p>
+                    </div>
+                </a>
 
-        <!-- ── Footer brand ── -->
-        <div class="mt-14 text-center md:mt-4">
-            <p class="text-2xl font-bold text-black/30 tracking-tight">
-                Honu<span class="text-stamp text-[#FFD1E3]">Sign</span>
-            </p>
+                <!-- ── Card 3: Evaluasi ── -->
+                <a href="{{ route('evaluasi.index') }}"
+                    class="menu-card bh block bg-[#E0BBE4] bb bs rounded-[2.5rem] overflow-hidden group">
+
+                    <!-- Image -->
+                    <div class="h-52 overflow-hidden bg-[#FFFEFA] bb border-t-0 border-l-0 border-r-0 relative">
+                        <img src="{{ asset('images/page/evaluasi.png') }}" alt="Evaluasi"
+                            class="card-img w-full h-full object-cover"
+                            onerror="this.src='https://via.placeholder.com/400x300?text=Evaluasi'" />
+                        <!-- Overlay badge -->
+                        <div
+                            class="absolute text-black top-4 right-4 bg-[#E0BBE4] bb bs-sm px-3 py-1 rounded-xl text-sm font-bold">
+                            Kuis
+                        </div>
+                    </div>
+
+                    <!-- Label -->
+                    <div class="p-7 text-center">
+                        <span class="text-3xl font-bold text-black uppercase tracking-tight">Evaluasi</span>
+                        <p class="text-base font-medium text-black/60 mt-2">Uji kemampuan bahasa isyaratmu!</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ── Footer brand ── -->
+            <div class="mt-14 text-center md:mt-4">
+                <p class="text-2xl font-bold text-black/30 tracking-tight">
+                    Honu<span class="text-stamp text-[#FFD1E3]">Sign</span>
+                </p>
+            </div>
         </div>
     </div>
-</div>
 </x-student-layout>

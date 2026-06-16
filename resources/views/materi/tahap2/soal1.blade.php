@@ -92,15 +92,19 @@
 
 <body class="selection:bg-transparent transition-transform">
 
-    <!-- Back to Study Page -->
-    <a href="{{ route('materi.index') }}" aria-label="Kembali"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
-            <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-            <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                stroke-linejoin="round" fill="none" />
-        </svg>
-    </a>
+    <!-- Back Button with Tooltip -->
+    <div class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] group/tooltip pointer-events-auto">
+        <a href="{{ route('materi.index') }}" aria-label="Kembali"
+            class="bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center w-14 h-14">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+            </svg>
+        </a>
+        <div class="pointer-events-none absolute left-0 top-full mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+            Kembali ke Peta
+        </div>
+    </div>
 
     <!-- Title Header -->
     <div class="pt-16 md:pt-20 px-4 flex justify-center max-w-7xl mx-auto">
@@ -177,24 +181,34 @@
             <!-- Interactive Buttons Overlaid over pre-rendered spots -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
                 <!-- Replay Button -->
-                <button onclick="resetGame()" aria-label="Ulangi"
-                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
-                    </svg>
-                </button>
+                <div class="relative group/tooltip w-[18%] aspect-square">
+                    <button onclick="resetGame()" aria-label="Ulangi"
+                        class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
+                        </svg>
+                    </button>
+                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Ulangi
+                    </div>
+                </div>
                 <!-- Next Button (Lanjut to Soal 2) -->
-                <a href="{{ route('materi.belajar', ['step' => 2, 'soal_ke' => 2]) }}" aria-label="Lanjut"
-                    class="bg-[#D4F1BE] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </a>
+                <div class="relative group/tooltip w-[18%] aspect-square">
+                    <a href="{{ route('materi.belajar', ['step' => 2, 'soal_ke' => 2]) }}" aria-label="Lanjut"
+                        class="w-full h-full bg-[#D4F1BE] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#D4F1BE] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Lanjut
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -212,14 +226,19 @@
             <!-- Replay Button Overlay -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center">
                 <!-- Replay Button -->
-                <button onclick="hideFailureModal()" aria-label="Ulangi"
-                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
-                    </svg>
-                </button>
+                <div class="relative group/tooltip w-[18%] aspect-square">
+                    <button onclick="hideFailureModal()" aria-label="Ulangi"
+                        class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
+                        </svg>
+                    </button>
+                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Ulangi
+                    </div>
+                </div>
             </div>
         </div>
     </div>

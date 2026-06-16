@@ -7,14 +7,18 @@
         <div class="w-full mb-10">
             <!-- Header Kembali (Visual-Only) -->
             <div class="w-full mb-8 flex justify-start">
-                <a href="{{ route('materi.belajar', ['step' => 1]) }}"
-                    class="bg-[#FFB3B3] w-16 h-16 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform z-10"
-                    title="Kembali ke Cerita">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                        <circle cx="12" cy="12" r="10" opacity="0.2" />
-                        <path d="M14 7l-5 5 5 5V7z" fill="currentColor" />
-                    </svg>
-                </a>
+                <div class="relative group/tooltip">
+                    <a href="{{ route('materi.belajar', ['step' => 1]) }}"
+                        class="bg-[#FFB3B3] w-16 h-16 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </a>
+                    <div class="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Kembali ke Cerita
+                    </div>
+                </div>
             </div>
 
             <!-- Progress Bar -->
@@ -64,39 +68,49 @@
                 <!-- Kontrol Video Khusus Tunarungu (Visual-Only) -->
                 <div class="flex justify-center gap-6 w-full max-w-md mt-4">
                     <!-- Rewind 5 seconds (5-) -->
-                    <button type="button" onclick="rewindVideo()"
-                        class="bg-[#FFD1E3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform cursor-pointer"
-                        title="Mundur 5 Detik">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                            <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                            <path d="M12.5 7.5v3.66l-4.5-3.37v8.42l4.5-3.37v3.66l6-4.5-6-4.5z" fill="currentColor" />
-                            <text x="12" y="19" font-family="'Nunito', 'Fredoka', sans-serif" font-size="6" font-weight="900" text-anchor="middle" fill="currentColor">-5</text>
-                        </svg>
-                    </button>
+                    <div class="relative group/tooltip">
+                        <button type="button" onclick="rewindVideo()"
+                            class="bg-[#FFD1E3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 19 2 12 11 5 11 19" fill="currentColor" />
+                                <polygon points="22 19 13 12 22 5 22 19" fill="currentColor" />
+                            </svg>
+                        </button>
+                        <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                            Mundur 5 Detik
+                        </div>
+                    </div>
 
                     <!-- Speed Toggle (0.5x / 1x) -->
-                    <button type="button" id="btn-slow" onclick="toggleSlowMotion()"
-                        class="bg-[#FFF5B8] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform cursor-pointer"
-                        title="Percepat / Perlambat">
-                        <span id="slow-icon-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                                <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                                <path d="M12 3a9 9 0 0 0-9 9c0 1.25.25 2.44.7 3.53l1.45-1.45A5.996 5.996 0 0 1 12 6c3.31 0 6 2.69 6 6 0 1.27-.4 2.44-1.07 3.42l1.45 1.45A8.929 8.929 0 0 0 21 12a9 9 0 0 0-9-9zM12 8a4 4 0 0 0-4 4c0 .87.28 1.67.76 2.33l4.67-4.67A3.946 3.946 0 0 0 12 8z" fill="currentColor" />
-                                <text x="12" y="19" font-family="'Nunito', 'Fredoka', sans-serif" font-size="6" font-weight="900" text-anchor="middle" fill="currentColor">0.5x</text>
-                            </svg>
-                        </span>
-                    </button>
+                    <div class="relative group/tooltip">
+                        <button type="button" id="btn-slow" onclick="toggleSlowMotion()"
+                            class="bg-[#FFF5B8] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform cursor-pointer">
+                            <span id="slow-icon-container" class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" fill="#FFF5B8" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                    <text x="12" y="20" font-family="sans-serif" font-size="5" font-weight="900" text-anchor="middle" fill="currentColor">0.5x</text>
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                            Kecepatan Video
+                        </div>
+                    </div>
 
                     <!-- Forward 5 seconds (5+) -->
-                    <button type="button" onclick="forwardVideo()"
-                        class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform cursor-pointer"
-                        title="Maju 5 Detik">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                            <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                            <path d="M11.5 7.5v3.66l4.5-3.37v8.42l-4.5-3.37v3.66l-6-4.5 6-4.5z" fill="currentColor" />
-                            <text x="12" y="19" font-family="'Nunito', 'Fredoka', sans-serif" font-size="6" font-weight="900" text-anchor="middle" fill="currentColor">+5</text>
-                        </svg>
-                    </button>
+                    <div class="relative group/tooltip">
+                        <button type="button" onclick="forwardVideo()"
+                            class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="13 19 22 12 13 5 13 19" fill="currentColor" />
+                                <polygon points="2 19 11 12 2 5 2 19" fill="currentColor" />
+                            </svg>
+                        </button>
+                        <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                            Maju 5 Detik
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Script untuk interaksi tombol video -->
@@ -104,19 +118,19 @@
                     const videoPlayer = document.getElementById('sibi-video');
                     let isSlow = false;
 
-                    const slowIcon = `
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                            <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                            <path d="M12 3a9 9 0 0 0-9 9c0 1.25.25 2.44.7 3.53l1.45-1.45A5.996 5.996 0 0 1 12 6c3.31 0 6 2.69 6 6 0 1.27-.4 2.44-1.07 3.42l1.45 1.45A8.929 8.929 0 0 0 21 12a9 9 0 0 0-9-9zM12 8a4 4 0 0 0-4 4c0 .87.28 1.67.76 2.33l4.67-4.67A3.946 3.946 0 0 0 12 8z" fill="currentColor" />
-                            <text x="12" y="19" font-family="'Nunito', 'Fredoka', sans-serif" font-size="6" font-weight="900" text-anchor="middle" fill="currentColor">0.5x</text>
+                     const slowIcon = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" fill="#FFF5B8" />
+                            <polyline points="12 6 12 12 16 14" />
+                            <text x="12" y="20" font-family="sans-serif" font-size="5" font-weight="900" text-anchor="middle" fill="currentColor">0.5x</text>
                         </svg>
                     `;
 
                     const normalIcon = `
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                            <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                            <path d="M12 3a9 9 0 0 0-9 9c0 1.25.25 2.44.7 3.53l1.45-1.45A5.996 5.996 0 0 1 12 6c3.31 0 6 2.69 6 6 0 1.27-.4 2.44-1.07 3.42l1.45 1.45A8.929 8.929 0 0 0 21 12a9 9 0 0 0-9-9zM12 8a4 4 0 0 0-4 4c0 .87.28 1.67.76 2.33l4.67-4.67A3.946 3.946 0 0 0 12 8z" fill="currentColor" />
-                            <text x="12" y="19" font-family="'Nunito', 'Fredoka', sans-serif" font-size="6" font-weight="900" text-anchor="middle" fill="currentColor">1.0x</text>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-12 h-12 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" fill="#FFF5B8" />
+                            <polyline points="12 6 12 12 16 14" />
+                            <text x="12" y="20" font-family="sans-serif" font-size="5" font-weight="900" text-anchor="middle" fill="currentColor">1.0x</text>
                         </svg>
                     `;
 
@@ -143,25 +157,31 @@
         <!-- Tombol Aksi (Visual-Only - Centered for better UX) -->
         <div class="w-full max-w-5xl flex justify-center gap-12 items-center mt-8 px-4">
             <!-- Tombol Keluar & Simpan (Visual House Icon) -->
-            <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 1)"
-                class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
-                title="Keluar & Simpan">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <path opacity="0.2" d="M12 3L2 12h3v8h14v-8h3L12 3z" />
-                    <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.83L18.17 12H17v6H7v-6H5.83L12 5.83z"
-                        fill="currentColor" />
-                </svg>
-            </a>
+            <div class="relative group/tooltip">
+                <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 1)"
+                    class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="#FFB3B3" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                </a>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Keluar & Simpan
+                </div>
+            </div>
 
             <!-- Tombol Lanjut (Visual Right Chevron Play Icon) -->
-            <a href="{{ route('materi.belajar', ['step' => 2]) }}" onclick="tandaiSelesai(event, this.href, 1)"
-                class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
-                title="Lanjut">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" />
-                    <path d="M10 17V7l7 5-7 5z" fill="currentColor" />
-                </svg>
-            </a>
+            <div class="relative group/tooltip">
+                <a href="{{ route('materi.belajar', ['step' => 2]) }}" onclick="tandaiSelesai(event, this.href, 1)"
+                    class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3" fill="#D4F1BE" />
+                    </svg>
+                </a>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Lanjut
+                </div>
+            </div>
         </div>
 
     </div>

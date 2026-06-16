@@ -17,10 +17,22 @@
             <!-- Tombol Keluar (Clean & Elegant Style) -->
             <form method="POST" action="{{ route('logout') }}" class="flex-shrink-0">
                 @csrf
-                <button type="submit"
-                    class="bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover px-6 py-3.5 rounded-2xl font-black text-black text-sm flex items-center gap-2 cursor-pointer uppercase tracking-wider">
-                    Keluar Akun
-                </button>
+                <div class="relative group/tooltip inline-block">
+                    <button type="submit"
+                        class="bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover px-6 py-3.5 rounded-2xl font-black text-black text-sm flex items-center gap-2 cursor-pointer uppercase tracking-wider">
+                        Keluar Akun
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            class="w-5 h-5 text-black fill-none stroke-current" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Keluar dari Sesi
+                    </div>
+                </div>
             </form>
         </div>
 
@@ -109,14 +121,21 @@
                                                     </svg>
                                                 </span>
                                                 @if($prog->score !== null && $i == 7)
-                                                    <button onclick="showEvaluationDetail('{{ addslashes($student->name) }}', {{ $prog->answers ? json_encode($prog->answers) : 'null' }}, {{ $prog->score }})"
-                                                            title="Klik untuk detail jawaban"
-                                                            class="text-[11px] font-black px-2.5 py-1 rounded-lg bg-[#FFF5B8] border border-black shadow-[1px_1px_0_#000] text-black hover:-translate-y-0.5 hover:shadow-[2px_2px_0_#000] active:translate-y-0.5 active:shadow-[0px_0px_0_#000] transition-all cursor-pointer flex items-center gap-1">
-                                                        <span>{{ $prog->score }}</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.637 10.637Z" />
-                                                        </svg>
-                                                    </button>
+                                                    <div class="relative group/tooltip inline-block">
+                                                        <button onclick="showEvaluationDetail('{{ addslashes($student->name) }}', {{ $prog->answers ? json_encode($prog->answers) : 'null' }}, {{ $prog->score }})"
+                                                                class="text-[11px] font-black px-2.5 py-1 rounded-lg bg-[#FFF5B8] border border-black shadow-[1px_1px_0_#000] text-black hover:-translate-y-0.5 hover:shadow-[2px_2px_0_#000] active:translate-y-0.5 active:shadow-[0px_0px_0_#000] transition-all cursor-pointer flex items-center gap-1">
+                                                            <span>{{ $prog->score }}</span>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                                class="w-3.5 h-3.5 text-black fill-none stroke-current" stroke-width="3.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <circle cx="11" cy="11" r="8"></circle>
+                                                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-[10px] font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                                                            Detail Jawaban
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             </div>
                                         @else
@@ -157,10 +176,6 @@
                 <span class="text-slate-300 font-bold">—</span>
                 Belum Dikerjakan
             </div>
-            <div class="flex items-center gap-2.5 bg-[#D4F1BE] brutal-border brutal-shadow-sm px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider text-black">
-                <span>Angka</span>
-                Nilai Kuis / Latihan
-            </div>
             <div class="flex items-center gap-2.5 bg-[#E0BBE4] brutal-border brutal-shadow-sm px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider text-black">
                 <span>Evaluasi</span>
                 Ujian Akhir (Tahap 7)
@@ -180,7 +195,19 @@
                     <span class="w-3 h-3 rounded-full bg-[#D4F1BE] border border-black"></span>
                     <span class="ml-2 font-black text-sm uppercase tracking-widest text-slate-700">Detail Jawaban Evaluasi</span>
                 </div>
-                <button onclick="closeDetailModal()" class="text-slate-400 hover:text-black font-black text-xl cursor-pointer select-none">✕</button>
+                <div class="relative group/tooltip inline-block">
+                    <button onclick="closeDetailModal()" class="text-slate-400 hover:text-black cursor-pointer select-none flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            class="w-6 h-6 text-black fill-none stroke-current" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Tutup
+                    </div>
+                </div>
             </div>
 
             <!-- Modal Content Body -->

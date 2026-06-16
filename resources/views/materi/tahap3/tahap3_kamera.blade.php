@@ -10,7 +10,8 @@
     <style>
         body {
             font-family: 'Fredoka', sans-serif;
-            background-color: #FFF9F0 !important; /* Soft Cream */
+            background-color: #FFF9F0 !important;
+            /* Soft Cream */
             overflow-x: hidden;
             overflow-y: auto;
             min-height: 100vh;
@@ -68,15 +69,19 @@
             0% {
                 transform: scale(1) rotate(0deg);
             }
+
             25% {
                 transform: scale(1.15) rotate(3deg);
             }
+
             50% {
                 transform: scale(0.95) rotate(-3deg);
             }
+
             75% {
                 transform: scale(1.1) rotate(1.5deg);
             }
+
             100% {
                 transform: scale(1) rotate(0deg);
             }
@@ -90,21 +95,29 @@
 
 <body class="selection:bg-transparent transition-transform">
 
-    <!-- Back to Study Page -->
-    <a href="{{ route('materi.index') }}" aria-label="Kembali"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
-            <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-            <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                stroke-linejoin="round" fill="none" />
-        </svg>
-    </a>
+    <!-- Back Button with Tooltip -->
+    <div class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] group/tooltip pointer-events-auto">
+        <a href="{{ route('materi.index') }}" aria-label="Kembali"
+            class="bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center w-14 h-14">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black" fill="none"
+                stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+            </svg>
+        </a>
+        <div
+            class="pointer-events-none absolute left-0 top-full mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+            Kembali ke Peta
+        </div>
+    </div>
 
 
     <!-- Title Header -->
     <div class="pt-16 md:pt-20 px-4 flex flex-col items-center max-w-7xl mx-auto">
         <div class="flex items-center gap-4 mb-2">
-            <span class="text-xl font-black text-black bg-[#BEE9E8] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-sm">Soal {{ $soal_ke }} dari 5</span>
+            <span
+                class="text-xl font-black text-black bg-[#BEE9E8] brutal-border px-4 py-1 rounded-2xl transform rotate-2 shadow-sm">Soal
+                {{ $soal_ke }} dari 5</span>
         </div>
         <h1
             class="mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-8 py-3 rounded-2xl text-2xl md:text-3xl font-black uppercase tracking-widest text-center transform -rotate-1 min-w-[220px] shadow-sm">
@@ -128,16 +141,19 @@
             </h2>
 
             <!-- Animasi Webcam Alignment & Signing -->
-            <div class="relative w-64 h-64 bg-slate-900 brutal-border rounded-3xl p-4 flex flex-col items-center justify-center mb-8 mx-auto overflow-hidden shadow-inner">
+            <div
+                class="relative w-64 h-64 bg-slate-900 brutal-border rounded-3xl p-4 flex flex-col items-center justify-center mb-8 mx-auto overflow-hidden shadow-inner">
                 <!-- Outer camera frame -->
-                <div class="absolute inset-4 border-2 border-dashed border-slate-500 rounded-2xl flex flex-col items-center justify-center">
+                <div
+                    class="absolute inset-4 border-2 border-dashed border-slate-500 rounded-2xl flex flex-col items-center justify-center">
                     <span class="text-6xl animate-pulse opacity-40">👤</span>
                     <span class="text-5xl animate-bounce mt-2">🖐️</span>
                 </div>
                 <!-- Scanning line -->
                 <div class="absolute w-full h-1 bg-[#BEE9E8] top-0 animate-scan left-0"></div>
                 <!-- Status badge in overlay animation -->
-                <div class="absolute bottom-6 bg-green-500 text-black px-3 py-1 rounded-full text-[10px] font-black brutal-border shadow-sm flex items-center gap-1 animate-pulse">
+                <div
+                    class="absolute bottom-6 bg-green-500 text-black px-3 py-1 rounded-full text-[10px] font-black brutal-border shadow-sm flex items-center gap-1 animate-pulse">
                     <span>Posisi Benar</span>
                     <span>✓</span>
                 </div>
@@ -146,31 +162,43 @@
             <!-- Steps text -->
             <div class="flex flex-col gap-4 text-left w-full bg-[#F8FAFC] brutal-border p-6 rounded-2xl mb-8 shadow-sm">
                 <div class="flex items-start gap-3">
-                    <span class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">1</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Posisikan Diri</b>: Pastikan wajah dan tangan kamu terlihat jelas di dalam kotak kamera.</p>
+                    <span
+                        class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">1</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Posisikan Diri</b>: Pastikan wajah dan
+                        tangan kamu terlihat jelas di dalam kotak kamera.</p>
                 </div>
                 <div class="flex items-start gap-3">
-                    <span class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">2</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Eja Kata</b>: Peragakan isyarat tangan satu per satu untuk mengeja kata jawaban.</p>
+                    <span
+                        class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-black text-sm shrink-0 mt-0.5">2</span>
+                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Eja Kata</b>: Peragakan isyarat tangan
+                        satu per satu untuk mengeja kata jawaban.</p>
                 </div>
             </div>
 
             <!-- Confirm Button (Visual Icon Ok / Checklist) -->
-            <button onclick="closeTutorial()"
-                class="w-20 h-20 bg-[#D4F1BE] text-black rounded-full brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer animate-pulse"
-                title="Mengerti">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" />
-                    <path d="M10 15.172l-3.5-3.5-1.414 1.414 4.914 4.914 9.9-9.9-1.414-1.414z" fill="currentColor" />
-                </svg>
-            </button>
+            <div class="relative group/tooltip">
+                <button onclick="closeTutorial()"
+                    class="w-20 h-20 bg-[#D4F1BE] text-black rounded-full brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer animate-pulse">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black"
+                        fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </button>
+                <div
+                    class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Mengerti
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Question Card (Full Width - Top) -->
     <div class="w-full max-w-6xl mx-auto px-4 md:px-8 mb-6">
         <div class="bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-6 text-center md:text-left">
-            <span class="inline-block px-4 py-1.5 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-3">Pertanyaan Cerita</span>
+            <span
+                class="inline-block px-4 py-1.5 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-3">Pertanyaan
+                Cerita</span>
             <h2 class="text-2xl md:text-3xl font-black text-black leading-snug">
                 {!! nl2br(e($quiz->pertanyaan)) !!}
             </h2>
@@ -178,13 +206,14 @@
     </div>
 
     <!-- Main Game Section (Webcam + Progress side-by-side) -->
-    <div class="pb-8 px-4 md:px-8 flex flex-col md:flex-row items-center md:items-stretch justify-center gap-6 md:gap-8 max-w-6xl w-full mx-auto">
-        
+    <div
+        class="pb-8 px-4 md:px-8 flex flex-col md:flex-row items-center md:items-stretch justify-center gap-6 md:gap-8 max-w-6xl w-full mx-auto">
+
         <!-- Left: Webcam Container (occupies 50vh viewport height) -->
-        <div class="w-full md:w-2/3 relative bg-black brutal-border brutal-shadow rounded-[2.5rem] h-[50vh] min-h-[320px] max-h-[480px] overflow-hidden">
+        <div
+            class="w-full md:w-2/3 relative bg-black brutal-border brutal-shadow rounded-[2.5rem] h-[50vh] min-h-[320px] max-h-[480px] overflow-hidden">
             <!-- Video feed -->
-            <video id="webcam" autoplay playsinline muted
-                class="w-full h-full object-cover block">
+            <video id="webcam" autoplay playsinline muted class="w-full h-full object-cover block">
             </video>
 
             <!-- Scanning overlay line -->
@@ -194,7 +223,8 @@
             </div>
 
             <!-- AI Detected Letter Card (Positioned top-right, twitches/pulses continuously) -->
-            <div id="ai-detected-char" class="absolute top-6 right-6 bg-[#FFD1E3] brutal-border brutal-shadow-sm rounded-2xl p-4 flex items-center justify-center min-w-[80px] min-h-[80px] z-50 animate-twitch">
+            <div id="ai-detected-char"
+                class="absolute top-6 right-6 bg-[#FFD1E3] brutal-border brutal-shadow-sm rounded-2xl p-4 flex items-center justify-center min-w-[80px] min-h-[80px] z-50 animate-twitch">
                 <span id="detected-char-text" class="text-5xl font-black text-black uppercase">-</span>
             </div>
 
@@ -207,13 +237,17 @@
         </div>
 
         <!-- Right: Spelling Progress Card (placed next to camera) -->
-        <div class="w-full md:w-1/3 flex flex-col justify-center items-center text-center bg-[#E0BBE4] brutal-border brutal-shadow rounded-[2.5rem] p-8">
-            <span class="inline-block px-4 py-1.5 bg-white brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-4">Progres Ejaan</span>
+        <div
+            class="w-full md:w-1/3 flex flex-col justify-center items-center text-center bg-[#E0BBE4] brutal-border brutal-shadow rounded-[2.5rem] p-8">
+            <span
+                class="inline-block px-4 py-1.5 bg-white brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-4">Progres
+                Ejaan</span>
             <p class="font-black text-slate-800 uppercase tracking-widest text-sm mb-4">Kata yang Dieja:</p>
             <h1 id="word-progress" class="text-5xl font-black text-black uppercase tracking-widest mb-4">
                 -
             </h1>
-            <p id="word-target-hint" class="text-sm text-slate-700 font-bold">Total: {{ strlen($quiz->jawaban_benar) }} Huruf</p>
+            <p id="word-target-hint" class="text-sm text-slate-700 font-bold">Total: {{ strlen($quiz->jawaban_benar) }}
+                Huruf</p>
         </div>
 
     </div>
@@ -231,42 +265,59 @@
             <!-- Interactive Buttons Overlaid over pre-rendered spots -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
                 <!-- Replay Button -->
-                <button onclick="window.location.reload()" aria-label="Ulangi"
-                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
-                    </svg>
-                </button>
+                <div class="relative group/tooltip w-[18%] aspect-square">
+                    <button onclick="window.location.reload()" aria-label="Ulangi"
+                        class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
+                        </svg>
+                    </button>
+                    <div
+                        class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Ulangi
+                    </div>
+                </div>
                 <!-- Next Button -->
-                <a href="{{ route('materi.belajar', ['step' => 3, 'soal_ke' => $soal_ke + 1]) }}" aria-label="Lanjut"
-                    class="bg-[#D4F1BE] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </a>
+                <div class="relative group/tooltip w-[18%] aspect-square">
+                    <a href="{{ route('materi.belajar', ['step' => 3, 'soal_ke' => $soal_ke + 1]) }}"
+                        aria-label="Lanjut"
+                        class="w-full h-full bg-[#D4F1BE] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                    <div
+                        class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#D4F1BE] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Lanjut
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.10/dist/tf-tflite.min.js"></script>
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <script src="https://unpkg.com/@tensorflow/tfjs-tflite@0.0.1-alpha.10/dist/tf-tflite.min.js"></script>
 
     <script type="module">
         function tunjukkanErrorKeUser(pesan, detailErr) {
             console.error(`❌ ${pesan}`, detailErr);
             const statusText = document.getElementById('status-text');
             const statusPing = document.getElementById('status-ping');
-            statusText.textContent = `ERROR: ${pesan}`;
+            statusText.textContent = `ERROR: ${pesan} (${detailErr ? (detailErr.message || detailErr) : 'unknown'})`;
             statusPing.style.background = 'red';
         }
 
         try {
-            tflite.setWasmPath('/models/');
+            if (window.tflite) {
+                window.tflite.setWasmPath("{{ asset('models') }}/");
+            } else {
+                throw new Error("window.tflite is undefined. Model library did not load correctly.");
+            }
         } catch (e) {
             tunjukkanErrorKeUser("Gagal setWasmPath TFLite", e);
         }
@@ -276,9 +327,8 @@
             FilesetResolver
         } from "https://esm.sh/@mediapipe/tasks-vision@0.10.14";
 
-        const MODEL_TFLITE_PATH = '/models/honusign_model.tflite';
-        const MEDIAPIPE_TASK_PATH =
-            "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task";
+        const MODEL_TFLITE_PATH = "{{ asset('models/honusign_model.tflite') }}";
+        const MEDIAPIPE_TASK_PATH = "{{ asset('models/hand_landmarker.task') }}";
 
         const TARGET_WORD = "{{ $quiz->jawaban_benar }}".toUpperCase().trim();
         const ALPHABET_MAP = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
@@ -328,8 +378,9 @@
             // Create flyer node
             const flyer = document.createElement('div');
             flyer.innerText = letter;
-            flyer.className = "fixed z-[9999] bg-[#FFD1E3] brutal-border brutal-shadow-sm rounded-xl font-black text-3xl text-black flex items-center justify-center w-14 h-14 pointer-events-none transition-all duration-700 ease-in-out";
-            
+            flyer.className =
+                "fixed z-[9999] bg-[#FFD1E3] brutal-border brutal-shadow-sm rounded-xl font-black text-3xl text-black flex items-center justify-center w-14 h-14 pointer-events-none transition-all duration-700 ease-in-out";
+
             // Set starting position
             flyer.style.left = `${startRect.left}px`;
             flyer.style.top = `${startRect.top}px`;
@@ -370,7 +421,7 @@
                     minTrackingConfidence: 0.4
                 });
 
-                tfliteModel = await tflite.loadTFLiteModel(MODEL_TFLITE_PATH);
+                tfliteModel = await window.tflite.loadTFLiteModel(MODEL_TFLITE_PATH);
 
                 statusText.innerText = "Menunggu Gerakan Tangan...";
                 startWebcam();
@@ -380,7 +431,7 @@
         }
 
         function startWebcam() {
-            if (navigator.mediaDevices.getUserMedia) {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices
                     .getUserMedia({
                         video: {
@@ -410,6 +461,9 @@
                     .catch(err => {
                         tunjukkanErrorKeUser("Gagal akses webcam", err);
                     });
+            } else {
+                tunjukkanErrorKeUser("Webcam tidak didukung atau koneksi tidak aman (harus HTTPS atau localhost).",
+                    new Error("navigator.mediaDevices is undefined"));
             }
         }
 

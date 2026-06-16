@@ -50,42 +50,42 @@
         1 => [
             'title' => 'Membaca',
             'desc' => 'Cerita bergambar SIBI',
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/><path d="M12 3v18c-3.333-1-5-1-8-1a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2c3 0 4.667 0 8 0z" /><path d="M12 3v18c3.333-1 5-1 8-1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2c-3 0-4.667 0-8 0z" /></svg>',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#BEE9E8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>',
             'route' => route('materi.belajar', ['step' => 1]),
             'color' => 'bg-[#BEE9E8]', // Soft Blue
         ],
         2 => [
             'title' => 'Kuis Kata',
             'desc' => 'Mengenal kuis baru',
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z" /><circle cx="12" cy="12" r="3" /></svg>',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#E0BBE4" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x="8" y="2" width="8" height="4" rx="1" ry="1" /><path d="M9 14l2 2 4-4" fill="none" /></svg>',
             'route' => route('materi.belajar', ['step' => 2]),
             'color' => 'bg-[#E0BBE4]', // Pastel Purple
         ],
         3 => [
             'title' => 'Isyarat AI',
             'desc' => 'Coba isyaratmu ke AI!',
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/><path d="M3 8a2 2 0 0 1 2-2h3l1.5-2h5L16 6h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" /><circle cx="12" cy="13" r="3" /></svg>',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#FFD1E3" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>',
             'route' => route('materi.belajar', ['step' => 3]),
             'color' => 'bg-[#FFD1E3]', // Soft Pink
         ],
         4 => [
             'title' => 'Keberagaman',
             'desc' => 'Kuis seru bergambar',
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.84.5 3.56 1.36 5.04L2 22l4.96-1.36A9.957 9.957 0 0 0 12 22z" /><path d="M12 17.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm.5-4.5c0-1.5 2-2 2-4a2.5 2.5 0 1 0-5 0h2c0-.5.5-1 1-1s1 .5 1 1-1 1.5-1 3.5h2z" /></svg>',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#FFF5B8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>',
             'route' => route('materi.belajar', ['step' => 4]),
             'color' => 'bg-[#FFF5B8]', // Bright Yellow
         ],
         5 => [
             'title' => 'Perilaku',
             'desc' => 'Cocokkan kartu',
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/><path d="M4 6h12v12H4z" /><path d="M8 4h12v12h-2v2h4V2H6v4h2z" /></svg>',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#D4F1BE" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="12" height="14" rx="2" ry="2" /><rect x="9" y="7" width="12" height="14" rx="2" ry="2" fill="#BEE9E8" /></svg>',
             'route' => route('materi.belajar', ['step' => 5]),
             'color' => 'bg-[#D4F1BE]', // Mint Green
         ],
         6 => [
             'title' => 'Mewarnai',
             'desc' => 'Buktikan kemampuanmu!',
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/><path d="M7 4h10v6a5 5 0 0 1-10 0V4z" /><path d="M11 15v4h-3v2h8v-2h-3v-4a7.02 7.02 0 0 0 4.9-5.32A3.5 3.5 0 0 0 20.5 7H18V4H6v3H3.5a3.5 3.5 0 0 0 2.6 4.68A7.02 7.02 0 0 0 11 15zM5 7h1v3H5V7zm13 3V7h1v3h-1z" /></svg>',
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#FFD8A8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.35857 19.5 5.5 20 5 20.5C4 21.5 6 22 12 22Z" /><circle cx="7.5" cy="10.5" r="1.5" fill="currentColor" /><circle cx="11.5" cy="7.5" r="1.5" fill="currentColor" /><circle cx="16.5" cy="9.5" r="1.5" fill="currentColor" /><circle cx="15.5" cy="14.5" r="1.5" fill="currentColor" /></svg>',
             'route' => route('materi.belajar', ['step' => 6]),
             'color' => 'bg-[#FFD8A8]', // Soft Orange
         ],
@@ -118,46 +118,46 @@
         <!-- Header (Menu Bar) -->
         <header class="h-20 flex items-center justify-between px-6 bg-white border-b-4 border-black relative z-40">
             <!-- Back to Dashboard / Keluar (Red Button, Visual-Only) -->
-            <a href="{{ route('dashboard') }}"
-                class="w-14 h-14 flex items-center justify-center bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover rounded-2xl text-black"
-                title="Keluar">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
-                    <path opacity="0.2" d="M12 3L2 12h3v8h14v-8h3L12 3z" />
-                    <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.83L18.17 12H17v6H7v-6H5.83L12 5.83z"
-                        fill="currentColor" />
-                </svg>
-            </a>
+            <div class="relative group/tooltip inline-block">
+                <a href="{{ route('dashboard') }}"
+                    class="w-14 h-14 flex items-center justify-center bg-[#FFB3B3] brutal-border brutal-shadow-sm brutal-hover rounded-2xl text-black">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black"
+                        fill="#FFB3B3" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                </a>
+                <div
+                    class="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Keluar
+                </div>
+            </div>
 
             <!-- Game Title (Comic Retro Header) -->
             <h1
                 class="text-2xl md:text-4xl font-black text-[#FFF5B8] text-outline uppercase tracking-tight transform -rotate-1 drop-shadow-[0_4px_0_#000]">
-                Petualangan Samsul
+                Peta Perjalanan Samsul
             </h1>
 
             <div class="flex gap-4">
-                <!-- Reset Progress Button (Orange Button, Visual-Only) -->
-                <button onclick="resetProgress()"
-                    class="w-14 h-14 flex items-center justify-center bg-[#FFD8A8] brutal-border brutal-shadow-sm brutal-hover rounded-2xl text-black"
-                    title="Reset Progress">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
-                        <circle cx="12" cy="12" r="10" opacity="0.2" />
-                        <path
-                            d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
-                            fill="currentColor" />
-                    </svg>
-                </button>
-
                 <!-- Help / Tutorial Button (Yellow Button, Visual-Only) -->
-                <button onclick="showTutorial()"
-                    class="w-14 h-14 flex items-center justify-center bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover rounded-2xl text-black"
-                    title="Bantuan">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
-                        <circle cx="12" cy="12" r="10" opacity="0.2" />
-                        <path
-                            d="M12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8zm.5 11h-1v-1a1.5 1.5 0 0 1 1.5-1.5h1A1.5 1.5 0 0 0 15 11c0-1-1-1.5-1.5-1.5S12 10 12 11h-2c0-2.2 1.8-4 4-4s4 1.8 4 4c0 1.5-1.2 2.5-2.5 2.5h-.5v2zm-1 3h2v-2h-2v2z"
-                            fill="currentColor" />
-                    </svg>
-                </button>
+                <div class="relative group/tooltip inline-block">
+                    <button onclick="showTutorial()"
+                        class="w-14 h-14 flex items-center justify-center bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover rounded-2xl text-black">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black"
+                            fill="#FFF5B8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" fill="none" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                    </button>
+                    <div
+                        class="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Bantuan
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -233,9 +233,21 @@
                     class="w-28 h-28 rounded-[2.5rem] border-4 border-black bg-[#FFD1E3] brutal-shadow-sm flex items-center justify-center relative overflow-hidden group">
                     <span
                         class="absolute -top-3 -right-3 w-8 h-8 rounded-full border-4 border-black bg-white flex items-center justify-center font-black text-black text-sm">
-                        🏁
+                        ★
                     </span>
-                    <span class="text-5xl group-hover:scale-110 transition-transform select-none">🏁</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-14 h-14 text-black group-hover:scale-110 transition-transform duration-200"
+                        fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <!-- Flag pole -->
+                        <line x1="4" y1="2" x2="4" y2="22" />
+                        <!-- Flag wave outline -->
+                        <path d="M4 4c4-2 6 2 10 0s6-2 6 0v8c0 2-2 2-6 0s-6-2-10 0z" fill="#FFFFFF" />
+                        <!-- Checker patterns -->
+                        <path d="M4 4c2-1 3 1 5 0v4c-2 1-3-1-5 0z" fill="currentColor" />
+                        <path d="M14 4c2-1 3 1 5 0v4c-2 1-3-1-5 0z" fill="currentColor" />
+                        <path d="M9 6c2-1 3 1 5 0v4c-2 1-3-1-5 0z" fill="currentColor" />
+                    </svg>
                 </div>
 
                 <div
@@ -280,8 +292,8 @@
                 class="relative w-64 h-64 bg-[#BEE9E8] brutal-border rounded-3xl p-4 flex flex-col items-center mb-8 mx-auto overflow-hidden shadow-inner pt-8">
                 <!-- Curve Path -->
                 <svg class="absolute inset-0 w-full h-full pointer-events-none">
-                    <path d="M 40 60 C 100 20, 160 100, 220 60" stroke="#000" stroke-width="4" stroke-dasharray="8,8"
-                        fill="none" />
+                    <path d="M 40 60 C 100 20, 160 100, 220 60" stroke="#000" stroke-width="4"
+                        stroke-dasharray="8,8" fill="none" />
                 </svg>
 
                 <div
@@ -589,23 +601,6 @@
 
             // Trigger Samsul walking animation after tutorial closes
             setTimeout(animateSamsulWalking, 300);
-        }
-
-        function resetProgress() {
-            if (confirm(
-                    "Apakah kamu yakin ingin mengulang perjalanan Samsul dari awal? Semua kemajuan belajar kamu akan dihapus."
-                    )) {
-                fetch('{{ route('materi.reset_progress') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }).then(() => {
-                    window.location.reload();
-                });
-            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {

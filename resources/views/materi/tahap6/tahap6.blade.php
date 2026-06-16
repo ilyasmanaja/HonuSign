@@ -93,42 +93,52 @@
             style="transform: translateX(0);">
             
             <!-- Toggle Button inside toolbar, but positioned absolutely outside the right edge -->
-            <button id="toolbar-toggle" onclick="toggleToolbar()"
-                class="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#FFF5B8] brutal-border brutal-shadow w-12 h-20 rounded-r-2xl flex items-center justify-center cursor-pointer hover:scale-105 transition-all z-50"
-                title="Buka/Tutup Alat">
-                <svg id="toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black transition-transform duration-300">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
+            <div class="absolute -right-12 top-1/2 -translate-y-1/2 group/tooltip inline-block z-50">
+                <button id="toolbar-toggle" onclick="toggleToolbar()"
+                    class="bg-[#FFF5B8] brutal-border brutal-shadow w-12 h-20 rounded-r-2xl flex items-center justify-center cursor-pointer hover:scale-105 transition-all">
+                    <svg id="toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black transition-transform duration-300">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Buka/Tutup Alat
+                </div>
+            </div>
             
             <!-- Section 1: Alat Mewarnai -->
             <div>
                 <h3 class="font-black text-black uppercase text-sm tracking-wider mb-3">Pilih Alat:</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Pensil -->
-                    <button onclick="selectTool('pencil')" id="btn-tool-pencil"
-                        class="bg-[#FFF5B8] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1"
-                        title="Pensil">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8">
-                            <path d="M6 18L18 6l3 3L9 21H6v-3z" fill="#facc15" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M18 6l3 3 1.5-1.5a1.5 1.5 0 0 0 0-2.12l-.88-.88a1.5 1.5 0 0 0-2.12 0L18 6z" fill="#f472b6" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M6 18v3h3l-3-3z" fill="#374151" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
-                            <line x1="10" y1="14" x2="14" y2="10" stroke="#000" stroke-width="2"/>
-                        </svg>
-                    </button>
+                    <div class="relative group/tooltip inline-block w-full">
+                        <button onclick="selectTool('pencil')" id="btn-tool-pencil"
+                            class="bg-[#FFF5B8] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1 w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                class="w-8 h-8 text-black fill-none stroke-current" stroke-width="3.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                            </svg>
+                        </button>
+                        <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                            Pensil
+                        </div>
+                    </div>
                     <!-- Penghapus -->
-                    <button onclick="selectTool('eraser')" id="btn-tool-eraser"
-                        class="bg-[#FFFEFA] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1"
-                        title="Penghapus">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8">
-                            <!-- Eraser pink wedge -->
-                            <path d="M4 16v4h6l10-10-4-4L6 14l-2 2z" fill="#f472b6" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
-                            <!-- Blue cardboard sleeve -->
-                            <path d="M8 12l4-4 4 4-4 4-4-4z" fill="#60a5fa" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
-                            <!-- White sleeve accent -->
-                            <path d="M10 10l2-2 2 2-2 2-2-2z" fill="#ffffff" stroke="#000" stroke-width="1.5" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
+                    <div class="relative group/tooltip inline-block w-full">
+                        <button onclick="selectTool('eraser')" id="btn-tool-eraser"
+                            class="bg-[#FFFEFA] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1 w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                class="w-8 h-8 text-black fill-none stroke-current" stroke-width="3.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 20H7L3 16c-1.5-1.5-1.5-3.5 0-5l8.5-8.5c1.5-1.5 3.5-1.5 5 0l4 4c1.5 1.5 1.5 3.5 0 5L12 20"></path>
+                                <line x1="6" y1="11" x2="16" y2="11"></line>
+                            </svg>
+                        </button>
+                        <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                            Penghapus
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -198,44 +208,72 @@
 
         <div class="mt-10 flex flex-wrap justify-center gap-6 w-full max-w-7xl">
             <!-- Hapus Semua -->
-            <button id="clear-btn" onclick="clearCanvas()"
-                class="w-20 h-20 flex items-center justify-center rounded-full font-bold text-black bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover cursor-pointer transform hover:-translate-y-2 transition-transform"
-                title="Hapus Semua">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <path opacity="0.2" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12z" fill="currentColor" />
-                    <path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2-9h8v9H8v-9z" fill="currentColor" />
-                </svg>
-            </button>
+            <div class="relative group/tooltip inline-block">
+                <button id="clear-btn" onclick="clearCanvas()"
+                    class="w-20 h-20 flex items-center justify-center rounded-full font-bold text-black bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover cursor-pointer transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                </button>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Hapus Semua
+                </div>
+            </div>
 
             <!-- Tampilkan Hasil! -->
-            <button id="show-result-btn" onclick="enablePresentationMode()"
-                class="bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover cursor-pointer text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform"
-                title="Tampilkan Hasil">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-black">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" fill="currentColor" />
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" />
-                </svg>
-            </button>
+            <div class="relative group/tooltip inline-block">
+                <button id="show-result-btn" onclick="enablePresentationMode()"
+                    class="bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover cursor-pointer text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </button>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Tampilkan Hasil
+                </div>
+            </div>
 
             <!-- Kembali Edit -->
-            <button id="back-edit-btn" onclick="disablePresentationMode()"
-                class="hidden w-20 h-20 flex items-center justify-center rounded-full cursor-pointer font-bold text-black bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-transform"
-                title="Kembali Edit">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <path opacity="0.2" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor" />
-                    <path d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19z" fill="currentColor" />
-                </svg>
-            </button>
+            <div class="relative group/tooltip inline-block">
+                <button id="back-edit-btn" onclick="disablePresentationMode()"
+                    class="hidden w-20 h-20 flex items-center justify-center rounded-full cursor-pointer font-bold text-black bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </button>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Kembali Edit
+                </div>
+            </div>
 
             <!-- Selesai & Ke Dashboard -->
-            <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)"
-                class="hidden bg-[#FFD1E3] brutal-border brutal-shadow brutal-hover text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform"
-                title="Selesai &amp; Ke Dashboard">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                    <path opacity="0.2" d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" fill="currentColor" />
-                    <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zm-2 5.82A2.99 2.99 0 0 1 12 14a2.99 2.99 0 0 1-5-3.18V7h10v3.82zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" fill="currentColor" />
-                </svg>
-            </a>
+            <div class="relative group/tooltip inline-block">
+                <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)"
+                    class="hidden bg-[#FFD1E3] brutal-border brutal-shadow brutal-hover text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        <path d="M4 22h16"></path>
+                        <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path>
+                        <path d="M12 2a6 6 0 0 0-6 6v1c0 2.2 1.8 4 4 4h4c2.2 0 4-1.8 4-4V8a6 6 0 0 0-6-6z"></path>
+                    </svg>
+                </a>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Selesai &amp; Ke Dashboard
+                </div>
+            </div>
         </div>
     </div>
 
@@ -251,11 +289,15 @@
 
             <!-- Centered Tampilkan Button -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center">
-                <button onclick="closeSuccessModal()" aria-label="Tampilkan"
-                    class="bg-[#D4F1BE] text-black px-8 py-3 rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer font-black uppercase text-sm"
-                    title="Tampilkan Hasil">
-                    Tampilkan
-                </button>
+                <div class="relative group/tooltip inline-block">
+                    <button onclick="closeSuccessModal()" aria-label="Tampilkan"
+                        class="bg-[#D4F1BE] text-black px-8 py-3 rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer font-black uppercase text-sm">
+                        Tampilkan
+                    </button>
+                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Lihat Hasil
+                    </div>
+                </div>
             </div>
         </div>
     </div>

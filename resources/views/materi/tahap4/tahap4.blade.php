@@ -60,15 +60,18 @@
                 </div>
             </div>
 
-            <!-- Confirm Button (Visual Icon Ok / Checklist) -->
-            <button onclick="closeTutorial()"
-                class="w-20 h-20 bg-[#D4F1BE] text-black rounded-full brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer animate-pulse"
-                title="Mengerti">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" />
-                    <path d="M10 15.172l-3.5-3.5-1.414 1.414 4.914 4.914 9.9-9.9-1.414-1.414z" fill="currentColor" />
-                </svg>
-            </button>
+             <!-- Confirm Button (Visual Icon Ok / Checklist) -->
+             <div class="relative group/tooltip">
+                 <button onclick="closeTutorial()"
+                     class="w-20 h-20 bg-[#D4F1BE] text-black rounded-full brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer animate-pulse">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                         <polyline points="20 6 9 17 4 12" />
+                     </svg>
+                 </button>
+                 <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                     Mengerti
+                 </div>
+             </div>
         </div>
     </div>
 
@@ -260,25 +263,31 @@
         <!-- Tombol Aksi -->
         <div class="w-full max-w-5xl flex justify-center gap-12 items-center mt-8 px-4">
             <!-- Tombol Keluar & Simpan (Visual House Icon) -->
-            <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 4)"
-                class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
-                title="Keluar & Simpan">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                    <path opacity="0.2" d="M12 3L2 12h3v8h14v-8h3L12 3z" />
-                    <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.83L18.17 12H17v6H7v-6H5.83L12 5.83z"
-                        fill="currentColor" />
-                </svg>
-            </a>
+            <div class="relative group/tooltip">
+                <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 4)"
+                    class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="#FFB3B3" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                </a>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Keluar & Simpan
+                </div>
+            </div>
 
             <!-- Tombol Lanjut (Visual Right Chevron Play Icon) -->
-            <a href="{{ route('materi.belajar', ['step' => 5]) }}" onclick="tandaiSelesai(event, this.href, 4)"
-                class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform"
-                title="Lanjut">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                    <circle cx="12" cy="12" r="10" opacity="0.2" />
-                    <path d="M10 17V7l7 5-7 5z" fill="currentColor" />
-                </svg>
-            </a>
+            <div class="relative group/tooltip">
+                <a href="{{ route('materi.belajar', ['step' => 5]) }}" onclick="tandaiSelesai(event, this.href, 4)"
+                    class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3" fill="#D4F1BE" />
+                    </svg>
+                </a>
+                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Lanjut
+                </div>
+            </div>
         </div>
     </div>
 
