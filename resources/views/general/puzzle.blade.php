@@ -8,37 +8,50 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
+        .puzzle-game-container {
             font-family: 'Fredoka', sans-serif;
-            background-color: #BEE9E8 !important;
-            /* Biru Muda Pastel */
+            min-height: 100vh;
+            width: 100vw;
+            background-color: #BEE9E8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
         }
 
-        /* Semi-Brutalism Utility Classes */
-        .brutal-border {
-            border: 3px solid #000000 !important;
+        .puzzle-game-container * {
+            font-family: 'Fredoka', sans-serif;
         }
 
-        .brutal-shadow {
-            box-shadow: 6px 6px 0px 0px #000000 !important;
+        body {
+            background-color: #BEE9E8;
+            overflow-x: hidden;
         }
 
-        .brutal-shadow-sm {
-            box-shadow: 3px 3px 0px 0px #000000 !important;
+        .puzzle-game-container .brutal-border {
+            border: 3px solid #000000;
         }
 
-        .brutal-hover {
-            transition: all 0.2s ease-in-out !important;
+        .puzzle-game-container .brutal-shadow {
+            box-shadow: 6px 6px 0px 0px #000000;
         }
 
-        .brutal-hover:hover {
-            transform: translate(-3px, -3px) !important;
-            box-shadow: 9px 9px 0px 0px #000000 !important;
+        .puzzle-game-container .brutal-shadow-sm {
+            box-shadow: 3px 3px 0px 0px #000000;
         }
 
-        .brutal-hover:active {
-            transform: translate(2px, 2px) !important;
-            box-shadow: 2px 2px 0px 0px #000000 !important;
+        .puzzle-game-container .brutal-hover {
+            transition: all 0.15s ease-in-out;
+        }
+
+        .puzzle-game-container .brutal-hover:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px 0px #000000;
+        }
+
+        .puzzle-game-container .brutal-hover:active {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0px 0px #000000;
         }
 
         .puzzle-piece {
@@ -251,797 +264,922 @@
 
 <body
     class="m-0 p-0 overflow-hidden font-sans h-screen w-screen flex flex-col selection:bg-transparent transition-transform">
+    <div class="puzzle-game-container">
 
-    <!-- Intro Overlay -->
-    <div id="intro-overlay"
-        class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
-        <div class="text-center px-6">
-            <div
-                class="inline-block px-6 py-2 bg-[#BEE9E8] brutal-border brutal-shadow-sm rounded-2xl text-sm font-bold mb-6 -rotate-2">
-                Drag & Drop Puzzle
-            </div>
-            <h1
-                class="text-6xl md:text-8xl font-black text-black transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
-                Riau Discovery
-            </h1>
-            <p
-                class="mt-6 text-2xl font-bold text-slate-500 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl inline-block rotate-1">
-                Mari Belajar Bersama!</p>
-        </div>
-    </div>
-
-    <a href="{{ route('general.index') }}" id="btn-back" aria-label="Kembali"
-        class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center transition-opacity duration-1000">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black">
-            <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-            <path d="M12 8l-4 4 4 4M16 12H8" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                stroke-linejoin="round" fill="none" />
-        </svg>
-    </a>
-
-    <!-- Garis Penunjuk (Hint) -->
-    <svg id="guide-svg">
-        <line id="guide-line" x1="0" y1="0" x2="0" y2="0" stroke="black"
-            stroke-width="6" stroke-dasharray="15,15" opacity="0" />
-        <circle id="guide-target" cx="0" cy="0" r="20" fill="#FFF5B8" stroke="black" stroke-width="4"
-            opacity="0" class="drop-shadow-lg" />
-        <circle id="guide-target-inner" cx="0" cy="0" r="8" fill="black" opacity="0" />
-    </svg>
-
-    <!-- Area Peta Utama (Perbaikan Responsive) -->
-    <div id="game-board" class="relative w-full h-[75vh] flex items-center justify-center z-10 px-4">
-        <div id="map-container" class="relative pointer-events-none drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)] mx-auto"
-            style="width: min(95vw, calc(75vh * 16 / 9)); height: min(75vh, calc(95vw * 9 / 16));">
-            <img src="{{ asset('images/general/map/peta_kosong_riau.png') }}" id="base-img"
-                class="absolute inset-0 w-full h-full transition-opacity duration-1000" alt="Peta Kosong">
-            <img src="{{ asset('images/general/map/peta_penuh_riau.png') }}" id="full-img"
-                class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000" alt="Peta Penuh">
-        </div>
-    </div>
-
-
-
-    <!-- Kotak Penyimpanan Kayu Mengambang (Floating Box) -> Diubah jadi rak pastel -->
-    <div id="pieces-tray"
-        class="absolute bottom-4 left-4 right-4 h-[22vh] bg-[#FFFEFA] brutal-border flex items-center justify-start flex-nowrap overflow-x-auto overflow-y-hidden z-20 brutal-shadow rounded-2xl md:rounded-[2rem] py-4 gap-4 md:gap-6 scroll-smooth px-2">
-        <!-- Slot akan digenerate -->
-    </div>
-
-    <!-- Interactive Visual Tutorial Overlay -->
-    <div id="tutorial-overlay"
-        class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[5000] flex items-center justify-center p-4 transition-opacity duration-500 opacity-0 pointer-events-none">
-        <div class="bg-[#FFFEFA] brutal-border brutal-shadow p-8 md:p-12 rounded-[3rem] max-w-xl w-full flex flex-col items-center text-center relative transform scale-90 transition-transform duration-500"
-            id="tutorial-modal-content">
-
-            <div
-                class="bg-[#FFF5B8] px-6 py-2 rounded-2xl brutal-border brutal-shadow-sm font-black text-sm mb-6 -rotate-2">
-                TUTORIAL SINGKAT
-            </div>
-
-            <h2 class="text-3xl md:text-5xl font-black text-black tracking-tight mb-6">
-                Cara Menyusun Peta!
-            </h2>
-
-            <!-- Animasi Simulasi Drag & Drop -->
-            <div
-                class="relative w-64 h-56 bg-[#E2E8F0] brutal-border rounded-2xl p-4 flex flex-col items-center justify-between mb-8 mx-auto overflow-hidden shadow-inner">
-                <!-- Area Peta Atas -->
+        <!-- Intro Overlay -->
+        <div id="intro-overlay"
+            class="fixed inset-0 z-[9999] bg-[#FFFEFA] flex flex-col items-center justify-center transition-opacity duration-1000 ease-in-out">
+            <div class="text-center px-6">
                 <div
-                    class="w-full h-28 border-4 border-dashed border-slate-400 rounded-xl flex items-center justify-center relative bg-slate-100">
-                    <span class="font-bold text-slate-400 text-sm">Area Peta Riau</span>
-                    <!-- Target Siluet -->
-                    <div id="sim-target"
-                        class="absolute w-16 h-12 border-2 border-slate-400 rounded-lg bg-slate-200 opacity-50 flex items-center justify-center text-xs font-black">
-                        Siak</div>
+                    class="inline-block px-6 py-2 bg-[#BEE9E8] brutal-border brutal-shadow-sm rounded-2xl text-sm font-bold mb-6 -rotate-2">
+                    Drag & Drop Puzzle
                 </div>
-
-                <!-- Area Laci Bawah -->
-                <div
-                    class="w-full h-16 bg-[#FFFEFA] brutal-border rounded-xl flex items-center justify-center gap-3 px-2 shadow-sm">
-                    <div id="sim-piece"
-                        class="w-16 h-12 bg-[#FFF5B8] brutal-border rounded-lg flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40">
-                        Siak</div>
-                    <div
-                        class="w-16 h-12 bg-slate-200 brutal-border rounded-lg flex items-center justify-center font-bold text-slate-400 text-xs">
-                        Kampar</div>
-                    <div
-                        class="w-16 h-12 bg-slate-200 brutal-border rounded-lg flex items-center justify-center font-bold text-slate-400 text-xs">
-                        Dumai</div>
-                </div>
-
-                <!-- Tangan Animasi Cursor -->
-                <div id="sim-cursor"
-                    class="absolute w-10 h-10 transition-all duration-700 pointer-events-none z-50 flex items-center justify-center text-3xl"
-                    style="top: 75%; left: 25%;">
-                    👆
-                </div>
+                <h1
+                    class="text-6xl md:text-8xl font-black text-black transform -rotate-2 animate-bounce text-center drop-shadow-[0_10px_0_rgba(0,0,0,0.15)]">
+                    Riau Discovery
+                </h1>
+                <p
+                    class="mt-6 text-2xl font-bold text-slate-900 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-6 py-2 rounded-2xl inline-block rotate-1">
+                    Mari Belajar Bersama!</p>
             </div>
+        </div>
 
-            <!-- Penjelasan Teks -->
-            <div class="flex flex-col gap-4 text-left w-full bg-[#F8FAFC] brutal-border p-6 rounded-2xl mb-8 shadow-sm">
-                <div class="flex items-start gap-3">
-                    <span
-                        class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">1</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Tarik (Drag)</b> kepingan kabupaten dari
-                        laci di bagian bawah.</p>
-                </div>
-                <div class="flex items-start gap-3">
-                    <span
-                        class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">2</span>
-                    <p class="font-bold text-slate-700 text-sm md:text-base"><b>Cocokkan & Lepas (Drop)</b> kepingan
-                        tersebut di posisi peta yang tepat!</p>
-                </div>
-            </div>
-
-            <button onclick="closeTutorial()" aria-label="Mengerti"
-                class="w-full md:w-auto bg-[#D4F1BE] text-black p-4 rounded-3xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black">
-                    <circle cx="12" cy="12" r="10" fill="currentColor" class="opacity-20" />
-                    <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                        stroke-linejoin="round" fill="none" />
+        <!-- Back Button with Tooltip -->
+        <div class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] group/tooltip pointer-events-auto">
+            <a href="{{ route('general.index') }}" id="btn-back" aria-label="Kembali"
+                class="bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center transition-opacity duration-1000">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black" fill="none"
+                    stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
-            </button>
-        </div>
-    </div>
-
-    <div id="win-modal"
-        class="hidden fixed inset-0 bg-[#BEE9E8]/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
-
-        <div id="win-modal-content"
-            class="modal-animate relative w-full max-w-[480px] aspect-square select-none z-10">
-            
-            <!-- Main Image -->
-            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!" class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
-
-            <!-- Interactive Buttons Overlaid over pre-rendered spots -->
-            <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
-                <!-- Replay Button -->
-                <button onclick="window.location.reload()" aria-label="Ulangi"
-                    class="bg-[#FFF5B8] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
-                    </svg>
-                </button>
-                <!-- Home Button -->
-                <button onclick="window.location.href='{{ route('general.index') }}'" aria-label="Keluar"
-                    class="bg-[#FFB3B3] text-black w-[18%] aspect-square rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                        <polyline points="9 22 9 12 15 12 15 22" />
-                    </svg>
-                </button>
+            </a>
+            <div
+                class="pointer-events-none absolute left-0 top-full mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                Kembali
             </div>
         </div>
-    </div>
 
-    <script>
-        // =========================================================
-        // DATA KABUPATEN & KOORDINAT TARGET
-        // =========================================================
-        // CARA DEBUG MANUAL:
-        // 1. Buka Inspect Element -> tab Console di browser.
-        // 2. Tarik kepingan dari bawah ke posisi yang benar secara visual di peta kosong, lalu lepas.
-        // 3. Kepingan akan kembali ke bawah, TAPI di Console akan muncul pesan berwarna kuning:
-        //    "[KALIBRASI] Siak -> targetX: 45.2, targetY: 60.1"
-        // 4. Salin angka targetX dan targetY tersebut, lalu ubah di baris kode di bawah ini!
-        const piecesData = [{
-                id: 'rokan_hilir',
-                name: 'Rokan Hilir',
-                src: 'potongan_rokan_hilir.png',
-                targetX: 34.4,
-                targetY: 19.9,
-                labelX: 32.4,
-                labelY: 35.9
-            },
-            // Kepingan dumai ditarik ke atas (dikurangi targetY-nya)
-            {
-                id: 'dumai',
-                name: 'Dumai',
-                src: 'potongan_dumai.png',
-                targetX: 43.9,
-                targetY: 20.8,
-                labelX: 44.0,
-                labelY: 52.1
-            },
-            {
-                id: 'bengkalis',
-                name: 'Bengkalis',
-                src: 'potongan_bengkalis.png',
-                targetX: 48.2,
-                targetY: 28.5,
-                labelX: 48.2,
-                labelY: 55.5
-            },
-            {
-                id: 'rokan_hulu',
-                name: 'Rokan Hulu',
-                src: 'potongan_rokan_hulu.png',
-                targetX: 31.0,
-                targetY: 46.0,
-                labelX: 31.0,
-                labelY: 46.0
-            },
-            {
-                id: 'kepulauan_meranti',
-                name: 'Kepulauan Meranti',
-                src: 'potongan_kepulauan_meranti.png',
-                targetX: 62.1,
-                targetY: 39.3,
-                labelX: 62.1,
-                labelY: 39.3
-            },
-            {
-                id: 'siak',
-                name: 'Siak',
-                src: 'potongan_siak.png',
-                targetX: 52.2,
-                targetY: 46.4,
-                labelX: 52.2,
-                labelY: 46.4
-            },
-            {
-                id: 'kampar',
-                name: 'Kampar',
-                src: 'potongan_kampar.png',
-                targetX: 39.3,
-                targetY: 57.9,
-                labelX: 40.3,
-                labelY: 57.9
-            },
-            {
-                id: 'pekanbaru',
-                name: 'Pekanbaru',
-                src: 'potongan_pekanbaru.png',
-                targetX: 44.7,
-                targetY: 52.3,
-                labelX: 48.7,
-                labelY: 52.3
-            },
-            {
-                id: 'pelalawan',
-                name: 'Pelalawan',
-                src: 'potongan_pelalawan.png',
-                targetX: 58.2,
-                targetY: 62.6,
-                labelX: 50.2,
-                labelY: 55.0
-            },
-            {
-                id: 'kuantan_singingi',
-                name: 'Kuantan Singingi',
-                src: 'potongan_kuantan_singingi.png',
-                targetX: 44.6,
-                targetY: 78.6,
-                labelX: 40,
-                labelY: 60
-            },
-            {
-                id: 'indragiri_hulu',
-                name: 'Indragiri Hulu',
-                src: 'potongan_indragili_hulu.png',
-                targetX: 56.6,
-                targetY: 78.6,
-                labelX: 54.0,
-                labelY: 72.0
-            },
-            {
-                id: 'indragiri_hilir',
-                name: 'Indragiri Hilir',
-                src: 'potongan_indragili_hilir.png',
-                targetX: 70.0,
-                targetY: 73.7,
-                labelX: 65,
-                labelY: 65.0
-            }
-        ];
+        <div class="absolute top-4 right-4 md:top-6 md:right-6 z-[110] group/tooltip pointer-events-auto">
+            <button id="btn-toggle-labels" onclick="toggleLabels()" aria-label="Sembunyikan Nama"
+                class="bg-[#FFF5B8] text-black w-12 h-12 md:w-14 md:h-14 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer transition-opacity duration-1000 select-none">
 
-        let lockedCount = 0;
-        const totalPieces = piecesData.length;
-        const piecesTray = document.getElementById('pieces-tray');
-        const mapContainer = document.getElementById('map-container');
-        const mapImg = document.getElementById('base-img');
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full relative"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <text x="50%" y="62%"
+                        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif"
+                        font-size="8.5" font-weight="700" fill="#000000" text-anchor="middle"
+                        letter-spacing="-0.2">ABC</text>
 
-        const guideLine = document.getElementById('guide-line');
-        const guideTarget = document.getElementById('guide-target');
-        const guideTargetInner = document.getElementById('guide-target-inner');
+                    <line id="icon-strike-line" x1="4" y1="20" x2="20" y2="4"
+                        stroke="#FF6B6B" stroke-width="2.5" class="hidden" />
+                </svg>
 
-        let activePiece = null;
-        let initialX, initialY, startLeft, startTop;
-        let startTime = null;
-        let timerInterval = null;
+            </button>
+            <div id="tooltip-text"
+                class="pointer-events-none absolute right-0 top-full mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                Sembunyikan Nama
+            </div>
+        </div>
 
-        function formatTime(seconds) {
-            const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-            const sec = String(seconds % 60).padStart(2, '0');
-            return `${min}:${sec}`;
-        }
+        <!-- Garis Penunjuk (Hint) -->
+        <svg id="guide-svg">
+            <line id="guide-line" x1="0" y1="0" x2="0" y2="0" stroke="black"
+                stroke-width="6" stroke-dasharray="15,15" opacity="0" />
+            <circle id="guide-target" cx="0" cy="0" r="20" fill="#FFF5B8" stroke="black"
+                stroke-width="4" opacity="0" class="drop-shadow-lg" />
+            <circle id="guide-target-inner" cx="0" cy="0" r="8" fill="black" opacity="0" />
+        </svg>
 
-        function updateTime() {
-            if (!startTime) return;
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById('timer-display').innerText = formatTime(elapsed);
-        }
+        <!-- Area Peta Utama -->
+        <div id="game-board" class="relative w-full h-[75vh] flex items-center justify-center z-10 px-4">
+            <div id="map-container"
+                class="relative pointer-events-none drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)] mx-auto"
+                style="width: min(95vw, calc(75vh * 16 / 9)); height: min(75vh, calc(95vw * 9 / 16));">
+                <img src="{{ asset('images/general/map/peta_kosong_riau.png') }}" id="base-img"
+                    class="absolute inset-0 w-full h-full transition-opacity duration-1000" alt="Peta Kosong"
+                    onerror="this.onerror=null; this.src='https://via.placeholder.com/800x600?text=Peta+Kosong';">
+                <img src="{{ asset('images/general/map/peta_penuh_riau.png') }}" id="full-img"
+                    class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000" alt="Peta Penuh"
+                    onerror="this.onerror=null; this.src='https://via.placeholder.com/800x600?text=Peta+Penuh';">
+            </div>
+        </div>
 
-        function startTimer() {
-            if (startTime) return;
-            startTime = Date.now();
-            updateTime();
-            timerInterval = setInterval(updateTime, 1000);
-        }
+        <!-- Kotak Penyimpanan Kayu Mengambang -->
+        <div id="pieces-tray"
+            class="absolute bottom-4 left-4 right-4 h-[22vh] bg-[#FFFEFA] brutal-border flex items-center justify-start flex-nowrap overflow-x-auto overflow-y-hidden z-20 brutal-shadow rounded-3xl py-4 gap-4 md:gap-6 scroll-smooth px-2">
+            <!-- Slot akan digenerate -->
+        </div>
 
-        function stopTimer() {
-            if (!startTime) return 0;
-            clearInterval(timerInterval);
-            timerInterval = null;
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            startTime = null;
-            return elapsed;
-        }
+        <!-- Interactive Visual Tutorial Overlay -->
+        <div id="tutorial-overlay"
+            class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[5000] flex items-center justify-center p-4 transition-opacity duration-500 opacity-0 pointer-events-none">
+            <div class="bg-[#FFFEFA] brutal-border brutal-shadow p-8 md:p-12 rounded-3xl max-w-xl w-full flex flex-col items-center text-center relative transform scale-90 transition-transform duration-500"
+                id="tutorial-modal-content">
 
-        function getStarRating(seconds) {
-            if (seconds <= 60) return 3;
-            if (seconds <= 110) return 2;
-            return 1;
-        }
+                <div
+                    class="bg-[#FFF5B8] px-6 py-2 rounded-2xl brutal-border brutal-shadow-sm font-black text-sm mb-6 -rotate-2">
+                    TUTORIAL SINGKAT
+                </div>
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-        shuffle(piecesData);
+                <h2 class="text-3xl md:text-5xl font-black text-black tracking-tight mb-6">
+                    Cara Menyusun Peta!
+                </h2>
 
-        // Spacer kiri agar scroll tidak menabrak batas kotak
-        const startSpacer = document.createElement('div');
-        startSpacer.className = 'flex-shrink-0 w-2 md:w-4';
-        piecesTray.appendChild(startSpacer);
+                <!-- Animasi Simulasi Drag & Drop -->
+                <div
+                    class="relative w-64 h-56 bg-[#E2E8F0] brutal-border rounded-3xl p-4 flex flex-col items-center justify-between mb-8 mx-auto overflow-hidden shadow-inner">
+                    <!-- Area Peta Atas -->
+                    <div
+                        class="w-full h-28 border-4 border-dashed border-slate-400 rounded-xl flex items-center justify-center relative bg-slate-100">
+                        <span class="font-bold text-slate-900 text-sm">Area Peta Riau</span>
+                        <!-- Target Siluet -->
+                        <div id="sim-target"
+                            class="absolute w-16 h-12 border-2 border-slate-400 rounded-xl bg-slate-200 opacity-50 flex items-center justify-center text-xs font-black">
+                            Siak</div>
+                    </div>
 
-        piecesData.forEach(data => {
-            const slot = document.createElement('div');
-            slot.className = 'tray-slot flex items-center justify-center';
-            slot.id = 'slot-' + data.id;
+                    <!-- Area Laci Bawah -->
+                    <div
+                        class="w-full h-16 bg-[#FFFEFA] brutal-border rounded-xl flex items-center justify-center gap-3 px-2 shadow-sm">
+                        <div id="sim-piece"
+                            class="w-16 h-12 bg-[#FFF5B8] brutal-border rounded-xl flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40">
+                            Siak</div>
+                        <div
+                            class="w-16 h-12 bg-slate-200 brutal-border rounded-xl flex items-center justify-center font-bold text-slate-900 text-xs">
+                            Kampar</div>
+                        <div
+                            class="w-16 h-12 bg-slate-200 brutal-border rounded-xl flex items-center justify-center font-bold text-slate-900 text-xs">
+                            Dumai</div>
+                    </div>
 
-            const img = new Image();
-            img.src = `{{ asset('images/general/map') }}/${data.src}`;
-            img.className = 'puzzle-piece drop-shadow-md w-full h-auto';
-            img.id = data.id;
-            img.dataset.name = data.name;
-            img.dataset.labelX = data.labelX;
-            img.dataset.labelY = data.labelY;
-            img.dataset.targetX = data.targetX;
-            img.dataset.targetY = data.targetY;
-            img.dataset.slotId = slot.id;
-            img.draggable = false;
+                    <!-- Tangan Animasi Cursor -->
+                    <div id="sim-cursor"
+                        class="absolute w-10 h-10 transition-all duration-700 pointer-events-none z-50 flex items-center justify-center text-3xl"
+                        style="top: 75%; left: 25%;">
+                        👆
+                    </div>
+                </div>
 
-            img.addEventListener('mousedown', handleStart, {
-                passive: false
-            });
-            img.addEventListener('touchstart', handleStart, {
-                passive: false
-            });
+                <!-- Penjelasan Teks -->
+                <div
+                    class="flex flex-col gap-4 text-left w-full bg-[#F8FAFC] brutal-border p-6 rounded-2xl mb-8 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <span
+                            class="bg-[#FFF5B8] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">1</span>
+                        <p class="font-bold text-slate-900 text-base md:text-lg"><b>Tarik (Drag)</b> kepingan kabupaten
+                            dari
+                            laci di bagian bawah.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span
+                            class="bg-[#D4F1BE] w-8 h-8 rounded-xl brutal-border flex items-center justify-center font-black text-sm shrink-0 mt-0.5">2</span>
+                        <p class="font-bold text-slate-900 text-base md:text-lg"><b>Cocokkan & Lepas (Drop)</b>
+                            kepingan
+                            tersebut di posisi peta yang tepat!</p>
+                    </div>
+                </div>
 
-            slot.appendChild(img);
-            piecesTray.appendChild(slot);
-        });
+                <div class="relative group/tooltip w-full md:w-auto">
+                    <button onclick="closeTutorial()" aria-label="Mengerti"
+                        class="w-full md:w-auto bg-[#D4F1BE] text-black p-4 rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black"
+                            fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    </button>
+                    <div
+                        class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                        Mengerti
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        // Spacer kanan agar scroll mentok dengan indah
-        const endSpacer = document.createElement('div');
-        endSpacer.className = 'flex-shrink-0 w-2 md:w-4';
-        piecesTray.appendChild(endSpacer);
+        <div id="win-modal"
+            class="hidden fixed inset-0 bg-[#BEE9E8]/90 z-[120] flex-col items-center justify-center text-center p-6 backdrop-blur-md">
 
-        document.addEventListener('mousemove', handleMove, {
-            passive: false
-        });
-        document.addEventListener('touchmove', handleMove, {
-            passive: false
-        });
+            <div id="win-modal-content"
+                class="modal-animate relative w-full max-w-[480px] aspect-square select-none z-10">
 
-        document.addEventListener('mouseup', handleEnd);
-        document.addEventListener('touchend', handleEnd);
+                <!-- Main Image -->
+                <img src="{{ asset('images/selamat.png') }}" alt="Selamat!"
+                    class="w-full h-full object-contain rounded-3xl brutal-border brutal-shadow">
 
-        function handleStart(e) {
-            if (e.type === 'mousedown' && e.button !== 0) return;
-            e.preventDefault();
+                <!-- Interactive Buttons Overlaid over pre-rendered spots -->
+                <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
+                    <!-- Replay Button with Tooltip -->
+                    <div class="relative group/tooltip w-[18%] aspect-square">
+                        <button onclick="window.location.reload()" aria-label="Ulangi"
+                            class="bg-[#FFF5B8] text-black w-full h-full rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
+                            </svg>
+                        </button>
+                        <div
+                            class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                            Ulangi
+                        </div>
+                    </div>
+                    <!-- Home Button with Tooltip -->
+                    <div class="relative group/tooltip w-[18%] aspect-square">
+                        <button onclick="window.location.href='{{ route('general.index') }}'" aria-label="Keluar"
+                            class="bg-[#FFB3B3] text-black w-full h-full rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                        </button>
+                        <div
+                            class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                            Keluar
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            activePiece = e.target;
-            if (activePiece.classList.contains('piece-label')) {
-                activePiece = document.getElementById(activePiece.dataset.for);
-            }
-            if (!activePiece || !activePiece.classList.contains('puzzle-piece')) {
-                activePiece = null;
-                return;
-            }
-
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-            const pieceRect = activePiece.getBoundingClientRect();
-
-            const offsetX = clientX - pieceRect.left;
-            const offsetY = clientY - pieceRect.top;
-
-            const clickPctX = offsetX / pieceRect.width;
-            const clickPctY = offsetY / pieceRect.height;
-
-            if (activePiece.classList.contains('locked')) {
-                activePiece.classList.remove('locked');
-                lockedCount--;
-                const oldLabel = document.getElementById('label-' + activePiece.id);
-                if (oldLabel) oldLabel.remove();
-                document.body.appendChild(activePiece);
-            } else if (activePiece.parentElement.classList.contains('tray-slot')) {
-                document.body.appendChild(activePiece);
-                startTimer();
-
-                // Sembunyikan instruksi saat kepingan pertama diambil
-                const instr = document.getElementById('start-instruction');
-                if (instr) instr.style.display = 'none';
-
-                if (mapImg.naturalWidth && mapImg.getBoundingClientRect().width > 0) {
-                    const displayedMapWidth = mapImg.getBoundingClientRect().width;
-                    const mapScale = displayedMapWidth / mapImg.naturalWidth;
-
-                    const newWidth = activePiece.naturalWidth * mapScale;
-                    activePiece.style.width = newWidth + 'px';
-
-                    const ratio = activePiece.naturalHeight / activePiece.naturalWidth;
-                    const newHeight = newWidth * ratio;
-
-                    activePiece.style.left = (clientX - (clickPctX * newWidth)) + 'px';
-                    activePiece.style.top = (clientY - (clickPctY * newHeight)) + 'px';
-                } else {
-                    activePiece.style.left = (clientX - (pieceRect.width / 2)) + 'px';
-                    activePiece.style.top = (clientY - (pieceRect.height / 2)) + 'px';
+        <script>
+            // =========================================================
+            // DATA KABUPATEN & KOORDINAT TARGET
+            // =========================================================
+            // CARA DEBUG MANUAL:
+            // 1. Buka Inspect Element -> tab Console di browser.
+            // 2. Tarik kepingan dari bawah ke posisi yang benar secara visual di peta kosong, lalu lepas.
+            // 3. Kepingan akan kembali ke bawah, TAPI di Console akan muncul pesan berwarna kuning:
+            //    "[KALIBRASI] Siak -> targetX: 45.2, targetY: 60.1"
+            // 4. Salin angka targetX dan targetY tersebut, lalu ubah di baris kode di bawah ini!
+            const piecesData = [{
+                    id: 'rokan_hilir',
+                    name: 'Rokan Hilir',
+                    src: 'potongan_rokan_hilir.png',
+                    targetX: 34.4,
+                    targetY: 19.9,
+                    labelX: 32.4,
+                    labelY: 35.9
+                },
+                // Kepingan dumai ditarik ke atas (dikurangi targetY-nya)
+                {
+                    id: 'dumai',
+                    name: 'Dumai',
+                    src: 'potongan_dumai.png',
+                    targetX: 43.9,
+                    targetY: 20.8,
+                    labelX: 44.0,
+                    labelY: 52.1
+                },
+                {
+                    id: 'bengkalis',
+                    name: 'Bengkalis',
+                    src: 'potongan_bengkalis.png',
+                    targetX: 48.2,
+                    targetY: 28.5,
+                    labelX: 48.2,
+                    labelY: 55.5
+                },
+                {
+                    id: 'rokan_hulu',
+                    name: 'Rokan Hulu',
+                    src: 'potongan_rokan_hulu.png',
+                    targetX: 31.0,
+                    targetY: 46.0,
+                    labelX: 31.0,
+                    labelY: 46.0
+                },
+                {
+                    id: 'kepulauan_meranti',
+                    name: 'Kepulauan Meranti',
+                    src: 'potongan_kepulauan_meranti.png',
+                    targetX: 62.1,
+                    targetY: 39.3,
+                    labelX: 62.1,
+                    labelY: 39.3
+                },
+                {
+                    id: 'siak',
+                    name: 'Siak',
+                    src: 'potongan_siak.png',
+                    targetX: 52.2,
+                    targetY: 46.4,
+                    labelX: 52.2,
+                    labelY: 46.4
+                },
+                {
+                    id: 'kampar',
+                    name: 'Kampar',
+                    src: 'potongan_kampar.png',
+                    targetX: 39.3,
+                    targetY: 57.9,
+                    labelX: 40.3,
+                    labelY: 57.9
+                },
+                {
+                    id: 'pekanbaru',
+                    name: 'Pekanbaru',
+                    src: 'potongan_pekanbaru.png',
+                    targetX: 44.7,
+                    targetY: 52.3,
+                    labelX: 48.7,
+                    labelY: 52.3
+                },
+                {
+                    id: 'pelalawan',
+                    name: 'Pelalawan',
+                    src: 'potongan_pelalawan.png',
+                    targetX: 58.2,
+                    targetY: 62.6,
+                    labelX: 50.2,
+                    labelY: 55.0
+                },
+                {
+                    id: 'kuantan_singingi',
+                    name: 'Kuantan Singingi',
+                    src: 'potongan_kuantan_singingi.png',
+                    targetX: 44.6,
+                    targetY: 78.6,
+                    labelX: 40,
+                    labelY: 60
+                },
+                {
+                    id: 'indragiri_hulu',
+                    name: 'Indragiri Hulu',
+                    src: 'potongan_indragili_hulu.png',
+                    targetX: 56.6,
+                    targetY: 78.6,
+                    labelX: 54.0,
+                    labelY: 72.0
+                },
+                {
+                    id: 'indragiri_hilir',
+                    name: 'Indragiri Hilir',
+                    src: 'potongan_indragili_hilir.png',
+                    targetX: 70.0,
+                    targetY: 73.7,
+                    labelX: 65,
+                    labelY: 65.0
                 }
-            }
-
-            activePiece.classList.add('dragging');
-
-            initialX = clientX;
-            initialY = clientY;
-            startLeft = parseFloat(activePiece.style.left) || 0;
-            startTop = parseFloat(activePiece.style.top) || 0;
-
-            const newRect = activePiece.getBoundingClientRect();
-            updateGuideLine(newRect.left + newRect.width / 2, newRect.top + newRect.height / 2);
-        }
-
-        function handleMove(e) {
-            if (!activePiece) return;
-            e.preventDefault();
-
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-            const dx = clientX - initialX;
-            const dy = clientY - initialY;
-            activePiece.style.left = (startLeft + dx) + 'px';
-            activePiece.style.top = (startTop + dy) + 'px';
-
-            const pieceRect = activePiece.getBoundingClientRect();
-            updateGuideLine(pieceRect.left + pieceRect.width / 2, pieceRect.top + pieceRect.height / 2);
-        }
-
-        function updateGuideLine(centerX, centerY) {
-            if (!activePiece) return;
-            const mapRect = mapContainer.getBoundingClientRect();
-
-            const targetX = parseFloat(activePiece.dataset.targetX);
-            const targetY = parseFloat(activePiece.dataset.targetY);
-
-            const targetPxX = mapRect.left + (mapRect.width * (targetX / 100));
-            const targetPxY = mapRect.top + (mapRect.height * (targetY / 100));
-
-            // FITUR DEBUGGING: Garis penolong dinonaktifkan karena koordinat sudah pas
-            /*
-            guideLine.setAttribute('x1', centerX);
-            guideLine.setAttribute('y1', centerY);
-            guideLine.setAttribute('x2', targetPxX);
-            guideLine.setAttribute('y2', targetPxY);
-            guideLine.setAttribute('opacity', '0.8');
-
-            guideTarget.setAttribute('cx', targetPxX);
-            guideTarget.setAttribute('cy', targetPxY);
-            guideTargetInner.setAttribute('cx', targetPxX);
-            guideTargetInner.setAttribute('cy', targetPxY);
-            guideTarget.setAttribute('opacity', '1');
-            guideTargetInner.setAttribute('opacity', '1');
-
-            // UPDATE DEBUGGER DI LAYAR
-            const pctDropX = ((centerX - mapRect.left) / mapRect.width) * 100;
-            const pctDropY = ((centerY - mapRect.top) / mapRect.height) * 100;
-
-            document.getElementById('debug-x').innerText = pctDropX.toFixed(1);
-            document.getElementById('debug-y').innerText = pctDropY.toFixed(1);
-            */
-        }
-
-        function handleEnd(e) {
-            if (!activePiece) return;
-
-            // guideLine.setAttribute('opacity', '0');
-            // guideTarget.setAttribute('opacity', '0');
-            // guideTargetInner.setAttribute('opacity', '0');
-
-            const mapRect = mapContainer.getBoundingClientRect();
-            const pieceRect = activePiece.getBoundingClientRect();
-
-            const centerX = pieceRect.left + (pieceRect.width / 2);
-            const centerY = pieceRect.top + (pieceRect.height / 2);
-
-            const targetX = parseFloat(activePiece.dataset.targetX);
-            const targetY = parseFloat(activePiece.dataset.targetY);
-
-            const targetPxX = mapRect.left + (mapRect.width * (targetX / 100));
-            const targetPxY = mapRect.top + (mapRect.height * (targetY / 100));
-
-            const distance = Math.hypot(targetPxX - centerX, targetPxY - centerY);
-
-            const threshold = mapRect.width * 0.10; // Jarak toleransi nempel
-
-            // FITUR DEBUGGING MANUAL: Disembunyikan karena sudah selesai kalibrasi
-            /*
-            const pctDropX = ((centerX - mapRect.left) / mapRect.width) * 100;
-            const pctDropY = ((centerY - mapRect.top) / mapRect.height) * 100;
-            console.log(`%c[KALIBRASI] %c${activePiece.dataset.name}`, 'color: yellow; font-size: 16px; font-weight: bold;', 'color: cyan; font-size: 16px; font-weight: bold;');
-            console.log(`%c-> Ganti kode menjadi: targetX: ${pctDropX.toFixed(1)}, targetY: ${pctDropY.toFixed(1)}`, 'color: white; font-size: 14px;');
-            */
-
-            if (distance < threshold) {
-                lockPiece(activePiece, targetX, targetY);
-            } else {
-                returnPieceToSlot(activePiece);
-                showWrongBubble();
-            }
-
-            activePiece = null;
-        }
-
-        function returnPieceToSlot(piece) {
-            piece.classList.remove('dragging');
-            piece.classList.add('wrong-drop');
-            piece.style.left = '0';
-            piece.style.top = '0';
-            piece.style.width = '100%';
-            piece.style.transform = '';
-            const slot = document.getElementById(piece.dataset.slotId);
-            slot.appendChild(piece);
-            setTimeout(() => piece.classList.remove('wrong-drop'), 700);
-
-            // Layar bergetar (screen shake)
-            document.body.classList.add('screen-shake');
-            setTimeout(() => document.body.classList.remove('screen-shake'), 400);
-        }
-
-        function showWrongBubble() {
-            const bubble = document.createElement('div');
-            bubble.className = 'wrong-bubble';
-            bubble.innerText = 'Oops, coba lagi ya 😊';
-            mapContainer.appendChild(bubble);
-            setTimeout(() => bubble.remove(), 1000);
-        }
-
-        function lockPiece(piece, targetX, targetY) {
-            piece.classList.remove('dragging');
-            piece.classList.add('locked');
-
-            const mapContainer = document.getElementById('map-container');
-            mapContainer.appendChild(piece);
-
-            // Sembunyikan slot penyimpanannya karena sudah diletakkan
-            const slot = document.getElementById(piece.dataset.slotId);
-            if (slot) {
-                slot.style.display = 'none';
-            }
-
-            // Perbaikan Responsive Absolut: 
-            // Karena ukuran gambar adalah 800x800 dan peta adalah 1920x1080
-            const piecePctW = (800 / 1920) * 100; // Lebar gambar 41.66%
-            const piecePctH = (800 / 1080) * 100; // Tinggi gambar 74.07%
-
-            piece.style.width = `${piecePctW}%`;
-
-            // Atur posisi secara persen agar otomatis ikut bergeser jika layar di-resize
-            piece.style.left = `${targetX}%`;
-            piece.style.top = `${targetY}%`;
-            piece.style.transform = 'translate(-50%, -50%)';
-
-            const label = document.createElement('div');
-            // Label diganti menjadi warna putih bersih dengan garis biru agar lebih netral & elegan
-            label.className =
-                'piece-label absolute font-black text-sky-700 bg-white px-3 py-1.5 rounded-full shadow-[0_4px_0_#0284c7] border-2 md:border-4 border-sky-400 text-[11px] md:text-sm lg:text-base cursor-pointer z-[60] text-center uppercase tracking-widest';
-            label.innerText = piece.dataset.name;
-            label.id = 'label-' + piece.id;
-            label.dataset.for = piece.id;
-
-            const labelX = parseFloat(piece.dataset.labelX);
-            const labelY = parseFloat(piece.dataset.labelY);
-
-            // Posisi label juga dalam persentase relatif terhadap container map
-            const labelPctLeft = targetX - (piecePctW / 2) + (piecePctW * (labelX / 100));
-            const labelPctTop = targetY - (piecePctH / 2) + (piecePctH * (labelY / 100));
-
-            label.style.left = `${labelPctLeft}%`;
-            label.style.top = `${labelPctTop}%`;
-            label.style.transform = 'translate(-50%, -50%)';
-
-            setTimeout(() => {
-                mapContainer.appendChild(label);
-            }, 300);
-            showStarsEffect(targetX, targetY);
-
-            lockedCount++;
-            if (lockedCount === totalPieces) {
-                setTimeout(winGame, 1500);
-            }
-        }
-
-        function showStarsEffect(targetX, targetY) {
-            const effect = document.createElement('div');
-            effect.className = 'stars-burst';
-            effect.style.left = `${targetX}%`;
-            effect.style.top = `${targetY}%`;
-
-            const starCount = 14;
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('span');
-                star.className = 'star';
-                const dx = Math.random() * 160 - 80;
-                const dy = -(Math.random() * 160 + 20);
-                const size = 8 + Math.random() * 8;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.setProperty('--dx', `${dx}px`);
-                star.style.setProperty('--dy', `${dy}px`);
-                star.style.left = '0';
-                star.style.top = '0';
-                effect.appendChild(star);
-            }
-
-            mapContainer.appendChild(effect);
-            setTimeout(() => effect.remove(), 1100);
-        }
-
-        function winGame() {
-            const totalSeconds = stopTimer();
-            const stars = getStarRating(totalSeconds);
-            const resMsg = document.getElementById('result-message');
-            if (resMsg) resMsg.innerText = stars === 3 ?
-                'Anda berhasil menyelesaikan permainan ini dengan sangat cepat.' :
-                stars === 2 ?
-                'Anda berhasil menyelesaikan permainan ini dengan waktu yang baik.' :
-                'Anda berhasil menyelesaikan permainan ini.';
-
-            const baseImg = document.getElementById('base-img');
-            const fullImg = document.getElementById('full-img');
-            const mapContainer = document.getElementById('map-container');
-
-            if (baseImg) baseImg.style.opacity = 0;
-            if (fullImg) fullImg.style.opacity = 1;
-
-            // Sembunyikan semua elemen UI lain secara perlahan (fade out)
-            const uiElements = [
-                document.getElementById('btn-back'),
-                document.getElementById('instruction-panel'),
-                document.getElementById('start-instruction'),
-                document.getElementById('pieces-tray')
             ];
-            uiElements.forEach(el => {
-                if (el) {
-                    el.style.transition = 'opacity 1.5s ease';
-                    el.style.opacity = 0;
-                    el.style.pointerEvents = 'none';
+
+            let labelsHidden = false;
+
+            let lockedCount = 0;
+            const totalPieces = piecesData.length;
+            const piecesTray = document.getElementById('pieces-tray');
+            const mapContainer = document.getElementById('map-container');
+            const mapImg = document.getElementById('base-img');
+
+            const guideLine = document.getElementById('guide-line');
+            const guideTarget = document.getElementById('guide-target');
+            const guideTargetInner = document.getElementById('guide-target-inner');
+
+            let activePiece = null;
+            let initialX, initialY, startLeft, startTop;
+            let startTime = null;
+            let timerInterval = null;
+
+            function toggleLabels() {
+                labelsHidden = !labelsHidden;
+                const allLabels = document.querySelectorAll('.piece-label');
+                const tooltipText = document.getElementById('tooltip-text');
+                const strikeLine = document.getElementById('icon-strike-line');
+
+                allLabels.forEach(label => {
+                    if (labelsHidden) {
+                        label.style.opacity = '0';
+                        label.style.pointerEvents = 'none';
+                    } else {
+                        label.style.opacity = '1';
+                        label.style.pointerEvents = 'auto';
+                    }
+                });
+
+                // Cukup mengontrol muncul/hilangnya garis coret merah spidol di atas teks ABC
+                if (labelsHidden) {
+                    if (tooltipText) tooltipText.innerText = "Tampilkan Nama";
+                    if (strikeLine) strikeLine.classList.remove('hidden'); // Munculkan garis coret merah
+                } else {
+                    if (tooltipText) tooltipText.innerText = "Sembunyikan Nama";
+                    if (strikeLine) strikeLine.classList.add('hidden'); // Sembunyikan garis coret merah
                 }
-            });
-
-            document.querySelectorAll('.locked, .piece-label').forEach(p => {
-                p.style.transition = 'opacity 1.5s ease';
-                p.style.opacity = 0;
-            });
-
-            // Animasi memajukan peta penuh pelan-pelan ke depan layar
-            if (mapContainer) {
-                mapContainer.style.transition = 'transform 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
-                mapContainer.style.transform = 'scale(1.35)';
-                mapContainer.style.zIndex = '110';
             }
 
-            // Setelah 3.5 detik (selesai zoom), baru munculkan pop up ucapan
-            setTimeout(() => {
-                const modal = document.getElementById('win-modal');
-                if (modal) {
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
+            function formatTime(seconds) {
+                const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+                const sec = String(seconds % 60).padStart(2, '0');
+                return `${min}:${sec}`;
+            }
+
+            function updateTime() {
+                if (!startTime) return;
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                document.getElementById('timer-display').innerText = formatTime(elapsed);
+            }
+
+            function startTimer() {
+                if (startTime) return;
+                startTime = Date.now();
+                updateTime();
+                timerInterval = setInterval(updateTime, 1000);
+            }
+
+            function stopTimer() {
+                if (!startTime) return 0;
+                clearInterval(timerInterval);
+                timerInterval = null;
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                startTime = null;
+                return elapsed;
+            }
+
+            function getStarRating(seconds) {
+                if (seconds <= 60) return 3;
+                if (seconds <= 110) return 2;
+                return 1;
+            }
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
                 }
-            }, 3500);
-        }
+            }
+            shuffle(piecesData);
 
-        let tutorialAnimTimer = null;
+            // Spacer kiri agar scroll tidak menabrak batas kotak
+            const startSpacer = document.createElement('div');
+            startSpacer.className = 'flex-shrink-0 w-2 md:w-4';
+            piecesTray.appendChild(startSpacer);
 
-        function runTutorialAnimation() {
-            const piece = document.getElementById('sim-piece');
-            const cursor = document.getElementById('sim-cursor');
-            if (!piece || !cursor) return;
+            piecesData.forEach(data => {
+                const slot = document.createElement('div');
+                // Menambahkan 'group/slot relative overflow-visible' agar tooltip meletup keluar slot dengan aman
+                slot.className = 'tray-slot flex items-center justify-center relative overflow-visible group/slot';
+                slot.id = 'slot-' + data.id;
 
-            // Reset posisi awal di laci
-            piece.style.transform = 'translate(0px, 0px) scale(1)';
-            piece.style.position = 'relative';
-            piece.style.zIndex = '40';
-            piece.className =
-                'w-16 h-12 bg-[#FFF5B8] brutal-border rounded-lg flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40';
-            cursor.style.top = '78%';
-            cursor.style.left = '25%';
+                const img = new Image();
+                img.src = `{{ asset('images/general/map') }}/${data.src}`;
+                img.className = 'puzzle-piece drop-shadow-md w-full h-auto z-10';
+                img.id = data.id;
+                img.dataset.name = data.name;
+                img.dataset.labelX = data.labelX;
+                img.dataset.labelY = data.labelY;
+                img.dataset.targetX = data.targetX;
+                img.dataset.targetY = data.targetY;
+                img.dataset.slotId = slot.id;
+                img.draggable = false;
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = `https://via.placeholder.com/150?text=${encodeURIComponent(data.name)}`;
+                };
 
-            // Langkah 1: Cursor menyentuh kepingan Siak
-            setTimeout(() => {
-                cursor.style.transform = 'scale(0.8)';
-                piece.classList.add('ring-4', 'ring-sky-400');
-            }, 800);
+                img.addEventListener('mousedown', handleStart, {
+                    passive: false
+                });
+                img.addEventListener('touchstart', handleStart, {
+                    passive: false
+                });
 
-            // Langkah 2: Drag kepingan ke atas (Area Peta)
-            setTimeout(() => {
-                cursor.style.top = '30%';
-                cursor.style.left = '45%';
-                piece.style.transform = 'translate(50px, -110px) scale(1.1)';
-            }, 1600);
+                // ── REVISI: STIKER TOOLTIP YANG REKREASIKAN INTERAKSI DARI GAME MEMORI ──
+                const traySticker = document.createElement('div');
+                // Efek meletup: dari -rotate-6 dan scale-75 menuju rotate-3 saat slot di-hover kursor anak
+                traySticker.className =
+                    'pointer-events-none absolute bottom-[90%] left-1/2 -translate-x-1/2 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1 rounded-full text-[10px] md:text-xs font-black text-black opacity-0 scale-75 -rotate-6 group-hover/slot:opacity-100 group-hover/slot:scale-100 group-hover/slot:rotate-3 transition-all duration-200 z-30 uppercase tracking-wider select-none text-center whitespace-nowrap';
+                traySticker.innerHTML = 'Seret Aku!';
 
-            // Langkah 3: Lepas kepingan (Drop) & Glow Kemenangan
-            setTimeout(() => {
-                cursor.style.transform = 'scale(1)';
-                piece.classList.remove('ring-4', 'ring-sky-400');
-                piece.classList.replace('bg-[#FFF5B8]', 'bg-[#D4F1BE]');
-            }, 2600);
+                // Simpan referensi stiker ke dalam gambar agar mudah disembunyikan saat aksi drag dimulai
+                img.dataset.stickerId = 'sticker-' + data.id;
+                traySticker.id = 'sticker-' + data.id;
 
-            // Langkah 4: Cursor kembali
-            setTimeout(() => {
+                slot.appendChild(img);
+                slot.appendChild(traySticker);
+                piecesTray.appendChild(slot);
+            });
+
+            // Spacer kanan agar scroll mentok dengan indah
+            const endSpacer = document.createElement('div');
+            endSpacer.className = 'flex-shrink-0 w-2 md:w-4';
+            piecesTray.appendChild(endSpacer);
+
+            document.addEventListener('mousemove', handleMove, {
+                passive: false
+            });
+            document.addEventListener('touchmove', handleMove, {
+                passive: false
+            });
+
+            document.addEventListener('mouseup', handleEnd);
+            document.addEventListener('touchend', handleEnd);
+
+            function handleStart(e) {
+                if (e.type === 'mousedown' && e.button !== 0) return;
+                e.preventDefault();
+
+                activePiece = e.target;
+                if (activePiece.classList.contains('piece-label')) {
+                    activePiece = document.getElementById(activePiece.dataset.for);
+                }
+                if (!activePiece || !activePiece.classList.contains('puzzle-piece')) {
+                    activePiece = null;
+                    return;
+                }
+
+                // ── TAMBAHAN: SEMBUNYIKAN STIKER UTK TIAP KABUPATEN SAAT MULAI DIDRAG ──
+                if (activePiece.dataset.stickerId) {
+                    const activeSticker = document.getElementById(activePiece.dataset.stickerId);
+                    if (activeSticker) activeSticker.style.display = 'none';
+                }
+
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+                const pieceRect = activePiece.getBoundingClientRect();
+
+                const offsetX = clientX - pieceRect.left;
+                const offsetY = clientY - pieceRect.top;
+
+                const clickPctX = offsetX / pieceRect.width;
+                const clickPctY = offsetY / pieceRect.height;
+
+                if (activePiece.classList.contains('locked')) {
+                    activePiece.classList.remove('locked');
+                    lockedCount--;
+                    const oldLabel = document.getElementById('label-' + activePiece.id);
+                    if (oldLabel) oldLabel.remove();
+                    document.body.appendChild(activePiece);
+                } else if (activePiece.parentElement.classList.contains('tray-slot')) {
+                    document.body.appendChild(activePiece);
+
+                    // Hapus pemanggilan startTimer() jika kamu sudah membersihkan fitur waktu
+                    if (typeof startTimer === 'function') {
+                        startTimer();
+                    }
+
+                    // Sembunyikan instruksi saat kepingan pertama diambil
+                    const instr = document.getElementById('start-instruction');
+                    if (instr) instr.style.display = 'none';
+
+                    if (mapImg.naturalWidth && mapImg.getBoundingClientRect().width > 0) {
+                        const displayedMapWidth = mapImg.getBoundingClientRect().width;
+                        const mapScale = displayedMapWidth / mapImg.naturalWidth;
+
+                        const newWidth = activePiece.naturalWidth * mapScale;
+                        activePiece.style.width = newWidth + 'px';
+
+                        const ratio = activePiece.naturalHeight / activePiece.naturalWidth;
+                        const newHeight = newWidth * ratio;
+
+                        activePiece.style.left = (clientX - (clickPctX * newWidth)) + 'px';
+                        activePiece.style.top = (clientY - (clickPctY * newHeight)) + 'px';
+                    } else {
+                        activePiece.style.left = (clientX - (pieceRect.width / 2)) + 'px';
+                        activePiece.style.top = (clientY - (pieceRect.height / 2)) + 'px';
+                    }
+                }
+
+                activePiece.classList.add('dragging');
+
+                initialX = clientX;
+                initialY = clientY;
+                startLeft = parseFloat(activePiece.style.left) || 0;
+                startTop = parseFloat(activePiece.style.top) || 0;
+
+                const newRect = activePiece.getBoundingClientRect();
+                updateGuideLine(newRect.left + newRect.width / 2, newRect.top + newRect.height / 2);
+            }
+
+            function handleMove(e) {
+                if (!activePiece) return;
+                e.preventDefault();
+
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+                const dx = clientX - initialX;
+                const dy = clientY - initialY;
+                activePiece.style.left = (startLeft + dx) + 'px';
+                activePiece.style.top = (startTop + dy) + 'px';
+
+                const pieceRect = activePiece.getBoundingClientRect();
+                updateGuideLine(pieceRect.left + pieceRect.width / 2, pieceRect.top + pieceRect.height / 2);
+            }
+
+            function updateGuideLine(centerX, centerY) {
+                if (!activePiece) return;
+                const mapRect = mapContainer.getBoundingClientRect();
+
+                const targetX = parseFloat(activePiece.dataset.targetX);
+                const targetY = parseFloat(activePiece.dataset.targetY);
+
+                const targetPxX = mapRect.left + (mapRect.width * (targetX / 100));
+                const targetPxY = mapRect.top + (mapRect.height * (targetY / 100));
+
+                // FITUR DEBUGGING: Garis penolong dinonaktifkan karena koordinat sudah pas
+                /*
+                guideLine.setAttribute('x1', centerX);
+                guideLine.setAttribute('y1', centerY);
+                guideLine.setAttribute('x2', targetPxX);
+                guideLine.setAttribute('y2', targetPxY);
+                guideLine.setAttribute('opacity', '0.8');
+
+                guideTarget.setAttribute('cx', targetPxX);
+                guideTarget.setAttribute('cy', targetPxY);
+                guideTargetInner.setAttribute('cx', targetPxX);
+                guideTargetInner.setAttribute('cy', targetPxY);
+                guideTarget.setAttribute('opacity', '1');
+                guideTargetInner.setAttribute('opacity', '1');
+
+                // UPDATE DEBUGGER DI LAYAR
+                const pctDropX = ((centerX - mapRect.left) / mapRect.width) * 100;
+                const pctDropY = ((centerY - mapRect.top) / mapRect.height) * 100;
+
+                document.getElementById('debug-x').innerText = pctDropX.toFixed(1);
+                document.getElementById('debug-y').innerText = pctDropY.toFixed(1);
+                */
+            }
+
+            function handleEnd(e) {
+                if (!activePiece) return;
+
+                // guideLine.setAttribute('opacity', '0');
+                // guideTarget.setAttribute('opacity', '0');
+                // guideTargetInner.setAttribute('opacity', '0');
+
+                const mapRect = mapContainer.getBoundingClientRect();
+                const pieceRect = activePiece.getBoundingClientRect();
+
+                const centerX = pieceRect.left + (pieceRect.width / 2);
+                const centerY = pieceRect.top + (pieceRect.height / 2);
+
+                const targetX = parseFloat(activePiece.dataset.targetX);
+                const targetY = parseFloat(activePiece.dataset.targetY);
+
+                const targetPxX = mapRect.left + (mapRect.width * (targetX / 100));
+                const targetPxY = mapRect.top + (mapRect.height * (targetY / 100));
+
+                const distance = Math.hypot(targetPxX - centerX, targetPxY - centerY);
+
+                const threshold = mapRect.width * 0.10; // Jarak toleransi nempel
+
+                // FITUR DEBUGGING MANUAL: Disembunyikan karena sudah selesai kalibrasi
+                /*
+                const pctDropX = ((centerX - mapRect.left) / mapRect.width) * 100;
+                const pctDropY = ((centerY - mapRect.top) / mapRect.height) * 100;
+                console.log(`%c[KALIBRASI] %c${activePiece.dataset.name}`, 'color: yellow; font-size: 16px; font-weight: bold;', 'color: cyan; font-size: 16px; font-weight: bold;');
+                console.log(`%c-> Ganti kode menjadi: targetX: ${pctDropX.toFixed(1)}, targetY: ${pctDropY.toFixed(1)}`, 'color: white; font-size: 14px;');
+                */
+
+                if (distance < threshold) {
+                    lockPiece(activePiece, targetX, targetY);
+                } else {
+                    returnPieceToSlot(activePiece);
+                    showWrongBubble();
+                }
+
+                activePiece = null;
+            }
+
+            function returnPieceToSlot(piece) {
+                piece.classList.remove('dragging');
+                piece.classList.add('wrong-drop');
+                piece.style.left = '0';
+                piece.style.top = '0';
+                piece.style.width = '100%';
+                piece.style.transform = '';
+                const slot = document.getElementById(piece.dataset.slotId);
+                slot.appendChild(piece);
+
+                // ── TAMBAHAN: MUNCULKAN KEMBALI STIKER JIKA KEPINGAN PULANG KE LACI ──
+                if (piece.dataset.stickerId) {
+                    const activeSticker = document.getElementById(piece.dataset.stickerId);
+                    if (activeSticker) activeSticker.style.display = 'block';
+                }
+
+                setTimeout(() => piece.classList.remove('wrong-drop'), 700);
+
+                // Layar bergetar (screen shake)
+                document.body.classList.add('screen-shake');
+                setTimeout(() => document.body.classList.remove('screen-shake'), 400);
+            }
+
+            function showWrongBubble() {
+                const bubble = document.createElement('div');
+                bubble.className = 'wrong-bubble';
+                bubble.innerText = 'Oops, coba lagi ya 😊';
+                mapContainer.appendChild(bubble);
+                setTimeout(() => bubble.remove(), 1000);
+            }
+
+            function lockPiece(piece, targetX, targetY) {
+                piece.classList.remove('dragging');
+                piece.classList.add('locked');
+
+                const mapContainer = document.getElementById('map-container');
+                mapContainer.appendChild(piece);
+
+                // Sembunyikan slot penyimpanannya karena sudah diletakkan
+                const slot = document.getElementById(piece.dataset.slotId);
+                if (slot) {
+                    slot.style.display = 'none';
+                }
+
+                // Perbaikan Responsive Absolut: 
+                // Karena ukuran gambar adalah 800x800 dan peta adalah 1920x1080
+                const piecePctW = (800 / 1920) * 100; // Lebar gambar 41.66%
+                const piecePctH = (800 / 1080) * 100; // Tinggi gambar 74.07%
+
+                piece.style.width = `${piecePctW}%`;
+
+                // Atur posisi secara persen agar otomatis ikut bergeser jika layar di-resize
+                piece.style.left = `${targetX}%`;
+                piece.style.top = `${targetY}%`;
+                piece.style.transform = 'translate(-50%, -50%)';
+
+                const label = document.createElement('div');
+                // Label diganti menjadi warna putih bersih dengan garis biru agar lebih netral & elegan
+                label.className =
+                    'piece-label absolute font-black text-sky-700 bg-white px-3 py-1.5 rounded-full shadow-[0_4px_0_#0284c7] border-2 md:border-4 border-sky-400 text-[11px] md:text-sm lg:text-base cursor-pointer z-[60] text-center uppercase tracking-widest';
+                label.innerText = piece.dataset.name;
+                label.id = 'label-' + piece.id;
+                label.dataset.for = piece.id;
+
+                const labelX = parseFloat(piece.dataset.labelX);
+                const labelY = parseFloat(piece.dataset.labelY);
+
+                // Posisi label juga dalam persentase relatif terhadap container map
+                const labelPctLeft = targetX - (piecePctW / 2) + (piecePctW * (labelX / 100));
+                const labelPctTop = targetY - (piecePctH / 2) + (piecePctH * (labelY / 100));
+
+                label.style.left = `${labelPctLeft}%`;
+                label.style.top = `${labelPctTop}%`;
+                label.style.transform = 'translate(-50%, -50%)';
+
+                setTimeout(() => {
+                    // Jalankan pengaman: cek apakah status global sedang menyembunyikan label
+                    if (labelsHidden) {
+                        label.style.opacity = '0';
+                        label.style.pointerEvents = 'none';
+                    }
+                    mapContainer.appendChild(label);
+                }, 300);
+                showStarsEffect(targetX, targetY);
+
+                lockedCount++;
+                if (lockedCount === totalPieces) {
+                    setTimeout(winGame, 1500);
+                }
+            }
+
+            function showStarsEffect(targetX, targetY) {
+                const effect = document.createElement('div');
+                effect.className = 'stars-burst';
+                effect.style.left = `${targetX}%`;
+                effect.style.top = `${targetY}%`;
+
+                const starCount = 14;
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('span');
+                    star.className = 'star';
+                    const dx = Math.random() * 160 - 80;
+                    const dy = -(Math.random() * 160 + 20);
+                    const size = 8 + Math.random() * 8;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.setProperty('--dx', `${dx}px`);
+                    star.style.setProperty('--dy', `${dy}px`);
+                    star.style.left = '0';
+                    star.style.top = '0';
+                    effect.appendChild(star);
+                }
+
+                mapContainer.appendChild(effect);
+                setTimeout(() => effect.remove(), 1100);
+            }
+
+            function winGame() {
+                const totalSeconds = stopTimer();
+                const stars = getStarRating(totalSeconds);
+                const resMsg = document.getElementById('result-message');
+                if (resMsg) resMsg.innerText = stars === 3 ?
+                    'Anda berhasil menyelesaikan permainan ini dengan sangat cepat.' :
+                    stars === 2 ?
+                    'Anda berhasil menyelesaikan permainan ini dengan waktu yang baik.' :
+                    'Anda berhasil menyelesaikan permainan ini.';
+
+                const baseImg = document.getElementById('base-img');
+                const fullImg = document.getElementById('full-img');
+                const mapContainer = document.getElementById('map-container');
+
+                if (baseImg) baseImg.style.opacity = 0;
+                if (fullImg) fullImg.style.opacity = 1;
+
+                // Sembunyikan semua elemen UI lain secara perlahan (fade out)
+                const uiElements = [
+                    document.getElementById('btn-back'),
+                    document.getElementById('btn-toggle-labels'),
+                    document.getElementById('instruction-panel'),
+                    document.getElementById('start-instruction'),
+                    document.getElementById('pieces-tray')
+                ];
+                uiElements.forEach(el => {
+                    if (el) {
+                        el.style.transition = 'opacity 1.5s ease';
+                        el.style.opacity = 0;
+                        el.style.pointerEvents = 'none';
+                    }
+                });
+
+                document.querySelectorAll('.locked, .piece-label').forEach(p => {
+                    p.style.transition = 'opacity 1.5s ease';
+                    p.style.opacity = 0;
+                });
+
+                // Animasi memajukan peta penuh pelan-pelan ke depan layar
+                if (mapContainer) {
+                    mapContainer.style.transition = 'transform 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                    mapContainer.style.transform = 'scale(1.35)';
+                    mapContainer.style.zIndex = '110';
+                }
+
+                // Setelah 3.5 detik (selesai zoom), baru munculkan pop up ucapan
+                setTimeout(() => {
+                    const modal = document.getElementById('win-modal');
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                    }
+                }, 3500);
+            }
+
+            let tutorialAnimTimer = null;
+
+            function runTutorialAnimation() {
+                const piece = document.getElementById('sim-piece');
+                const cursor = document.getElementById('sim-cursor');
+                if (!piece || !cursor) return;
+
+                // Reset posisi awal di laci
+                piece.style.transform = 'translate(0px, 0px) scale(1)';
+                piece.style.position = 'relative';
+                piece.style.zIndex = '40';
+                piece.className =
+                    'w-16 h-12 bg-[#FFF5B8] brutal-border rounded-lg flex items-center justify-center font-black text-xs shadow-sm transition-all duration-700 z-40';
                 cursor.style.top = '78%';
-                cursor.style.left = '65%';
-            }, 3200);
-        }
+                cursor.style.left = '25%';
 
-        function showTutorial() {
-            const overlay = document.getElementById('tutorial-overlay');
-            const content = document.getElementById('tutorial-modal-content');
-            if (!overlay || !content) return;
+                // Langkah 1: Cursor menyentuh kepingan Siak
+                setTimeout(() => {
+                    cursor.style.transform = 'scale(0.8)';
+                    piece.classList.add('ring-4', 'ring-sky-400');
+                }, 800);
 
-            overlay.classList.remove('opacity-0', 'pointer-events-none');
-            overlay.classList.add('opacity-100', 'pointer-events-auto');
-            content.classList.remove('scale-90');
-            content.classList.add('scale-100');
+                // Langkah 2: Drag kepingan ke atas (Area Peta)
+                setTimeout(() => {
+                    cursor.style.top = '30%';
+                    cursor.style.left = '45%';
+                    piece.style.transform = 'translate(50px, -110px) scale(1.1)';
+                }, 1600);
 
-            runTutorialAnimation();
-            clearInterval(tutorialAnimTimer);
-            tutorialAnimTimer = setInterval(runTutorialAnimation, 4500);
-        }
+                // Langkah 3: Lepas kepingan (Drop) & Glow Kemenangan
+                setTimeout(() => {
+                    cursor.style.transform = 'scale(1)';
+                    piece.classList.remove('ring-4', 'ring-sky-400');
+                    piece.classList.replace('bg-[#FFF5B8]', 'bg-[#D4F1BE]');
+                }, 2600);
 
-        function closeTutorial() {
-            const overlay = document.getElementById('tutorial-overlay');
-            const content = document.getElementById('tutorial-modal-content');
-            if (!overlay || !content) return;
+                // Langkah 4: Cursor kembali
+                setTimeout(() => {
+                    cursor.style.top = '78%';
+                    cursor.style.left = '65%';
+                }, 3200);
+            }
 
-            overlay.classList.remove('opacity-100', 'pointer-events-auto');
-            overlay.classList.add('opacity-0', 'pointer-events-none');
-            content.classList.remove('scale-100');
-            content.classList.add('scale-90');
+            function showTutorial() {
+                const overlay = document.getElementById('tutorial-overlay');
+                const content = document.getElementById('tutorial-modal-content');
+                if (!overlay || !content) return;
 
-            clearInterval(tutorialAnimTimer);
-        }
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                overlay.classList.add('opacity-100', 'pointer-events-auto');
+                content.classList.remove('scale-90');
+                content.classList.add('scale-100');
 
-        // Jalankan Intro Overlay saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const overlay = document.getElementById('intro-overlay');
-                if (overlay) {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        overlay.remove();
-                        showTutorial();
-                    }, 1000); // Tunggu sampai transisi memudar selesai
-                }
-            }, 2500); // Tampil selama 2.5 detik
-        });
-    </script>
+                runTutorialAnimation();
+                clearInterval(tutorialAnimTimer);
+                tutorialAnimTimer = setInterval(runTutorialAnimation, 4500);
+            }
+
+            function closeTutorial() {
+                const overlay = document.getElementById('tutorial-overlay');
+                const content = document.getElementById('tutorial-modal-content');
+                if (!overlay || !content) return;
+
+                overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-90');
+
+                clearInterval(tutorialAnimTimer);
+            }
+
+            // Jalankan Intro Overlay saat halaman dimuat
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    const overlay = document.getElementById('intro-overlay');
+                    if (overlay) {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => {
+                            overlay.remove();
+                            showTutorial();
+                        }, 1000); // Tunggu sampai transisi memudar selesai
+                    }
+                }, 2500); // Tampil selama 2.5 detik
+            });
+        </script>
+    </div>
 </body>
 
 </html>
