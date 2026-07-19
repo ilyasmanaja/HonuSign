@@ -13,21 +13,21 @@ class MapelSeeder extends Seeder
             'nama' => 'PPKn',
             'slug' => 'ppkn', // Ini contoh slug-nya
             'deskripsi' => 'Belajar tentang nilai-nilai Pancasila dan persatuan.',
-            'icon' => 'ppkn-icon.png' // Kamu bisa sesuaikan nama file iconnya nanti
+            'icon' => 'mapel/pkn.jpeg' // Menggunakan gambar pkn.jpeg yang baru dipindahkan
         ]);
 
         Mapel::create([
             'nama' => 'Matematika',
             'slug' => 'matematika',
             'deskripsi' => 'Belajar angka, berhitung, dan logika dasar.',
-            'icon' => 'mtk-icon.png'
+            'icon' => 'mapel/mtk.jpeg' // Menggunakan gambar mtk.jpeg yang baru dipindahkan
         ]);
 
         Mapel::create([
             'nama' => 'Bahasa Indonesia',
             'slug' => 'bahasa-indonesia', // Spasi diubah jadi tanda hubung
             'deskripsi' => 'Belajar abjad, mengeja kata, dan membaca cerita.',
-            'icon' => 'bindo-icon.png'
+            'icon' => 'mapel/bindo.jpeg' // Menggunakan gambar bindo.jpeg yang baru dipindahkan
         ]);
     }
 }
