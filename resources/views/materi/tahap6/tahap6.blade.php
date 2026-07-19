@@ -55,6 +55,16 @@
             display: none; /* Chrome, Safari and Opera */
         }
     </style>
+
+    @php
+        // Ambil sketsa gambar mewarnai dari tabel materi_images (tipe => 'sketsa_mewarnai')
+        $sketsa = $materi->images->where('tipe', 'sketsa_mewarnai')->first();
+        $namaFileSketsa = $sketsa ? $sketsa->path : 'mewarnai.png';
+
+        // Definisikan path asset dinamis lengkap
+        $imageAssetPath = asset('images/' . $namaFileSketsa);
+    @endphp
+
     <div class="max-w-8xl w-full px-10 py-12 flex flex-col items-center">
 
         <!-- Progress Bar -->
@@ -72,12 +82,9 @@
             class="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter mb-4 text-center transform -rotate-1 flex justify-center items-center gap-3">
             Warnai Gambarmu!
             <span class="inline-block w-12 h-12">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                    class="w-full h-full text-black">
-                    <path opacity="0.2"
-                        d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.2-.64-1.67-.08-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zM6.5 11.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3 4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
-                    <path
-                        d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.2-.64-1.67a.49.49 0 0 1-.13-.33c0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm4 13h-1.77c-1.38 0-2.5 1.12-2.5 2.5 0 .61.22 1.19.63 1.65.06.07.14.19.14.35 0 .28-.22.5-.5.5-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.14 8 7c0 2.21-1.79 4-4 4z" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-black">
+                    <path opacity="0.2" d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.2-.64-1.67-.08-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zM6.5 11.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3 4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+                    <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.2-.64-1.67a.49.49 0 0 1-.13-.33c0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm4 13h-1.77c-1.38 0-2.5 1.12-2.5 2.5 0 .61.22 1.19.63 1.65.06.07.14.19.14.35 0 .28-.22.5-.5.5-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.14 8 7c0 2.21-1.79 4-4 4z" />
                     <circle cx="6.5" cy="11.5" r="1.5" />
                     <circle cx="9.5" cy="7.5" r="1.5" />
                     <circle cx="14.5" cy="7.5" r="1.5" />
@@ -86,13 +93,11 @@
             </span>
         </h1>
 
-
-        <!-- Sidebar Toolbar (Fixed Left Drawer) -->
+        <!-- Sidebar Toolbar -->
         <div id="toolbar"
             class="fixed left-0 top-20 bottom-20 bg-[#FFFEFA] brutal-border brutal-shadow p-6 rounded-r-[2.5rem] flex flex-col gap-6 w-72 z-50 transition-all duration-300 ease-in-out"
             style="transform: translateX(0);">
             
-            <!-- Toggle Button inside toolbar, but positioned absolutely outside the right edge -->
             <div class="absolute -right-12 top-1/2 -translate-y-1/2 group/tooltip inline-block z-50">
                 <button id="toolbar-toggle" onclick="toggleToolbar()"
                     class="bg-[#FFF5B8] brutal-border brutal-shadow w-12 h-20 rounded-r-2xl flex items-center justify-center cursor-pointer hover:scale-105 transition-all">
@@ -109,13 +114,10 @@
             <div>
                 <h3 class="font-black text-black uppercase text-sm tracking-wider mb-3">Pilih Alat:</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- Pensil -->
                     <div class="relative group/tooltip inline-block w-full">
                         <button onclick="selectTool('pencil')" id="btn-tool-pencil"
                             class="bg-[#FFF5B8] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1 w-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                class="w-8 h-8 text-black fill-none stroke-current" stroke-width="3.5"
-                                stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 20h9"></path>
                                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                             </svg>
@@ -124,15 +126,12 @@
                             Pensil
                         </div>
                     </div>
-                    <!-- Penghapus -->
                     <div class="relative group/tooltip inline-block w-full">
                         <button onclick="selectTool('eraser')" id="btn-tool-eraser"
                             class="bg-[#FFFEFA] brutal-border brutal-shadow-sm p-3 rounded-2xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:translate-y-1 w-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                class="w-8 h-8 text-black fill-none stroke-current" stroke-width="3.5"
-                                stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 20H7L3 16c-1.5-1.5-1.5-3.5 0-5l8.5-8.5c1.5-1.5 3.5-1.5 5 0l4 4c1.5 1.5 1.5 3.5 0 5L12 20"></path>
-                                <line x1="6" y1="11" x2="16" y2="11"></line>
+                                <path d="M6 11h10"></path>
                             </svg>
                         </button>
                         <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
@@ -152,8 +151,7 @@
                         <div id="brush-size-preview" class="rounded-full transition-all duration-75 border border-black/30" style="width: 12px; height: 12px; background-color: #ef4444;"></div>
                     </div>
                 </div>
-                <input type="range" id="brush-size-slider" min="4" max="50" value="12" oninput="updateBrushSize(this.value)"
-                    class="w-full h-8 cursor-pointer outline-none">
+                <input type="range" id="brush-size-slider" min="4" max="50" value="12" oninput="updateBrushSize(this.value)" class="w-full h-8 cursor-pointer outline-none">
             </div>
 
             <hr class="border-black/20">
@@ -162,58 +160,43 @@
             <div>
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-black text-black uppercase text-sm tracking-wider">Pilihan Warna:</h3>
-                    <!-- Selected Color Indicator -->
                     <div id="selected-color-indicator" class="w-6 h-6 rounded-full brutal-border bg-[#ef4444]"></div>
                 </div>
                 <div class="grid grid-cols-4 gap-3">
                     @php
                         $colors = [
-                            ['bg-[#ef4444]', '#ef4444', 'Merah'],
-                            ['bg-[#FFB3B3]', '#FFB3B3', 'Merah Muda Pucat'],
-                            ['bg-[#f97316]', '#f97316', 'Jingga'],
-                            ['bg-[#FFD8A8]', '#FFD8A8', 'Krem Jingga'],
-                            ['bg-[#facc15]', '#facc15', 'Kuning'],
-                            ['bg-[#FFF5B8]', '#FFF5B8', 'Kuning Lembut'],
-                            ['bg-[#22c55e]', '#22c55e', 'Hijau'],
-                            ['bg-[#D4F1BE]', '#D4F1BE', 'Hijau Mint'],
-                            ['bg-[#3b82f6]', '#3b82f6', 'Biru'],
-                            ['bg-[#BEE9E8]', '#BEE9E8', 'Biru Lembut'],
-                            ['bg-[#8b5cf6]', '#8b5cf6', 'Ungu'],
-                            ['bg-[#E0BBE4]', '#E0BBE4', 'Ungu Muda'],
-                            ['bg-[#ec4899]', '#ec4899', 'Merah Muda'],
-                            ['bg-[#FFD1E3]', '#FFD1E3', 'Pink Lembut'],
-                            ['bg-[#000000]', '#000000', 'Hitam'],
-                            ['bg-[#ffffff]', '#ffffff', 'Putih']
+                            ['bg-[#ef4444]', '#ef4444', 'Merah'], ['bg-[#FFB3B3]', '#FFB3B3', 'Merah Muda Pucat'],
+                            ['bg-[#f97316]', '#f97316', 'Jingga'], ['bg-[#FFD8A8]', '#FFD8A8', 'Krem Jingga'],
+                            ['bg-[#facc15]', '#facc15', 'Kuning'], ['bg-[#FFF5B8]', '#FFF5B8', 'Kuning Lembut'],
+                            ['bg-[#22c55e]', '#22c55e', 'Hijau'], ['bg-[#D4F1BE]', '#D4F1BE', 'Hijau Mint'],
+                            ['bg-[#3b82f6]', '#3b82f6', 'Biru'], ['bg-[#BEE9E8]', '#BEE9E8', 'Biru Lembut'],
+                            ['bg-[#8b5cf6]', '#8b5cf6', 'Ungu'], ['bg-[#E0BBE4]', '#E0BBE4', 'Ungu Muda'],
+                            ['bg-[#ec4899]', '#ec4899', 'Merah Muda'], ['bg-[#FFD1E3]', '#FFD1E3', 'Pink Lembut'],
+                            ['bg-[#000000]', '#000000', 'Hitam'], ['bg-[#ffffff]', '#ffffff', 'Putih']
                         ];
                     @endphp
-
                     @foreach($colors as $color)
-                        <button onclick="changeColor('{{ $color[1] }}')" title="{{ $color[2] }}"
-                            class="w-10 h-10 flex-shrink-0 rounded-full {{ $color[0] }} brutal-border cursor-pointer hover:scale-110 active:scale-95 transition-all"></button>
+                        <button onclick="changeColor('{{ $color[1] }}')" title="{{ $color[2] }}" class="w-10 h-10 flex-shrink-0 rounded-full {{ $color[0] }} brutal-border cursor-pointer hover:scale-110 active:scale-95 transition-all"></button>
                     @endforeach
                 </div>
             </div>
 
         </div>
 
-        <!-- Canvas Container Wrapper (Centered) -->
+        <!-- Canvas Container Wrapper (Dinamis) -->
         <div class="w-full flex justify-center items-center">
             <div class="relative bg-white brutal-border brutal-shadow rounded-[2.5rem] overflow-hidden transition-all duration-500 ease-in-out"
                 id="canvas-container" style="width: 1000px; max-width: 100%; aspect-ratio: 1000 / 564; height: auto; max-height: 65vh; margin: 0 auto;">
                 <canvas id="coloringCanvas" class="absolute inset-0 w-full h-full z-10 cursor-crosshair"></canvas>
-                <img id="coloring-image" src="{{ asset('images/mewarnai.png') }}"
-                    class="absolute inset-0 w-full h-full pointer-events-none z-20 mix-blend-multiply block" alt="Mewarnai">
+                <img id="coloring-image" src="{{ $imageAssetPath }}" class="absolute inset-0 w-full h-full pointer-events-none z-20 mix-blend-multiply block" alt="Mewarnai">
             </div>
         </div>
 
         <div class="mt-10 flex flex-wrap justify-center gap-6 w-full max-w-7xl">
             <!-- Hapus Semua -->
             <div class="relative group/tooltip inline-block">
-                <button id="clear-btn" onclick="clearCanvas()"
-                    class="w-20 h-20 flex items-center justify-center rounded-full font-bold text-black bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover cursor-pointer transform hover:-translate-y-2 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
+                <button id="clear-btn" onclick="clearCanvas()" class="w-20 h-20 flex items-center justify-center rounded-full font-bold text-black bg-[#FFFEFA] brutal-border brutal-shadow-sm brutal-hover cursor-pointer transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="3 6 5 6 21 6"></polyline>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                         <line x1="10" y1="11" x2="10" y2="17"></line>
@@ -227,11 +210,8 @@
 
             <!-- Tampilkan Hasil! -->
             <div class="relative group/tooltip inline-block">
-                <button id="show-result-btn" onclick="enablePresentationMode()"
-                    class="bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover cursor-pointer text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
+                <button id="show-result-btn" onclick="enablePresentationMode()" class="bg-[#D4F1BE] brutal-border brutal-shadow brutal-hover cursor-pointer text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                 </button>
@@ -242,11 +222,8 @@
 
             <!-- Kembali Edit -->
             <div class="relative group/tooltip inline-block">
-                <button id="back-edit-btn" onclick="disablePresentationMode()"
-                    class="hidden w-20 h-20 flex items-center justify-center rounded-full cursor-pointer font-bold text-black bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
+                <button id="back-edit-btn" onclick="disablePresentationMode()" class="hidden w-20 h-20 flex items-center justify-center rounded-full cursor-pointer font-bold text-black bg-[#FFF5B8] brutal-border brutal-shadow-sm brutal-hover transform hover:-translate-y-2 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
@@ -256,13 +233,12 @@
                 </div>
             </div>
 
-            <!-- Selesai & Ke Dashboard -->
+            <!-- Selesai & Ke Dashboard Mapel -->
             <div class="relative group/tooltip inline-block">
-                <a href="{{ route('dashboard') }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)"
+                <!-- Navigasi disinkronkan kembali ke index kelompok materi -->
+                <a href="{{ route('materi.index', ['mapel_slug' => $mapel->slug]) }}" id="final-dashboard-btn" onclick="finishGame(event, this.href)"
                     class="hidden bg-[#FFD1E3] brutal-border brutal-shadow brutal-hover text-black w-20 h-20 flex items-center justify-center rounded-full transform hover:-translate-y-2 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5"
-                        stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                         <path d="M4 22h16"></path>
@@ -271,27 +247,20 @@
                     </svg>
                 </a>
                 <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                    Selesai &amp; Ke Dashboard
+                    Selesai &amp; Kembali
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Victory Success Modal (using selamat.png) -->
-    <div id="success-modal"
-        class="fixed inset-0 z-[9999] bg-slate-900/80 backdrop-blur-md hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
-        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none mx-4"
-            id="success-modal-content">
+    <!-- Victory Success Modal -->
+    <div id="success-modal" class="fixed inset-0 z-[9999] bg-slate-900/80 backdrop-blur-md hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none mx-4" id="success-modal-content">
+            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!" class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
 
-            <!-- Main Image -->
-            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!"
-                class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
-
-            <!-- Centered Tampilkan Button -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center">
                 <div class="relative group/tooltip inline-block">
-                    <button onclick="closeSuccessModal()" aria-label="Tampilkan"
-                        class="bg-[#D4F1BE] text-black px-8 py-3 rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer font-black uppercase text-sm">
+                    <button onclick="closeSuccessModal()" aria-label="Tampilkan" class="bg-[#D4F1BE] text-black px-8 py-3 rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer font-black uppercase text-sm">
                         Tampilkan
                     </button>
                     <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
@@ -326,24 +295,22 @@
             outlineLoaded = true;
             setupCanvasDimensions();
         };
-        outlineImg.src = "{{ asset('images/mewarnai.png') }}";
+        // Menangkap variabel URL dinamis dari PHP
+        outlineImg.src = "{{ $imageAssetPath }}";
 
         function setupCanvasDimensions() {
-            // Save current drawing content
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = canvas.width || 1000;
             tempCanvas.height = canvas.height || 564;
             const tempCtx = tempCanvas.getContext('2d');
             tempCtx.drawImage(canvas, 0, 0);
 
-            // Compute target dimensions matching natural size of outline image
             const targetWidth = outlineImg.naturalWidth || 1000;
             const targetHeight = outlineImg.naturalHeight || 564;
 
             canvas.width = targetWidth;
             canvas.height = targetHeight;
 
-            // Set container aspect ratio dynamically to match image proportions exactly
             if (container) {
                 container.style.aspectRatio = `${targetWidth} / ${targetHeight}`;
             }
@@ -351,10 +318,8 @@
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             
-            // Restore drawing content
             ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
 
-            // Redraw outline on offscreen canvas
             offscreenCanvas.width = targetWidth;
             offscreenCanvas.height = targetHeight;
             if (outlineLoaded) {
@@ -392,9 +357,7 @@
         }
 
         function draw(e) {
-            if (!painting) {
-                return;
-            }
+            if (!painting) return;
             const rect = canvas.getBoundingClientRect();
             const x = ((e.clientX || (e.touches && e.touches[0].clientX)) - rect.left) * (canvas.width / rect.width);
             const y = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) * (canvas.height / rect.height);
@@ -424,7 +387,7 @@
                 if (currentTool === 'pencil') {
                     preview.style.backgroundColor = color;
                 } else if (currentTool === 'eraser') {
-                    preview.style.backgroundColor = '#f472b6'; // Eraser pink color
+                    preview.style.backgroundColor = '#f472b6';
                 }
             }
         }
@@ -467,7 +430,6 @@
             document.getElementById(`btn-tool-${tool}`).classList.remove('bg-[#FFFEFA]');
             document.getElementById(`btn-tool-${tool}`).classList.add('bg-[#FFF5B8]');
 
-            // Sync brush size to active tool size
             const activeSize = tool === 'pencil' ? pencilSize : eraserSize;
             brushSize = activeSize;
             
@@ -558,7 +520,7 @@
             fetch('{{ route('materi.save_progress') }}', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                body: JSON.stringify({ materi_id: {{ $materi->id ?? 1 }}, tahap: 6, score: 0 })
+                body: JSON.stringify({ materi_id: {{ $materi->id ?? 1 }}, tahap: 6, score: 100 }) // Skor disesuaikan kelulusan 100
             }).then(() => { window.location.href = nextUrl; });
         }
     </script>

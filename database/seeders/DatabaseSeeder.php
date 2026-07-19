@@ -13,20 +13,44 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Bikin 10 siswa dummy
-        User::factory(10)->create([
+        User::factory()->create([
+            'name' => 'Raihan',
+            'email' => 'raihan@honusign.com',
+            'password' => bcrypt('password'),
+            'role' => 'student',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Zidan',
+            'email' => 'zidan@honusign.com',
+            'password' => bcrypt('password'),
+            'role' => 'student',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Mitra',
+            'email' => 'mitra@honusign.com',
+            'password' => bcrypt('password'),
+            'role' => 'student',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Nikma',
+            'email' => 'nikma@honusign.com',
+            'password' => bcrypt('password'),
             'role' => 'student',
         ]);
 
         // Bonus: Bikin 1 akun guru buat login kamu sendiri
         User::factory()->create([
-            'name' => 'Pak Guru Han',
-            'email' => 'guru@honusign.test',
+            'name' => 'Ningrum',
+            'email' => 'ningrum@honusign.com',
             'password' => bcrypt('password'),
             'role' => 'teacher',
         ]);
 
         $this->call([
+            MapelSeeder::class,
             MateriSeeder::class,
             QuizSeeder::class,
         ]);

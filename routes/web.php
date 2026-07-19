@@ -7,6 +7,9 @@ use App\Models\UserProgress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Mapel;
+use App\Http\Controllers\MateriManagementController;
+use App\Http\Controllers\AiPracticeController;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -17,23 +20,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if ($request->user()?->role === 'teacher') {
             return redirect()->route('teacher.dashboard');
         }
-
-        return view('dashboard');
+        return redirect()->route('mapel.index');
     })->name('dashboard');
 
-    // 2. Dashboard Khusus Guru (Terproteksi Middleware 'teacher')
-    Route::get('teacher/dashboard', function () {
-        // 1. Ambil semua siswa
-        // 2. Load relasi progress-nya (Eager Loading agar tidak berat)
-        $students = User::where('role', 'student')
-            ->with([
-                'progress' => function ($query) {
-                    $query->orderBy('materi_id')->orderBy('tahap');
-                },
-            ])->get();
+    // 2. Rute Guru Umum (Tanpa Prefix Mapel)
+    Route::middleware(['teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+        Route::get('/dashboard', function () {
+            $mapels = \App\Models\Mapel::all();
+            return view('teacher.dashboard', compact('mapels'));
+        })->name('dashboard');
+    });
 
-        return view('teacher.dashboard', compact('students'));
-    })->middleware(['auth', 'teacher'])->name('teacher.dashboard');
+    // 3. Rute Guru Spesifik Mapel (dashboardDaftar Materi & Wizard Input)
+    Route::middleware(['teacher'])->prefix('teacher/mapel/{mapel_slug}')->name('teacher.materi.')->group(function () {
+        // Halaman list materi yang ada di mapel ini
+        Route::get('/', [MateriManagementController::class, 'index'])->name('index');
+
+        // Step 1: Buat Materi Baru
+        Route::get('/materi/create', [MateriManagementController::class, 'create'])->name('create');
+        Route::post('/materi/store', [MateriManagementController::class, 'store'])->name('store');
+
+        // Wizard Step 2 - 6
+        Route::get('/materi/{materi_slug}/edit-step/{step}', [MateriManagementController::class, 'editStep'])->name('edit.step');
+        Route::post('/materi/{materi_slug}/save-step/{step}', [MateriManagementController::class, 'saveStep'])->name('save.step');
+
+        Route::get('/monitoring', [MateriManagementController::class, 'monitoring'])->name('monitoring');
+    });
 
     Route::post('/materi/save-progress', function (Request $request) {
         $request->validate([
@@ -68,48 +80,72 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // --- FITUR MATERI (STUDY) ---
 
-    // 3. Halaman Game: Klik Karakter ke Sekolah
-    Route::get('materi', function () {
-        return view('materi.study-page');
+    // 1. Halaman Pilih Mata Pelajaran (Menu Awal)
+    Route::get('/pilih-mapel', function () {
+        // Ambil data mapel
+        $mapels = Mapel::all();
+
+        // Kirim data ke view 'pilih-mapel'
+        return view('pilih-mapel', compact('mapels'));
+    })->name('mapel.index');
+
+    Route::get('dashboard/mapel/{mapel_slug}', function ($mapel_slug) {
+        // Cari mapel berdasarkan slug
+        $mapel = Mapel::where('slug', $mapel_slug)->firstOrFail();
+
+        // Buka halaman dashboard.blade.php sambil membawa data mapel
+        return view('dashboard', compact('mapel'));
+    })->name('dashboard.mapel');
+
+    // 2. Halaman Game: Klik Karakter ke Sekolah (Sekarang butuh mapel_slug)
+    Route::get('materi/{mapel_slug}', function ($mapel_slug) {
+        $mapel = \App\Models\Mapel::where('slug', $mapel_slug)->firstOrFail();
+        return view('materi.study-page', compact('mapel'));
     })->name('materi.index');
 
-    // 4. Halaman Khusus Video Peragaan SIBI Tahap 1
-    Route::get('materi/tahap1/video', function () {
-        $materi = Materi::orderBy('order', 'asc')->first();
-        if (! $materi) {
-            return redirect()->route('dashboard');
+    // 3. Halaman Khusus Video Peragaan SIBI Tahap 1
+    Route::get('materi/{mapel_slug}/tahap1/video', function ($mapel_slug) {
+        $mapel = \App\Models\Mapel::where('slug', $mapel_slug)->firstOrFail();
+
+        // Ambil materi berdasarkan mapel_id
+        $materi = Materi::where('mapel_id', $mapel->id)->orderBy('order', 'asc')->first();
+
+        if (!$materi) {
+            return redirect()->route('mapel.index')->with('error', 'Materi belum tersedia.');
         }
 
-        return view('materi.tahap1.tahap1video', compact('materi'));
+        return view('materi.tahap1.tahap1video', compact('materi', 'mapel'));
     })->name('materi.tahap1.video');
 
-    // 5. Halaman Pembelajaran Linear (Linear Progression)
-    // Parameter diubah menjadi null agar Tahap 3 bisa mendeteksi nilai kosong
-    Route::get('materi/belajar/{step}/{soal_ke?}', function ($step, $soal_ke = null) {
+    // 4. Halaman Pembelajaran Linear (Linear Progression RADEC)
+    Route::get('materi/{mapel_slug}/belajar/{step}/{soal_ke?}', function ($mapel_slug, $step, $soal_ke = null) {
 
-        // 1. Ambil materi utama menggunakan urutan (order) terbaru
-        $materi = Materi::orderBy('order', 'asc')->first();
+        // Cari mapel
+        $mapel = \App\Models\Mapel::where('slug', $mapel_slug)->firstOrFail();
 
-        if (! $materi) {
-            return redirect()->route('dashboard');
+        // Cari materi utama milik mapel ini
+        $materi = Materi::where('mapel_id', $mapel->id)->orderBy('order', 'asc')->first();
+
+        if (!$materi) {
+            return redirect()->route('mapel.index');
         }
 
         // --- LOGIKA TAHAP 1 (Membaca Cerita) ---
         if ($step == 1) {
-            return view('materi.tahap1.tahap1', compact('materi', 'step'));
+            return view('materi.tahap1.tahap1', compact('materi', 'step', 'mapel'));
         }
 
         // --- LOGIKA TAHAP 2 (Menjawab 3 Jenis Kuis) ---
         if ($step == 2) {
             $nomor_soal = $soal_ke ?? 1;
 
-            // Jika ke-3 soal Tahap 2 sudah habis, lempar otomatis ke Tahap 3!
             if ($nomor_soal > 3) {
-                return redirect()->route('materi.belajar', ['step' => 3]);
+                return redirect()->route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 3]);
             }
 
             return view("materi.tahap2.soal{$nomor_soal}", [
                 'materi' => $materi,
+                'mapel' => $mapel,
                 'step' => $step,
                 'soal_ke' => $nomor_soal,
             ]);
@@ -117,35 +153,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // --- LOGIKA TAHAP 3 (Diskusi & Kamera) ---
         if ($step == 3) {
-            // Jika belum ada parameter soal_ke, tampilkan halaman BACA materi dulu
-            if (! $soal_ke) {
-                return view('materi.tahap3.tahap3_baca', compact('materi', 'step'));
+            if (!$soal_ke) {
+                return view('materi.tahap3.tahap3_baca', compact('materi', 'step', 'mapel'));
             }
 
-            // FIX: Ubah pencarian tipe dari 'isyarat_kamera' menjadi 'eja_kata' sesuai isi seeder baru
             $quiz = Quiz::where('tipe', 'eja_kata')
                 ->orderBy('id')
                 ->skip($soal_ke - 1)
                 ->first();
 
-            // Jika ke-5 soal cerita eja kata sudah habis, lanjut ke Tahap 4!
-            if (! $quiz) {
-                return redirect()->route('materi.belajar', ['step' => 4]);
+            if (!$quiz) {
+                return redirect()->route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 4]);
             }
 
-            return view('materi.tahap3.tahap3_kamera', compact('materi', 'step', 'quiz', 'soal_ke'));
+            return view('materi.tahap3.tahap3_kamera', compact('materi', 'step', 'mapel', 'quiz', 'soal_ke'));
         }
 
         if ($step == 4) {
-            return view('materi.tahap4.tahap4', compact('materi', 'step'));
+            return view('materi.tahap4.tahap4', compact('materi', 'step', 'mapel'));
         }
 
         if ($step == 5) {
-            return view('materi.tahap5.tahap5', compact('materi', 'step'));
+            return view('materi.tahap5.tahap5', compact('materi', 'step', 'mapel'));
         }
 
         if ($step == 6) {
-            return view('materi.tahap6.tahap6', compact('materi', 'step'));
+            return view('materi.tahap6.tahap6', compact('materi', 'step', 'mapel'));
         }
 
         return "Tahap $step sedang dalam pembangunan!";
@@ -164,7 +197,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->middleware(['auth', 'verified'])->name('evaluasi.soal');
 
     // 5. Placeholder untuk rute yang lain
-    Route::get('materi/quiz', fn () => 'Halaman Quiz Segera Hadir')->name('materi.quiz');
+    Route::get('materi/quiz', fn() => 'Halaman Quiz Segera Hadir')->name('materi.quiz');
 
     Route::get('general', function () {
         return view('general.index');
@@ -182,6 +215,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('general.memory');
     })->name('general.memory');
 
+    Route::get('/mapel/{mapel_slug}/ai', [AiPracticeController::class, 'index'])->name('ai.index');
+    Route::get('/mapel/{mapel_slug}/ai/kamera/{kata}', [AiPracticeController::class, 'kamera'])->name('ai.kamera');
+
     Route::post('/logout', function (Request $request) {
         Auth::logout();
         $request->session()->invalidate();
@@ -191,4 +227,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('logout');
 });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

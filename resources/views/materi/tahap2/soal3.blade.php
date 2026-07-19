@@ -73,9 +73,30 @@
 
 <body class="selection:bg-transparent transition-transform">
 
-    <!-- Back Button with Tooltip -->
+    @php
+        // Ambil data quiz tipe susun_kalimat milik materi aktif
+        $quiz = \App\Models\Quiz::where('materi_id', $materi->id)
+            ->where('tipe', 'susun_kalimat')
+            ->first();
+
+        // Fallback data jika database kosong saat proses development
+        $instruksiSoal = $quiz ? $quiz->pertanyaan : 'Susun kata-kata berikut menjadi kalimat yang benar!';
+        $kalimatBenar = $quiz ? $quiz->jawaban_benar : 'Samsul Menggunakan Baju Riau';
+        
+        // Decode pilihan_data JSON dari database, jika gagal gunakan array fallback
+        if ($quiz && $quiz->pilihan_data) {
+            $words = json_decode($quiz->pilihan_data, true);
+        } else {
+            $words = ['Samsul', 'Menggunakan', 'Baju', 'Riau'];
+        }
+        
+        // Acak susunan kata pilihan untuk siswa
+        shuffle($words);
+    @endphp
+
+    <!-- Back Button with Tooltip (Fixed Route) -->
     <div class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] group/tooltip pointer-events-auto">
-        <a href="{{ route('materi.index') }}" aria-label="Kembali"
+        <a href="{{ route('materi.index', ['mapel_slug' => $mapel->slug]) }}" aria-label="Kembali"
             class="bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center w-14 h-14">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12" />
@@ -89,24 +110,21 @@
 
     <!-- Title Header -->
     <div class="pt-16 md:pt-20 px-4 flex justify-center max-w-7xl mx-auto">
-        <h1
-            class="mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-8 py-3 rounded-2xl text-2xl md:text-3xl font-black uppercase tracking-widest text-center transform -rotate-1 min-w-[220px] shadow-sm">
-            Susun Kalimat (Soal 3/3)
+        <h1 class="mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-8 py-3 rounded-2xl text-2xl md:text-3xl font-black uppercase tracking-widest text-center transform -rotate-1 min-w-[220px] shadow-sm">
+            Susun Kalimat (Soal {{ $soal_ke }}/3)
         </h1>
     </div>
 
-    <!-- Main Game Layout (Stacked vertically, centered and large) -->
+    <!-- Main Game Layout -->
     <div class="pb-8 px-4 md:px-8 flex flex-col gap-6 max-w-4xl w-full mx-auto">
         
         <!-- Word Options Card -->
         <div class="w-full bg-[#FFF5B8] brutal-border brutal-shadow rounded-[2rem] p-8 flex flex-col justify-center items-center">
-            <h2 class="text-xl font-black uppercase tracking-widest mb-6 text-slate-800">Pilih Kata</h2>
+            <!-- Instruksi Soal Dinamis -->
+            <h2 class="text-xl font-black uppercase tracking-widest mb-6 text-slate-800 text-center">
+                {{ $instruksiSoal }}
+            </h2>
             <div id="word-options" class="flex flex-wrap justify-center gap-5">
-                @php
-                    $words = ['Samsul', 'Menggunakan', 'Baju', 'Riau'];
-                    shuffle($words);
-                @endphp
-
                 @foreach ($words as $word)
                     <button onclick="pickWord('{{ $word }}', this)"
                         class="bg-white px-10 py-5 rounded-2xl brutal-border brutal-shadow brutal-hover font-black text-black uppercase text-xl md:text-2xl transition-all cursor-pointer">
@@ -119,115 +137,60 @@
         <!-- Sentence Slots Card -->
         <div class="w-full bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-8 flex flex-col justify-center">
             <h2 class="text-xl font-black uppercase tracking-widest mb-6 text-slate-800 text-center">Kalimat Susunanmu</h2>
-            <div id="sentence-slots"
-                class="flex flex-wrap justify-center items-center gap-4 min-h-[120px] w-full p-6 bg-[#FFF9F0] rounded-2xl border-4 border-dashed border-black shadow-inner overflow-y-auto">
-                <!-- Words will appear here -->
+            <div id="sentence-slots" class="flex flex-wrap justify-center items-center gap-4 min-h-[120px] w-full p-6 bg-[#FFF9F0] rounded-2xl border-4 border-dashed border-black shadow-inner overflow-y-auto">
+                <!-- Kata yang dipilih mendarat di sini -->
             </div>
         </div>
 
     </div>
 
-    <!-- Victory Modal (using selamat.png) -->
-    <div id="success-modal"
-        class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
-        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none"
-            id="success-modal-content">
+    <!-- Victory Modal (Fixed route menuju Tahap 3 membawa mapel_slug) -->
+    <div id="success-modal" class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none" id="success-modal-content">
+            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!" class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
 
-            <!-- Main Image -->
-            <img src="{{ asset('images/selamat.png') }}" alt="Selamat!"
-                class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
-
-            <!-- Interactive Buttons Overlaid over pre-rendered spots -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
-                <!-- Replay Button -->
                 <div class="relative group/tooltip w-[18%] aspect-square">
-                    <button onclick="resetGame()" aria-label="Ulangi"
-                        class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                            stroke-linecap="round" stroke-linejoin="round">
+                    <button onclick="resetGame()" aria-label="Ulangi" class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
                         </svg>
                     </button>
-                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                        Ulangi
-                    </div>
                 </div>
-                <!-- Next Button (Lanjut ke Tahap 3) -->
                 <div class="relative group/tooltip w-[18%] aspect-square">
-                    <a href="{{ route('materi.belajar', ['step' => 3]) }}" aria-label="Lanjut"
+                    <!-- Navigasi diarahkan menuju Tahap 3 (Kamera / Diskusi AI) -->
+                    <a href="{{ route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 3]) }}" aria-label="Lanjut"
                         class="w-full h-full bg-[#D4F1BE] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
                     </a>
-                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#D4F1BE] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                        Lanjut
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Failure Modal (using gagal.png) -->
-    <div id="failure-modal"
-        class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
-        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none"
-            id="failure-modal-content">
-
-            <!-- Main Image -->
-            <img src="{{ asset('images/gagal.png') }}" alt="Gagal!"
-                class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
-
-            <!-- Replay Button Overlay -->
+    <!-- Failure Modal -->
+    <div id="failure-modal" class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
+        <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none" id="failure-modal-content">
+            <img src="{{ asset('images/gagal.png') }}" alt="Gagal!" class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center">
-                <!-- Replay Button -->
                 <div class="relative group/tooltip w-[18%] aspect-square">
-                    <button onclick="hideFailureModal()" aria-label="Ulangi"
-                        class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
-                            stroke-linecap="round" stroke-linejoin="round">
+                    <button onclick="hideFailureModal()" aria-label="Ulangi" class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
                         </svg>
                     </button>
-                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                        Ulangi
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const correctSentence = "Samsul Menggunakan Baju Riau";
+        // Lempar kunci jawaban dinamis ke JavaScript (ubah ke uppercase agar validasi aman dari perbedaan case)
+        const correctSentence = "{{ strtoupper($kalimatBenar) }}";
         let currentSentence = [];
-        let isMuted = localStorage.getItem('sound_muted') === 'true';
-
-        // Initialize sound states
-        document.addEventListener('DOMContentLoaded', () => {
-            updateSoundIcon();
-        });
-
-        function toggleMute() {
-            isMuted = !isMuted;
-            localStorage.setItem('sound_muted', isMuted);
-            updateSoundIcon();
-        }
-
-        function updateSoundIcon() {
-            const icon = document.getElementById('sound-icon');
-            if (isMuted) {
-                icon.innerHTML =
-                    `<path opacity="0.2" d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M3 9v6h4l5 5V4L7 9H3zm7-.17v6.34L7.83 13H5v-2h2.83L10 8.83zM16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zm2.5 0a8.94 8.94 0 0 0-2.07-5.78l-1.42 1.42A6.94 6.94 0 0 1 17 12a6.94 6.94 0 0 1-1.49 4.36l1.42 1.42A8.94 8.94 0 0 0 19 12z" fill="currentColor"/><line x1="1" y1="1" x2="23" y2="23" stroke="black" stroke-width="3" />`;
-            } else {
-                icon.innerHTML =
-                    `<path opacity="0.2" d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M3 9v6h4l5 5V4L7 9H3zm7-.17v6.34L7.83 13H5v-2h2.83L10 8.83zM16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zm2.5 0a8.94 8.94 0 0 0-2.07-5.78l-1.42 1.42A6.94 6.94 0 0 1 17 12a6.94 6.94 0 0 1-1.49 4.36l1.42 1.42A8.94 8.94 0 0 0 19 12z" fill="currentColor"/>`;
-            }
-        }
 
         function showSuccessModal() {
             const modal = document.getElementById('success-modal');
@@ -268,32 +231,29 @@
 
         function saveProgress(tahap, nilai) {
             fetch('{{ route('materi.save_progress') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        materi_id: {{ $materi->id }},
-                        tahap: tahap,
-                        score: nilai
-                    })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    materi_id: {{ $materi->id }},
+                    tahap: tahap,
+                    score: nilai
                 })
-                .then(response => response.json())
-                .then(data => console.log("Progress saved:", data.message))
-                .catch(err => console.error("Error saving progress:", err));
+            })
+            .then(response => response.json())
+            .then(data => console.log("Progress saved:", data.message))
+            .catch(err => console.error("Error saving progress:", err));
         }
 
         function pickWord(word, element) {
             const sentenceContainer = document.getElementById('sentence-slots');
-
             const wordBadge = document.createElement('span');
-            wordBadge.className =
-                "cursor-pointer bg-[#FFF5B8] text-black px-10 py-5 rounded-2xl brutal-border brutal-shadow-sm font-black uppercase text-xl md:text-2xl hover:scale-95 transition-transform flex items-center justify-center animate-fly-in";
+            wordBadge.className = "cursor-pointer bg-[#FFF5B8] text-black px-10 py-5 rounded-2xl brutal-border brutal-shadow-sm font-black uppercase text-xl md:text-2xl hover:scale-95 transition-transform flex items-center justify-center animate-fly-in";
             wordBadge.innerText = word;
 
-            // Store reference to word
             wordBadge.dataset.word = word;
             wordBadge.onclick = () => {
                 element.classList.remove('opacity-0', 'pointer-events-none');
@@ -309,13 +269,13 @@
 
         function updateSentenceFromSlots() {
             const slots = document.querySelectorAll('#sentence-slots > span');
-            currentSentence = Array.from(slots).map(slot => slot.dataset.word);
+            currentSentence = Array.from(slots).map(slot => slot.dataset.word.toUpperCase());
 
             const totalWords = correctSentence.split(' ').length;
             if (currentSentence.length === totalWords) {
                 if (currentSentence.join(' ') === correctSentence) {
                     showSuccessModal();
-                    saveProgress(2, 0);
+                    saveProgress(2, 100); // Progress terhitung sukses untuk tahap 2
                 } else {
                     setTimeout(() => {
                         showFailureModal();

@@ -69,7 +69,6 @@
             animation: fly-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        /* Bobbing / Floating animation for kids accessibility */
         @keyframes float {
             0% {
                 transform: translateY(0px) rotate(-1deg);
@@ -92,16 +91,32 @@
 
 <body class="selection:bg-transparent transition-transform">
 
-    <!-- Back Button with Tooltip -->
+    @php
+        // Mengambil data quiz pertama dari database yang bertipe susun_huruf milik materi ini
+        $quiz = \App\Models\Quiz::where('materi_id', $materi->id)->where('tipe', 'susun_huruf')->first();
+
+        // Fallback data jika database kosong saat proses development
+        $soalTeks = $quiz ? $quiz->pertanyaan : 'Siapakah tokoh yang menggunakan pakaian Riau?';
+        $jawabanTeks = $quiz ? strtoupper($quiz->jawaban_benar) : 'SAMSUL';
+        $gambarTokoh = $quiz ? json_decode($quiz->pilihan_data) : 'samsul_teluk_belangga.png';
+
+        // Logika pengacakan huruf
+        $hurufArray = str_split($jawabanTeks);
+        shuffle($hurufArray);
+    @endphp
+
+    <!-- Back Button with Tooltip (Fixed Route) -->
     <div class="absolute top-4 left-4 md:top-6 md:left-6 z-[110] group/tooltip pointer-events-auto">
-        <a href="{{ route('materi.index') }}" aria-label="Kembali"
+        <a href="{{ route('materi.index', ['mapel_slug' => $mapel->slug]) }}" aria-label="Kembali"
             class="bg-[#FFB3B3] text-black p-3.5 rounded-2xl font-bold brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center w-14 h-14">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-black" fill="none"
+                stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
             </svg>
         </a>
-        <div class="pointer-events-none absolute left-0 top-full mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+        <div
+            class="pointer-events-none absolute left-0 top-full mt-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
             Kembali ke Peta
         </div>
     </div>
@@ -110,77 +125,74 @@
     <div class="pt-16 md:pt-20 px-4 flex justify-center max-w-7xl mx-auto">
         <h1
             class="mb-4 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-8 py-3 rounded-2xl text-2xl md:text-3xl font-black uppercase tracking-widest text-center transform -rotate-1 min-w-[220px] shadow-sm">
-            Tebak Isyarat (Soal 1/3)
+            Tebak Isyarat (Soal {{ $soal_ke }}/3)
         </h1>
     </div>
 
-    <!-- Question Card (Full Width - Samsul image on the left, question text on the right) -->
+    <!-- Question Card (Dinamis) -->
     <div class="w-full max-w-6xl mx-auto px-4 md:px-8 mb-6">
-        <div class="bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-6 flex flex-col md:flex-row items-center gap-6">
-            <!-- Samsul image on the left -->
-            <div class="shrink-0 bg-[#D4F1BE] p-3 brutal-border brutal-shadow rounded-[2rem] transform -rotate-2 hover:rotate-0 transition-transform duration-300 animate-float">
+        <div
+            class="bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-6 flex flex-col md:flex-row items-center gap-6">
+            <!-- Gambar Tokoh Dinamis -->
+            <div
+                class="shrink-0 bg-[#D4F1BE] p-3 brutal-border brutal-shadow rounded-[2rem] transform -rotate-2 hover:rotate-0 transition-transform duration-300 animate-float">
                 <div class="bg-white p-2.5 rounded-2xl brutal-border shadow-inner">
-                    <img src="{{ asset('images/materi/tahap1/samsul_teluk_belangga.png') }}" alt="Tokoh Pakaian Riau" class="h-28 md:h-36 w-auto object-contain">
+                    <img src="{{ asset('images/materi/tahap1/' . $gambarTokoh) }}" alt="Tokoh Soal"
+                        class="h-28 md:h-36 w-auto object-contain">
                 </div>
             </div>
-            <!-- Question text on the right -->
+            <!-- Teks Soal Dinamis -->
             <div class="flex-grow text-center md:text-left">
-                <span class="inline-block px-4 py-1.5 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-3">Tebak Nama Tokoh</span>
+                <span
+                    class="inline-block px-4 py-1.5 bg-[#FFF5B8] brutal-border brutal-shadow-sm rounded-xl text-xs font-black uppercase tracking-wider mb-3">Tebak
+                    Nama Tokoh</span>
                 <h2 class="text-2xl md:text-3xl font-black text-black leading-snug">
-                    Siapakah tokoh yang menggunakan pakaian Riau?
+                    {{ $soalTeks }}
                 </h2>
             </div>
         </div>
     </div>
 
-    <!-- Interactive Console (Side-by-Side Options and Slots) -->
+    <!-- Interactive Console -->
     <div class="pb-8 px-4 md:px-8 flex flex-col md:flex-row gap-6 max-w-6xl w-full mx-auto">
 
-        <!-- Left Side: Hand Sign Options (Oversized cards for deaf accessibility) -->
-        <div class="w-full md:w-1/2 bg-[#FFD1E3] brutal-border brutal-shadow rounded-[2rem] p-6 flex flex-col justify-center items-center">
+        <!-- Left Side: Hand Sign Options -->
+        <div
+            class="w-full md:w-1/2 bg-[#FFD1E3] brutal-border brutal-shadow rounded-[2rem] p-6 flex flex-col justify-center items-center">
             <h2 class="text-lg font-black uppercase tracking-widest mb-4 text-slate-800">Pilih Huruf Isyarat</h2>
             <div id="options" class="flex flex-wrap justify-center gap-4">
-                @php
-                    $jawaban = 'SAMSUL';
-                    $hurufArray = str_split($jawaban);
-                    shuffle($hurufArray);
-                @endphp
-
                 @foreach ($hurufArray as $index => $h)
                     <div onclick="pickLetter('{{ $h }}', this)"
                         style="animation-delay: {{ $index * 0.25 }}s;"
                         class="cursor-pointer bg-white p-3 rounded-3xl brutal-border brutal-shadow brutal-hover transition-all w-24 h-24 md:w-28 md:h-28 flex items-center justify-center animate-float">
-                        <img src="{{ asset('images/general/sibi tangan/' . $h . '.png') }}" alt="{{ $h }}"
-                            class="w-20 h-20 md:w-24 md:h-24 object-contain rounded-lg">
+                        <img src="{{ asset('images/general/sibi tangan/' . strtoupper($h) . '.png') }}"
+                            alt="{{ $h }}" class="w-20 h-20 md:w-24 md:h-24 object-contain rounded-lg">
                     </div>
                 @endforeach
             </div>
         </div>
 
         <!-- Right Side: Answer Slots -->
-        <div class="w-full md:w-1/2 bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-6 flex flex-col justify-center">
+        <div
+            class="w-full md:w-1/2 bg-[#FFFEFA] brutal-border brutal-shadow rounded-[2rem] p-6 flex flex-col justify-center">
             <h2 class="text-lg font-black uppercase tracking-widest mb-4 text-slate-800 text-center">Jawabanmu</h2>
             <div id="answer-slots"
                 class="flex flex-wrap justify-center items-center gap-4 min-h-[110px] w-full p-4 bg-[#FFF9F0] rounded-2xl border-4 border-dashed border-black shadow-inner overflow-y-auto">
-                <!-- Letters will appear here -->
+                <!-- Tempat kepingan huruf isyarat mendarat -->
             </div>
         </div>
 
     </div>
 
-    <!-- Victory Modal (using selamat.png) -->
+    <!-- Victory Modal (Fixed Route) -->
     <div id="success-modal"
         class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
         <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none"
             id="success-modal-content">
-
-            <!-- Main Image -->
             <img src="{{ asset('images/selamat.png') }}" alt="Selamat!"
                 class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
 
-            <!-- Interactive Buttons Overlaid over pre-rendered spots -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center gap-[8%]">
-                <!-- Replay Button -->
                 <div class="relative group/tooltip w-[18%] aspect-square">
                     <button onclick="resetGame()" aria-label="Ulangi"
                         class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
@@ -190,13 +202,11 @@
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
                         </svg>
                     </button>
-                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                        Ulangi
-                    </div>
                 </div>
-                <!-- Next Button (Lanjut to Soal 2) -->
                 <div class="relative group/tooltip w-[18%] aspect-square">
-                    <a href="{{ route('materi.belajar', ['step' => 2, 'soal_ke' => 2]) }}" aria-label="Lanjut"
+                    <!-- Navigasi diarahkan dengan menyertakan mapel_slug -->
+                    <a href="{{ route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 2, 'soal_ke' => 2]) }}"
+                        aria-label="Lanjut"
                         class="w-full h-full bg-[#D4F1BE] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             class="w-1/2 h-1/2 text-black fill-none stroke-current" stroke-width="3.5"
@@ -205,27 +215,19 @@
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
                     </a>
-                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#D4F1BE] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                        Lanjut
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Failure Modal (using gagal.png) -->
+    <!-- Failure Modal -->
     <div id="failure-modal"
         class="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm hidden flex-col items-center justify-center opacity-0 transition-all duration-300">
         <div class="relative w-full max-w-[480px] aspect-square transform scale-90 transition-transform duration-500 select-none"
             id="failure-modal-content">
-
-            <!-- Main Image -->
             <img src="{{ asset('images/gagal.png') }}" alt="Gagal!"
                 class="w-full h-full object-contain rounded-[3rem] brutal-border brutal-shadow">
-
-            <!-- Replay Button Overlay -->
             <div class="absolute bottom-[9%] left-0 right-0 flex justify-center">
-                <!-- Replay Button -->
                 <div class="relative group/tooltip w-[18%] aspect-square">
                     <button onclick="hideFailureModal()" aria-label="Ulangi"
                         class="w-full h-full bg-[#FFF5B8] text-black rounded-2xl brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer">
@@ -235,18 +237,15 @@
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.57-1.19" />
                         </svg>
                     </button>
-                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                        Ulangi
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const correctAnswer = "SAMSUL";
+        // Mengoper kunci jawaban dinamis ke JavaScript
+        const correctAnswer = "{{ $jawabanTeks }}";
         let currentInput = "";
-        let isMuted = localStorage.getItem('sound_muted') === 'true';
 
         function showSuccessModal() {
             const modal = document.getElementById('success-modal');
@@ -306,17 +305,13 @@
 
         function pickLetter(letter, element) {
             const slotContainer = document.getElementById('answer-slots');
-
             const newLetter = document.createElement('div');
             newLetter.className =
                 "cursor-pointer bg-[#FFD1E3] p-2 rounded-2xl brutal-border brutal-shadow-sm hover:scale-95 transition-transform flex items-center justify-center animate-fly-in animate-float w-20 h-20 md:w-24 md:h-24";
             newLetter.innerHTML =
-                `<img src="/images/general/sibi tangan/${letter}.png" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg">`;
+                `<img src="/images/general/sibi tangan/${letter.toUpperCase()}.png" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg">`;
 
-            // Staggered bobbing delay for wavy look
             newLetter.style.animationDelay = (slotContainer.children.length * 0.15) + "s";
-
-            // Store reference to restore later
             newLetter.dataset.letter = letter;
             newLetter.onclick = () => {
                 element.classList.remove('opacity-0', 'pointer-events-none');
@@ -325,7 +320,6 @@
             };
 
             slotContainer.appendChild(newLetter);
-
             currentInput += letter;
             element.classList.add('opacity-0', 'pointer-events-none');
 
@@ -335,19 +329,16 @@
         function updateInputFromSlots() {
             const slots = document.querySelectorAll('#answer-slots > div');
             currentInput = Array.from(slots).map(slot => slot.dataset.letter).join('');
-            
-            // Re-apply staggered delays to remaining letters so they wave nicely
             slots.forEach((slot, i) => {
                 slot.style.animationDelay = (i * 0.15) + "s";
             });
-
             checkAnswer();
         }
 
         function checkAnswer() {
-            if (currentInput === correctAnswer) {
+            if (currentInput.toUpperCase() === correctAnswer.toUpperCase()) {
                 showSuccessModal();
-                saveProgress(2, 0);
+                saveProgress(2, 100); // Progress disimpan untuk tahap 2
             } else if (currentInput.length === correctAnswer.length) {
                 setTimeout(() => {
                     showFailureModal();

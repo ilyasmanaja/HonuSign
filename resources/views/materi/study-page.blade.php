@@ -26,13 +26,13 @@
     </style>
 
     <?php
-    // Get the first materi
-    $materi = \App\Models\Materi::orderBy('order', 'asc')->first();
-    $materiId = $materi ? $materi->id : 1;
+    // 1. Ambil materi spesifik untuk Mapel yang sedang dibuka saja
+    $materi = \App\Models\Materi::where('mapel_id', $mapel->id)->orderBy('order', 'asc')->first();
+    $materiId = $materi ? $materi->id : 0;
     
-    // Fetch actual completed progress
+    // 2. Fetch actual completed progress
     $highestCompletedTahap = 0;
-    if (auth()->check()) {
+    if (auth()->check() && $materiId != 0) {
         $highestCompletedTahap =
             \App\Models\UserProgress::where('user_id', auth()->id())
                 ->where('materi_id', $materiId)
@@ -40,54 +40,55 @@
                 ->max('tahap') ?? 0;
     }
     
-    // Determine active pos (can be overridden by query param for testing)
+    // 3. Determine active pos
     $activePos = request('step') ? (int) request('step') : $highestCompletedTahap + 1;
     if ($activePos > 6) {
         $activePos = 6;
     }
     
+    // 4. Update route agar wajib membawa mapel_slug
     $posData = [
         1 => [
             'title' => 'Membaca',
             'desc' => 'Cerita bergambar SIBI',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#BEE9E8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>',
-            'route' => route('materi.belajar', ['step' => 1]),
-            'color' => 'bg-[#BEE9E8]', // Soft Blue
+            'route' => route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 1]),
+            'color' => 'bg-[#BEE9E8]',
         ],
         2 => [
             'title' => 'Kuis Kata',
             'desc' => 'Mengenal kuis baru',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#E0BBE4" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x="8" y="2" width="8" height="4" rx="1" ry="1" /><path d="M9 14l2 2 4-4" fill="none" /></svg>',
-            'route' => route('materi.belajar', ['step' => 2]),
-            'color' => 'bg-[#E0BBE4]', // Pastel Purple
+            'route' => route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 2]),
+            'color' => 'bg-[#E0BBE4]',
         ],
         3 => [
             'title' => 'Isyarat AI',
             'desc' => 'Coba isyaratmu ke AI!',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#FFD1E3" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>',
-            'route' => route('materi.belajar', ['step' => 3]),
-            'color' => 'bg-[#FFD1E3]', // Soft Pink
+            'route' => route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 3]),
+            'color' => 'bg-[#FFD1E3]',
         ],
         4 => [
             'title' => 'Keberagaman',
             'desc' => 'Kuis seru bergambar',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#FFF5B8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>',
-            'route' => route('materi.belajar', ['step' => 4]),
-            'color' => 'bg-[#FFF5B8]', // Bright Yellow
+            'route' => route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 4]),
+            'color' => 'bg-[#FFF5B8]',
         ],
         5 => [
             'title' => 'Perilaku',
             'desc' => 'Cocokkan kartu',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#D4F1BE" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="12" height="14" rx="2" ry="2" /><rect x="9" y="7" width="12" height="14" rx="2" ry="2" fill="#BEE9E8" /></svg>',
-            'route' => route('materi.belajar', ['step' => 5]),
-            'color' => 'bg-[#D4F1BE]', // Mint Green
+            'route' => route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 5]),
+            'color' => 'bg-[#D4F1BE]',
         ],
         6 => [
             'title' => 'Mewarnai',
             'desc' => 'Buktikan kemampuanmu!',
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-black" fill="#FFD8A8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.35857 19.5 5.5 20 5 20.5C4 21.5 6 22 12 22Z" /><circle cx="7.5" cy="10.5" r="1.5" fill="currentColor" /><circle cx="11.5" cy="7.5" r="1.5" fill="currentColor" /><circle cx="16.5" cy="9.5" r="1.5" fill="currentColor" /><circle cx="15.5" cy="14.5" r="1.5" fill="currentColor" /></svg>',
-            'route' => route('materi.belajar', ['step' => 6]),
-            'color' => 'bg-[#FFD8A8]', // Soft Orange
+            'route' => route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 6]),
+            'color' => 'bg-[#FFD8A8]',
         ],
     ];
     ?>

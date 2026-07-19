@@ -11,24 +11,38 @@ class Materi extends Model
 
     /**
      * 1. $fillable (Mass Assignment)
-     * Ini mendaftarkan kolom apa saja yang diizinkan untuk diisi
-     * secara otomatis melalui form atau seeder.
      */
     protected $fillable = [
+        'mapel_id',           // WAJIB DITAMBAHKAN
         'order',
         'judul',
         'slug',
-        'video_peragaan',     // Menggunakan nama baru pengganti 'gambar'
+        'video_peragaan',
         'deskripsi',
-        'deskripsi_tambahan',  // Untuk kebutuhan tahap 3/5
+        'deskripsi_tambahan',
     ];
 
     /**
      * 2. Relasi ke Tabel materi_images
-     * Satu materi bisa memiliki banyak gambar (untuk puzzle, mewarnai, dll).
      */
     public function images()
     {
         return $this->hasMany(MateriImage::class);
+    }
+
+    /**
+     * 3. Relasi ke Tabel mapels
+     */
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class);
+    }
+
+    /**
+     * 4. Relasi ke Tabel quizzes (WAJIB DITAMBAHKAN UNTUK TAHAP 2, 3, 5)
+     */
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
     }
 }

@@ -39,9 +39,7 @@
                 </div>
 
                 <!-- Big Ear / listening focus indicator -->
-                <div class="absolute right-4 top-4 text-3xl animate-ping opacity-75">
-                    👂
-                </div>
+                <div class="absolute right-4 top-4 text-3xl animate-ping opacity-75">👂</div>
             </div>
 
             <!-- Penjelasan Teks -->
@@ -60,18 +58,21 @@
                 </div>
             </div>
 
-             <!-- Confirm Button (Visual Icon Ok / Checklist) -->
-             <div class="relative group/tooltip">
-                 <button onclick="closeTutorial()"
-                     class="w-20 h-20 bg-[#D4F1BE] text-black rounded-full brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer animate-pulse">
-                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-                         <polyline points="20 6 9 17 4 12" />
-                     </svg>
-                 </button>
-                 <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
-                     Mengerti
-                 </div>
-             </div>
+            <!-- Confirm Button (Visual Icon Ok / Checklist) -->
+            <div class="relative group/tooltip">
+                <button onclick="closeTutorial()"
+                    class="w-20 h-20 bg-[#D4F1BE] text-black rounded-full brutal-border brutal-shadow-sm brutal-hover flex items-center justify-center cursor-pointer animate-pulse">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black"
+                        fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </button>
+                <div
+                    class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                    Mengerti
+                </div>
+            </div>
         </div>
     </div>
 
@@ -173,118 +174,166 @@
         <div class="w-full bg-[#E0BBE4] brutal-border brutal-shadow rounded-[3rem] p-6 md:p-8 mb-10">
             <div class="bg-[#FFFEFA] brutal-border brutal-shadow-sm rounded-[2rem] p-6 md:p-10">
 
-                <!-- Intro Paragraph (Simplified for deaf accessibility) -->
-                <p class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold mb-10 text-justify">
-                    Indonesia memiliki banyak keberagaman sosial dan budaya.
-                    Keberagaman sosial contohnya: perbedaan pekerjaan dan agama.
-                    Keberagaman budaya contohnya: adat istiadat, bahasa daerah, dan kesenian.
-                    Berikut adalah contoh keberagaman di Indonesia:
-                </p>
+                <!-- Teks Deskripsi Cerita Awal Dinamis -->
+                <div class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold mb-10 text-justify space-y-4">
+                    {!! $materi->images->where('tipe', 'deskripsi_tahap4')->first()?->teks ?? $materi->deskripsi !!}
+                </div>
 
-                <!-- Grid Keberagaman -->
+                <!-- Grid Keberagaman Dinamis -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                     @php
-                        $keberagaman = [
-                            'Bahasa Daerah' => ['file' => 'bahasa_daerah.png', 'color' => '#BEE9E8'],
-                            'Agama dan Kepercayaan' => ['file' => 'agama.png', 'color' => '#FFD1E3'],
-                            'Pakaian Tradisional' => ['file' => 'pakaian_adat.png', 'color' => '#FFF5B8'],
-                            'Suku Bangsa' => ['file' => 'suku_bangsa.png', 'color' => '#D4F1BE'],
-                            'Tarian Daerah' => ['file' => 'tarian.png', 'color' => '#E0BBE4'],
-                            'Musik Daerah' => ['file' => 'musik.png', 'color' => '#BEE9E8'],
-                            'Rumah Adat' => ['file' => 'rumah_adat_riau.png', 'color' => '#FFD1E3'],
-                            'Makanan Khas' => ['file' => 'makanan_riau.png', 'color' => '#FFF5B8'],
-                            'Adat Istiadat' => ['file' => 'nikah_melayu.png', 'color' => '#D4F1BE'],
-                        ];
+                        // Memfilter relasi images khusus tipe kartu_keberagaman milik materi aktif
+                        $cards = $materi->images->where('tipe', 'kartu_keberagaman')->sortBy('urutan');
+
+                        // Palet warna neobrutalism khas anak-anak
+                        $colors = ['#BEE9E8', '#FFD1E3', '#FFF5B8', '#D4F1BE', '#E0BBE4'];
                         $i = 1;
                     @endphp
 
-                    @foreach ($keberagaman as $judul => $data)
-                        <div onclick="showSpellingModal('{{ $judul }}', '{{ $data['file'] }}')"
-                            class="cursor-pointer brutal-border brutal-shadow-sm rounded-[2rem] overflow-hidden hover:-translate-y-2 transition-all duration-300 transform active:scale-95 group"
-                            style="background-color: {{ $data['color'] }}">
-                            <div class="w-full h-40 brutal-border border-t-0 border-l-0 border-r-0 relative flex items-center justify-center overflow-hidden"
-                                style="background-color: {{ $data['color'] }}">
-                                <img src="{{ asset('images/tahap4/' . $data['file']) }}" alt="{{ $judul }}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                    onerror="this.parentElement.classList.add('bg-slate-100')">
-                                <!-- Hover helper for deaf children -->
-                                <div
-                                    class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span
-                                        class="bg-[#FFF5B8] text-black px-4 py-2 rounded-xl brutal-border brutal-shadow-sm font-black text-xs uppercase tracking-wider scale-90 group-hover:scale-100 transition-transform">
-                                        Eja Isyarat
-                                    </span>
+                    @if ($cards->count() > 0)
+                        @foreach ($cards as $index => $card)
+                            @php
+                                $bgCardColor = $colors[$index % count($colors)];
+                            @endphp
+                            <!-- Path gambar disesuaikan dengan folder asset default /images/tahap4/ -->
+                            <div onclick="showSpellingModal('{{ $card->teks }}', '{{ $card->path }}')"
+                                class="cursor-pointer brutal-border brutal-shadow-sm rounded-[2rem] overflow-hidden hover:-translate-y-2 transition-all duration-300 transform active:scale-95 group"
+                                style="background-color: {{ $bgCardColor }}">
+                                <div class="w-full h-40 brutal-border border-t-0 border-l-0 border-r-0 relative flex items-center justify-center overflow-hidden"
+                                    style="background-color: {{ $bgCardColor }}">
+                                    <img src="{{ asset('images/tahap4/' . $card->path) }}" alt="{{ $card->teks }}"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        onerror="this.parentElement.classList.add('bg-slate-100')">
+                                    <div
+                                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <span
+                                            class="bg-[#FFF5B8] text-black px-4 py-2 rounded-xl brutal-border brutal-shadow-sm font-black text-xs uppercase tracking-wider scale-90 group-hover:scale-100 transition-transform">
+                                            Eja Isyarat
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="p-4 text-center border-t-4 border-black"
+                                    style="background-color: {{ $bgCardColor }}">
+                                    <h3 class="font-black text-black text-base md:text-lg">
+                                        {{ $i++ }}. {{ $card->teks }}
+                                    </h3>
                                 </div>
                             </div>
-                            <div class="p-4 text-center border-t-4 border-black"
+                        @endforeach
+                    @else
+                        <!-- Fallback jika seeder data gambar keberagaman belum di-load -->
+                        @php
+                            $keberagamanFallback = [
+                                'Bahasa Daerah' => ['file' => 'bahasa_daerah.png', 'color' => '#BEE9E8'],
+                                'Agama dan Kepercayaan' => ['file' => 'agama.png', 'color' => '#FFD1E3'],
+                                'Pakaian Tradisional' => ['file' => 'pakaian_adat.png', 'color' => '#FFF5B8'],
+                                'Suku Bangsa' => ['file' => 'suku_bangsa.png', 'color' => '#D4F1BE'],
+                                'Tarian Daerah' => ['file' => 'tarian.png', 'color' => '#E0BBE4'],
+                                'Musik Daerah' => ['file' => 'musik.png', 'color' => '#BEE9E8'],
+                                'Rumah Adat' => ['file' => 'rumah_adat_riau.png', 'color' => '#FFD1E3'],
+                                'Makanan Khas' => ['file' => 'makanan_riau.png', 'color' => '#FFF5B8'],
+                                'Adat Istiadat' => ['file' => 'nikah_melayu.png', 'color' => '#D4F1BE'],
+                            ];
+                            $fallbackIdx = 0;
+                        @endphp
+                        @foreach ($keberagamanFallback as $judul => $data)
+                            <div onclick="showSpellingModal('{{ $judul }}', '{{ $data['file'] }}')"
+                                class="cursor-pointer brutal-border brutal-shadow-sm rounded-[2rem] overflow-hidden hover:-translate-y-2 transition-all duration-300 transform active:scale-95 group"
                                 style="background-color: {{ $data['color'] }}">
-                                <h3 class="font-black text-black text-base md:text-lg">
-                                    {{ $i++ }}. {{ $judul }}
-                                </h3>
+                                <div class="w-full h-40 brutal-border border-t-0 border-l-0 border-r-0 relative flex items-center justify-center overflow-hidden"
+                                    style="background-color: {{ $data['color'] }}">
+                                    <img src="{{ asset('images/tahap4/' . $data['file']) }}"
+                                        alt="{{ $judul }}"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                    <div
+                                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <span
+                                            class="bg-[#FFF5B8] text-black px-4 py-2 rounded-xl brutal-border brutal-shadow-sm font-black text-xs uppercase tracking-wider scale-90 group-hover:scale-100 transition-transform">
+                                            Eja Isyarat
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="p-4 text-center border-t-4 border-black"
+                                    style="background-color: {{ $data['color'] }}">
+                                    <h3 class="font-black text-black text-base md:text-lg">
+                                        {{ ++$fallbackIdx }}. {{ $judul }}
+                                    </h3>
+                                </div>
                             </div>
+                        @endforeach
+                    @endif
+                </div>
+
+                <!-- Video Section Dinamis -->
+                @if ($materi->video_peragaan)
+                    <div class="my-10 w-full flex flex-col items-center">
+                        <div class="flex items-center gap-3 mb-6">
+                            <h4 class="text-xl md:text-2xl font-black text-black">Sejarah Bahasa Persatuan</h4>
                         </div>
-                    @endforeach
-                </div>
-
-                <!-- Video Section: Sumpah Pemuda -->
-                <div class="my-10 w-full flex flex-col items-center">
-                    <div class="flex items-center gap-3 mb-6">
-                        <h4 class="text-xl md:text-2xl font-black text-black">Sejarah Bahasa Persatuan</h4>
+                        <div
+                            class="w-full bg-black brutal-border brutal-shadow rounded-[2rem] overflow-hidden aspect-video relative flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover z-10">
+                                <source src="{{ asset('videos/' . $materi->video_peragaan) }}" type="video/mp4">
+                                Browser kamu tidak mendukung tag video.
+                            </video>
+                        </div>
                     </div>
-                    <div
-                        class="w-full bg-black brutal-border brutal-shadow rounded-[2rem] overflow-hidden aspect-video relative flex items-center justify-center">
-                        <video controls class="w-full h-full object-cover z-10">
-                            <source src="{{ asset('videos/sumpah_pemuda_isyarat.mp4') }}" type="video/mp4">
-                            Browser kamu tidak mendukung tag video.
-                        </video>
+                @else
+                    <!-- Fallback Video Default -->
+                    <div class="my-10 w-full flex flex-col items-center">
+                        <div class="flex items-center gap-3 mb-6">
+                            <h4 class="text-xl md:text-2xl font-black text-black">Sejarah Bahasa Persatuan</h4>
+                        </div>
+                        <div
+                            class="w-full bg-black brutal-border brutal-shadow rounded-[2rem] overflow-hidden aspect-video relative flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover z-10">
+                                <source src="{{ asset('videos/sumpah_pemuda_isyarat.mp4') }}" type="video/mp4">
+                            </video>
+                        </div>
                     </div>
+                @endif
+
+                <!-- Teks Penutup Dinamis -->
+                <div class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold space-y-4 text-justify">
+                    {!! $materi->images->where('tipe', 'penutup_tahap4')->first()?->teks ?? $materi->deskripsi_tambahan !!}
                 </div>
-
-                <!-- Info Paragraph 1 (Simplified, wrapper removed) -->
-                <p class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold mb-10 text-justify">
-                    Keberagaman membuat Indonesia menjadi negara yang sangat kaya akan budaya.
-                    Tetapi, perbedaan juga bisa membuat kita sulit saling mengerti.
-                    Oleh karena itu, kita membutuhkan alat pemersatu, yaitu <b>Bahasa Indonesia</b>.
-                    Dengan Bahasa Indonesia, kita semua bisa berkomunikasi dan bekerja sama dengan baik.
-                </p>
-
-                <!-- Info Paragraph 2 (Simplified, wrapper removed) -->
-                <p class="text-xl md:text-2xl text-slate-700 leading-relaxed font-bold mb-10 text-justify">
-                    Pada tanggal <b>28 Oktober 1928</b> (Kongres Pemuda), lahirlah Bahasa Indonesia sebagai bahasa
-                    persatuan.
-                    Bahasa Indonesia menyatukan seluruh rakyat Indonesia dari berbagai budaya yang berbeda.
-                    Dengan adanya bahasa persatuan, kita semua dapat hidup rukun, saling memahami, dan tetap bersatu
-                    erat.
-                </p>
 
             </div>
         </div>
 
-        <!-- Tombol Aksi -->
+        <!-- Tombol Aksi (Fixed Parameter mapel_slug) -->
         <div class="w-full max-w-5xl flex justify-center gap-12 items-center mt-8 px-4">
-            <!-- Tombol Keluar & Simpan (Visual House Icon) -->
+            <!-- Tombol Keluar & Simpan -->
             <div class="relative group/tooltip">
-                <a href="{{ route('materi.index') }}" onclick="tandaiSelesai(event, this.href, 4)"
+                <a href="{{ route('materi.index', ['mapel_slug' => $mapel->slug]) }}"
+                    onclick="tandaiSelesai(event, this.href, 4)"
                     class="bg-[#FFB3B3] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="#FFB3B3" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black"
+                        fill="#FFB3B3" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                         <polyline points="9 22 9 12 15 12 15 22" />
                     </svg>
                 </a>
-                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                <div
+                    class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFD1E3] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
                     Keluar & Simpan
                 </div>
             </div>
 
-            <!-- Tombol Lanjut (Visual Right Chevron Play Icon) -->
+            <!-- Tombol Lanjut (Chevron Menuju Tahap 5) -->
             <div class="relative group/tooltip">
-                <a href="{{ route('materi.belajar', ['step' => 5]) }}" onclick="tandaiSelesai(event, this.href, 4)"
+                <a href="{{ route('materi.belajar', ['mapel_slug' => $mapel->slug, 'step' => 5]) }}"
+                    onclick="tandaiSelesai(event, this.href, 4)"
                     class="bg-[#D4F1BE] w-20 h-20 flex items-center justify-center brutal-border brutal-shadow-sm brutal-hover text-black rounded-full transform hover:-translate-y-2 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-black"
+                        fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round">
                         <polygon points="5 3 19 12 5 21 5 3" fill="#D4F1BE" />
                     </svg>
                 </a>
-                <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
+                <div
+                    class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-[#FFF5B8] brutal-border brutal-shadow-sm px-3 py-1.5 rounded-lg text-sm font-bold opacity-0 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100 transition-all duration-150 whitespace-nowrap z-50 text-black">
                     Lanjut
                 </div>
             </div>
@@ -330,7 +379,7 @@
             containerEl.innerHTML = '';
 
             const words = cleanTerm.split(' ');
-            words.forEach((word, wIdx) => {
+            words.forEach((word) => {
                 const wordDiv = document.createElement('div');
                 wordDiv.className =
                     "flex flex-wrap justify-center gap-2 md:gap-4 mb-4 border-b-2 border-slate-100 pb-4 last:border-b-0 w-full";
